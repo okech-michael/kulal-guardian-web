@@ -87,10 +87,8 @@ export function Hero() {
                 Explore Our Work
               </a>
               <a
-                href="mailto:wazeewamazingira@gmail.com?subject=Support%20Wazee%20wa%20Mazingira"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20"
+                href="tel:+254711856795"
+                className="group inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-accent-foreground shadow-elegant transition-transform hover:scale-[1.03]"
               >
                 Donate to Conservation
               </a>
