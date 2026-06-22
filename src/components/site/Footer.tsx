@@ -42,9 +42,17 @@ export function Footer() {
               <li><a href="mailto:wazeewamazingira@gmail.com" className="hover:text-accent break-all">wazeewamazingira@gmail.com</a></li>
               <li>Mount Kulal area, Marsabit County, Kenya</li>
             </ul>
-            <a href="#register" className="mt-6 inline-flex items-center justify-center rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground hover:scale-105 transition-transform">
-              Join the Youth Program
-            </a>
+            <div className="mt-6 flex flex-col gap-3">
+              <a href="#register" className="inline-flex items-center justify-center rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground hover:scale-105 transition-transform">
+                Join the Youth Program
+              </a>
+              <a
+                href="mailto:wazeewamazingira@gmail.com?subject=Donation%20to%20Wazee%20wa%20Mazingira"
+                className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/20 transition-colors"
+              >
+                Donate to Conservation
+              </a>
+            </div>
           </div>
         </div>
 

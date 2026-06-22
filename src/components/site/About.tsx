@@ -22,16 +22,16 @@ export function About() {
                 For generations, the elders of the Mount Kulal region have been the silent
                 guardians of one of Kenya&rsquo;s most fragile and biodiverse landscapes.
                 Wazee wa Mazingira, “Elders of the Environment,”
-                carries that legacy forward, uniting indigenous stewardship with modern
-                conservation science to protect forests, water sources, and the communities
-                that depend on them.
+                carries that legacy forward, rooted in the indigenous Samburu community
+                while standing with the Rendille tribe, the Turkana and Elmolo peoples
+                around Lake Turkana, and the Gabra of Gas.
               </p>
             </Reveal>
             <Reveal delay={0.2}>
               <p className="mt-5 text-base leading-relaxed text-muted-foreground">
-                We work alongside pastoralist families, schools, and youth across the Gabra,
-                Rendille and Samburu communities to restore degraded ecosystems, champion
-                biodiversity, and create dignified livelihoods grounded in the land.
+                We work alongside pastoralist families, schools, and youth across these
+                communities to restore degraded ecosystems, champion biodiversity, and
+                create dignified livelihoods grounded in the land.
               </p>
             </Reveal>
 

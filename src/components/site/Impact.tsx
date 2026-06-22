@@ -15,7 +15,7 @@ const stats = [
   { value: 42, suffix: "k+", label: "Indigenous trees planted" },
   { value: 18, suffix: "", label: "Villages engaged" },
   { value: 2500, suffix: "+", label: "Youth mobilised" },
-  { value: 12, suffix: "", label: "Years on the ground" },
+  { value: 50, suffix: "", label: "Years on the ground" },
 ];
 
 export function Impact() {

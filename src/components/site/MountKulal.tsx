@@ -30,16 +30,17 @@ export function MountKulal() {
           <Reveal delay={0.1}>
             <p className="mt-6 text-lg leading-relaxed text-white/85">
               Rising more than 2,300 metres above the Chalbi desert, Mount Kulal is a
-              UNESCO-designated Biosphere Reserve and an ecological island. Its montane cloud
-              forest captures moisture from the air, feeds springs that sustain entire
-              pastoralist communities, and shelters species found nowhere else on Earth.
+              UNESCO-designated Biosphere Reserve and an ecological island. Since UNESCO
+              first arrived in the 1970s, Wazee wa Mazingira has helped sustain its montane
+              cloud forest, which captures moisture from the air, feeds springs that sustain
+              entire pastoralist communities, and shelters species found nowhere else on Earth.
             </p>
           </Reveal>
           <Reveal delay={0.2}>
             <p className="mt-5 text-base leading-relaxed text-white/75">
-              For the Gabra, Rendille and Samburu peoples, Kulal is sacred ground &mdash; the
-              source of life, story, and identity. Protecting it is not an environmental
-              choice; it is a cultural inheritance.
+              For the Gabra, Rendille, Turkana, Elmolo and Samburu peoples, Kulal is sacred
+              ground &mdash; the source of life, story, and identity. Protecting it is not an
+              environmental choice; it is a cultural inheritance.
             </p>
           </Reveal>
 

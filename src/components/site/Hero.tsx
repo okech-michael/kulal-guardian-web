@@ -1,14 +1,19 @@
 import { motion, useScroll, useTransform } from "motion/react";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import hero from "@/assets/hero-mount-kulal.jpg";
 
 export function Hero() {
+  const [mounted, setMounted] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const scale = useTransform(scrollYProgress, [0, 1], [1.05, 1.25]);
   const y = useTransform(scrollYProgress, [0, 1], [0, 120]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <section ref={ref} id="top" className="relative h-[100svh] min-h-[640px] w-full overflow-hidden bg-primary">
@@ -25,12 +30,15 @@ export function Hero() {
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/25 to-black/80" />
       <div className="absolute inset-0 bg-gradient-to-t from-primary/70 via-transparent to-transparent" />
 
-      <motion.div style={{ opacity }} className="relative z-10 flex h-full items-end pb-24 sm:pb-28 md:items-center md:pb-0">
+      <motion.div
+        style={{ opacity }}
+        className="relative z-10 flex h-full items-end pb-24 sm:pb-28 md:items-center md:pb-0"
+      >
         <div className="container-x">
           <div className="max-w-3xl">
             <motion.span
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={mounted ? { opacity: 0, y: 20 } : undefined}
+              animate={mounted ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 0.8, delay: 0.2 }}
               className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.18em] text-white backdrop-blur-md"
             >
@@ -38,8 +46,8 @@ export function Hero() {
             </motion.span>
 
             <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={mounted ? { opacity: 0, y: 30 } : undefined}
+              animate={mounted ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 1, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
               className="mt-6 font-display text-4xl leading-[1.05] text-white text-balance sm:text-5xl md:text-6xl lg:text-7xl"
             >
@@ -49,19 +57,19 @@ export function Hero() {
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={mounted ? { opacity: 0, y: 20 } : undefined}
+              animate={mounted ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 0.9, delay: 0.6 }}
               className="mt-6 max-w-2xl text-base leading-relaxed text-white/85 sm:text-lg"
             >
               Wazee wa Mazingira is a grassroots conservation movement safeguarding the sacred
-              forests, biodiversity, and pastoralist heritage of Mount Kulal — through youth
+              forests, biodiversity, and pastoralist heritage of Mount Kulal, through youth
               leadership, indigenous knowledge, and sustainable community development.
             </motion.p>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={mounted ? { opacity: 0, y: 20 } : undefined}
+              animate={mounted ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 0.9, delay: 0.8 }}
               className="mt-9 flex flex-wrap items-center gap-3"
             >
@@ -77,6 +85,14 @@ export function Hero() {
                 className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20"
               >
                 Explore Our Work
+              </a>
+              <a
+                href="mailto:wazeewamazingira@gmail.com?subject=Support%20Wazee%20wa%20Mazingira"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20"
+              >
+                Donate to Conservation
               </a>
             </motion.div>
           </div>
