@@ -1,0 +1,22 @@
+{
+  "version": 3,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist/client",
+        "buildCommand": "npm run build"
+      }
+    },
+    {
+      "src": "api/server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    { "src": "/", "dest": "/api/server.js" },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/api/server.js" }
+  ]
+}
