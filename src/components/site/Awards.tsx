@@ -1,11 +1,12 @@
-import { Award, Trophy, Medal, Globe2 } from "lucide-react";
+import { Award, Medal, Globe2 } from "lucide-react";
 import { Reveal } from "./Reveal";
+import winners from "@/assets/winners.jpeg";
 
 const timeline = [
-  { year: "2024", icon: Trophy, title: "UNESCO-Greece Melina Mercouri International Prize", body: "USD 30,000 award for Safeguarding and Management of Cultural Landscapes — recognising community stewardship of Mount Kulal." },
-  { year: "2022", icon: Globe2, title: "National Environmental Recognition", body: "Honoured by the Ministry of Environment for outstanding contribution to indigenous forest conservation." },
-  { year: "2020", icon: Medal, title: "County Conservation Partnership", body: "Marsabit County Government partnership for community-led ecosystem restoration." },
-  { year: "2018", icon: Award, title: "Community Stewardship Award", body: "Recognised by regional conservation network for grassroots leadership and biodiversity work." },
+  { year: "2025 · November 7", icon: Award, title: "UNESCO-Greece Melina Mercouri International Prize", body: "USD 30,000 award for Safeguarding and Management of Cultural Landscapes — recognising community stewardship of Mount Kulal." },
+  { year: "2024", icon: Globe2, title: "National Environmental Recognition", body: "Honoured by the Ministry of Environment for outstanding contribution to indigenous forest conservation." },
+  { year: "2023", icon: Medal, title: "County Conservation Partnership", body: "Marsabit County Government partnership for community-led ecosystem restoration." },
+  { year: "2022", icon: Award, title: "Community Stewardship Award", body: "Recognised by regional conservation network for grassroots leadership and biodiversity work." },
 ];
 
 export function Awards() {
@@ -27,13 +28,13 @@ export function Awards() {
           <div className="mt-14 overflow-hidden rounded-3xl bg-gradient-to-br from-primary to-primary/85 p-8 text-primary-foreground shadow-elegant sm:p-12">
             <div className="grid items-center gap-10 md:grid-cols-12">
               <div className="md:col-span-3">
-                <div className="grid aspect-square w-full max-w-[180px] place-items-center rounded-full border-4 border-accent/40 bg-accent/10 text-accent">
-                  <Trophy className="h-16 w-16" strokeWidth={1.5} />
+                <div className="relative mx-auto aspect-square w-44 overflow-hidden rounded-full border-4 border-accent/40 bg-accent/10">
+                  <img src={winners} alt="Award winners" className="absolute inset-0 h-full w-full object-cover" />
                 </div>
               </div>
               <div className="md:col-span-9">
                 <span className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">
-                  Featured Award · 2024
+                  Featured Award · November 2025
                 </span>
                 <h3 className="mt-3 font-display text-3xl text-balance sm:text-4xl">
                   UNESCO-Greece Melina Mercouri International Prize

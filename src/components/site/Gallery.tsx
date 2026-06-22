@@ -2,13 +2,13 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X } from "lucide-react";
 import { Reveal } from "./Reveal";
-import youth from "@/assets/youth-planting.jpg";
+import youth from "@/assets/youth-planting.jpeg";
 import wildlife from "@/assets/wildlife.jpg";
-import education from "@/assets/education.jpg";
-import elders from "@/assets/community-elders.jpg";
+import education from "@/assets/education.jpeg";
+import elders from "@/assets/community-elders.jpeg";
 import canopy from "@/assets/forest-canopy.jpg";
 import landscape from "@/assets/kulal-landscape.jpg";
-import sapling from "@/assets/sapling.jpg";
+import sapling from "@/assets/sapling.jpeg";
 import hero from "@/assets/hero-mount-kulal.jpg";
 
 type Item = { src: string; alt: string; tag: "Conservation" | "Community" | "Education" | "Wildlife"; span?: string };

@@ -1,6 +1,6 @@
 import { Reveal } from "./Reveal";
 import { ArrowRight } from "lucide-react";
-import youth from "@/assets/youth-planting.jpg";
+import youth from "@/assets/youth-planting.jpeg";
 
 export function CallToAction() {
   return (

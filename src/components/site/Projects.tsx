@@ -2,10 +2,10 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Reveal } from "./Reveal";
 import { ChevronDown } from "lucide-react";
-import youth from "@/assets/youth-planting.jpg";
+import youth from "@/assets/youth-planting.jpeg";
 import wildlife from "@/assets/wildlife.jpg";
-import education from "@/assets/education.jpg";
-import elders from "@/assets/community-elders.jpg";
+import education from "@/assets/education.jpeg";
+import elders from "@/assets/community-elders.jpeg";
 
 const projects = [
   {

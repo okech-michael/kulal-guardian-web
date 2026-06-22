@@ -1,7 +1,7 @@
 import { Reveal } from "./Reveal";
 import { Compass, Target, HeartHandshake } from "lucide-react";
-import sapling from "@/assets/sapling.jpg";
-import elders from "@/assets/community-elders.jpg";
+import sapling from "@/assets/sapling.jpeg";
+import elders from "@/assets/community-elders.jpeg";
 
 export function About() {
   return (
@@ -21,7 +21,7 @@ export function About() {
               <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
                 For generations, the elders of the Mount Kulal region have been the silent
                 guardians of one of Kenya&rsquo;s most fragile and biodiverse landscapes.
-                Wazee wa Mazingira &mdash; &ldquo;Elders of the Environment&rdquo; &mdash;
+                Wazee wa Mazingira, “Elders of the Environment,”
                 carries that legacy forward, uniting indigenous stewardship with modern
                 conservation science to protect forests, water sources, and the communities
                 that depend on them.
