@@ -32,19 +32,20 @@ export function Nav() {
           : "bg-transparent py-5",
       )}
     >
-      <div className="container-x flex items-center justify-between gap-4">
+      <div className="container-x flex flex-wrap items-center justify-between gap-4">
         <a
           href="#top"
           className={cn(
-            "flex items-center gap-2.5 font-display text-lg tracking-tight transition-colors",
+            "flex flex-1 min-w-0 items-center gap-2.5 font-display text-lg tracking-tight transition-colors",
             scrolled ? "text-foreground" : "text-white",
           )}
         >
-          <span className="grid h-9 w-9 place-items-center rounded-full bg-primary text-primary-foreground shrink-0">
-            <Leaf className="h-4 w-4" />
+          <span className="relative h-9 w-9 flex-shrink-0 overflow-hidden rounded-full border border-white/20 bg-white/5">
+            <img src="/logo.png" alt="Wazee wa Mazingira logo" className="h-full w-full object-cover" />
           </span>
-          <span className="hidden sm:block">Wazee wa Mazingira</span>
-          <span className="sm:hidden">Wazee</span>
+          <span className="min-w-0 text-base leading-tight sm:text-lg sm:leading-snug whitespace-normal break-words">
+            Wazee wa Mazingira
+          </span>
         </a>
 
         <nav className="hidden lg:flex items-center gap-7 text-sm font-medium">
