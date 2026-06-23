@@ -6,6 +6,7 @@ import youth from "@/assets/youth-planting.jpeg";
 import wildlife from "@/assets/wildlife.jpg";
 import education from "@/assets/education.jpeg";
 import elders from "@/assets/community-elders.jpeg";
+import officeLaunch from "@/assets/office-launch.jpeg";
 
 const projects = [
   {
@@ -14,6 +15,13 @@ const projects = [
     title: "Kulal Indigenous Tree Initiative",
     summary: "Restoring 50 hectares of degraded forest with indigenous species nurtured by local women&rsquo;s groups.",
     details: "Working with three village nurseries, the programme has raised over 42,000 indigenous seedlings — Olea africana, Juniperus procera, and Hagenia abyssinica — for planting in the Kulal catchment. Survival rates exceed 78% thanks to community-led monitoring."
+  },
+  {
+    img: officeLaunch,
+    tag: "Office",
+    title: "Community Office Launch",
+    summary: "A dedicated office space to coordinate Kulal conservation, outreach and local partnership work.",
+    details: "The new office provides a central hub for staff, volunteer meetings and community planning sessions. It supports efficient project delivery and strengthens our presence in Marsabit County."
   },
   {
     img: wildlife,
