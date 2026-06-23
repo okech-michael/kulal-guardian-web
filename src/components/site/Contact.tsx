@@ -36,7 +36,7 @@ export function Contact() {
             <Reveal delay={0.1}>
               <div className="mt-8 space-y-5">
                 <ContactRow icon={Phone} label="Call us" value="0711 856 795" href="tel:+254711856795" />
-                <ContactRow icon={Mail} label="Email" value="wazeewamazingira@gmail.com" href="mailto:wazeewamazingira@gmail.com" />
+                <ContactRow icon={Mail} label="Email" value="infor@wazeewamazingira.org" href="mailto:infor@wazeewamazingira.org" />
                 <ContactRow icon={MapPin} label="Find us" value="Mount Kulal area, Marsabit County, Kenya" />
               </div>
             </Reveal>

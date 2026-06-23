@@ -39,7 +39,7 @@ export function Footer() {
             <h4 className="font-display text-base">Contact</h4>
             <ul className="mt-4 space-y-2.5 text-sm text-primary-foreground/75">
               <li><a href="tel:+254711856795" className="hover:text-accent">0711 856 795</a></li>
-              <li><a href="mailto:wazeewamazingira@gmail.com" className="hover:text-accent break-all">wazeewamazingira@gmail.com</a></li>
+              <li><a href="mailto:infor@wazeewamazingira.org" className="hover:text-accent break-all">infor@wazeewamazingira.org</a></li>
               <li>Mount Kulal area, Marsabit County, Kenya</li>
             </ul>
             <div className="mt-6 flex flex-col gap-3">
@@ -47,7 +47,7 @@ export function Footer() {
                 Join the Youth Program
               </a>
               <a
-                href="mailto:wazeewamazingira@gmail.com?subject=Donation%20to%20Wazee%20wa%20Mazingira"
+                href="mailto:infor@wazeewamazingira.org?subject=Donation%20to%20Wazee%20wa%20Mazingira"
                 className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/20 transition-colors"
               >
                 Donate to Conservation
