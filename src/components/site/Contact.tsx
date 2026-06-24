@@ -1,18 +1,27 @@
 import { Phone, Mail, MapPin, Facebook, Twitter, Instagram, Linkedin, Send } from "lucide-react";
 import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
+import { submitContactMessage } from "@/lib/email";
 import { Reveal } from "./Reveal";
 
 export function Contact() {
   const [sending, setSending] = useState(false);
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const submit = useServerFn(submitContactMessage);
+  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSending(true);
-    setTimeout(() => {
-      setSending(false);
-      (e.target as HTMLFormElement).reset();
+    try {
+      await submit({ data: form });
+      setForm({ name: "", email: "", subject: "", message: "" });
       toast.success("Message received. We'll be in touch shortly.");
-    }, 700);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Unable to send your message right now.");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -68,11 +77,11 @@ export function Contact() {
             <Reveal delay={0.1}>
               <form onSubmit={onSubmit} className="grid gap-5 rounded-3xl border border-border bg-card p-7 shadow-card sm:p-9">
                 <div className="grid gap-5 sm:grid-cols-2">
-                  <Field label="Your Name"><input required maxLength={120} className={inputCls} /></Field>
-                  <Field label="Email"><input required type="email" maxLength={255} className={inputCls} /></Field>
+                  <Field label="Your Name"><input required maxLength={120} value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} className={inputCls} /></Field>
+                  <Field label="Email"><input required type="email" maxLength={255} value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} className={inputCls} /></Field>
                 </div>
-                <Field label="Subject"><input required maxLength={150} className={inputCls} /></Field>
-                <Field label="Message"><textarea required rows={6} maxLength={2000} className={`${inputCls} resize-none`} /></Field>
+                <Field label="Subject"><input required maxLength={150} value={form.subject} onChange={(e) => setForm((f) => ({ ...f, subject: e.target.value }))} className={inputCls} /></Field>
+                <Field label="Message"><textarea required rows={6} maxLength={2000} value={form.message} onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))} className={`${inputCls} resize-none`} /></Field>
                 <button type="submit" disabled={sending}
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground hover:opacity-90 disabled:opacity-60 sm:w-fit">
                   <Send className="h-4 w-4" />

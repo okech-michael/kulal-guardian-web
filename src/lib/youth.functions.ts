@@ -2,6 +2,9 @@ import { createServerFn } from "@tanstack/react-start";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import type { Database } from "@/integrations/supabase/types";
+import { sendRegistrationEmail } from "@/lib/email";
+
+const normalizeSupabaseUrl = (url: string) => url.replace(/\/rest\/v1\/?$/, "").replace(/\/$/, "");
 
 const schema = z.object({
   full_name: z.string().trim().min(2).max(120),
@@ -19,12 +22,32 @@ const schema = z.object({
 export const submitYouthRegistration = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => schema.parse(data))
   .handler(async ({ data }) => {
-    const supabase = createClient<Database>(
-      process.env.SUPABASE_URL!,
-      process.env.SUPABASE_PUBLISHABLE_KEY!,
-      { auth: { storage: undefined, persistSession: false, autoRefreshToken: false } },
-    );
+    const supabaseUrl = normalizeSupabaseUrl(process.env.SUPABASE_URL || "");
+    const supabaseKey = process.env.SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_ANON_KEY || "";
+
+    if (!supabaseUrl || !supabaseKey) {
+      throw new Error("Supabase is not configured for registration submissions.");
+    }
+
+    const supabase = createClient<Database>(supabaseUrl, supabaseKey, {
+      auth: { storage: undefined, persistSession: false, autoRefreshToken: false },
+    });
+
     const { error } = await supabase.from("youth_registrations").insert(data);
     if (error) throw new Error(error.message);
+
+    await sendRegistrationConfirmation(data);
+
     return { ok: true };
   });
+
+async function sendRegistrationConfirmation(data: z.infer<typeof schema>) {
+  const toEmail = data.email;
+  if (!toEmail) return;
+
+  try {
+    await sendRegistrationEmail(toEmail, data.full_name, data.email);
+  } catch {
+    // Keep the registration success path intact even if email delivery fails.
+  }
+}
