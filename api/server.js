@@ -19,11 +19,17 @@ function getRequestHeaders(req) {
 }
 
 export default async function handler(req, res) {
-  const request = new Request(getRequestUrl(req), {
+  const requestInit = {
     method: req.method,
     headers: getRequestHeaders(req),
-    body: req.method === 'GET' || req.method === 'HEAD' ? undefined : req,
-  });
+  };
+
+  if (req.method !== 'GET' && req.method !== 'HEAD') {
+    requestInit.body = req;
+    requestInit.duplex = 'half';
+  }
+
+  const request = new Request(getRequestUrl(req), requestInit);
 
   const response = await server.fetch(request, undefined, undefined);
 
