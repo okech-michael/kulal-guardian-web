@@ -133,18 +133,18 @@
 @layer base {
   @media (max-width: 640px) {
     html { font-size: 17px; }
-    body { font-size: 1.02rem; line-height: 1.8; }
-    h1 { font-size: clamp(2rem, 7vw, 2.75rem); }
-    h2 { font-size: clamp(1.6rem, 5.2vw, 2.2rem); }
-    h3 { font-size: clamp(1.25rem, 4.2vw, 1.6rem); }
+    body { font-size: 1.06rem; line-height: 1.85; }
+    h1 { font-size: clamp(2.15rem, 7.8vw, 2.95rem); }
+    h2 { font-size: clamp(1.75rem, 5.8vw, 2.35rem); }
+    h3 { font-size: clamp(1.35rem, 4.6vw, 1.75rem); }
 
-    .text-xs { font-size: 0.82rem !important; }
-    .text-sm { font-size: 0.95rem !important; }
-    .text-base { font-size: 1.05rem !important; }
-    .text-lg { font-size: 1.16rem !important; }
-    .text-xl { font-size: 1.32rem !important; }
-    .text-2xl { font-size: 1.55rem !important; }
-    .text-3xl { font-size: 1.85rem !important; }
+    .text-xs { font-size: 0.9rem !important; }
+    .text-sm { font-size: 1.02rem !important; }
+    .text-base { font-size: 1.12rem !important; }
+    .text-lg { font-size: 1.25rem !important; }
+    .text-xl { font-size: 1.42rem !important; }
+    .text-2xl { font-size: 1.7rem !important; }
+    .text-3xl { font-size: 2.05rem !important; }
   }
 }
 
