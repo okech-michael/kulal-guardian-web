@@ -107,11 +107,16 @@
 
 @layer base {
   * { border-color: var(--color-border); }
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+  }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.7;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
@@ -119,6 +124,27 @@
     font-family: var(--font-display);
     letter-spacing: -0.02em;
     font-weight: 500;
+  }
+  p, li, label, span, button, input, textarea, select {
+    font-size: inherit;
+  }
+}
+
+@layer base {
+  @media (max-width: 640px) {
+    html { font-size: 17px; }
+    body { font-size: 1.02rem; line-height: 1.8; }
+    h1 { font-size: clamp(2rem, 7vw, 2.75rem); }
+    h2 { font-size: clamp(1.6rem, 5.2vw, 2.2rem); }
+    h3 { font-size: clamp(1.25rem, 4.2vw, 1.6rem); }
+
+    .text-xs { font-size: 0.82rem !important; }
+    .text-sm { font-size: 0.95rem !important; }
+    .text-base { font-size: 1.05rem !important; }
+    .text-lg { font-size: 1.16rem !important; }
+    .text-xl { font-size: 1.32rem !important; }
+    .text-2xl { font-size: 1.55rem !important; }
+    .text-3xl { font-size: 1.85rem !important; }
   }
 }
 
