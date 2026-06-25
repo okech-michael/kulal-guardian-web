@@ -1,4 +1,4 @@
-import { Leaf, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import { Leaf, Facebook, Twitter } from "lucide-react";
 
 export function Footer() {
   return (
@@ -17,10 +17,13 @@ export function Footer() {
               cultural heritage of Mount Kulal in Marsabit County, Kenya.
             </p>
             <div className="mt-6 flex gap-3">
-              {[Facebook, Twitter, Instagram, Linkedin].map((I, i) => (
-                <a key={i} href="#" aria-label="Social"
+              {[
+                { Icon: Facebook, href: "https://www.fb.com/l/6lp1kJRRR", label: "Facebook" },
+                { Icon: Twitter, href: "https://x.com/Wazee1971", label: "X" },
+              ].map(({ Icon, href, label }) => (
+                <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label}
                   className="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition-colors hover:bg-accent hover:text-accent-foreground">
-                  <I className="h-4 w-4" />
+                  <Icon className="h-4 w-4" />
                 </a>
               ))}
             </div>
