@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin, Facebook, Twitter, Instagram, Linkedin, Send } from "lucide-react";
+import { Phone, Mail, MapPin, Facebook, Twitter, Send } from "lucide-react";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
@@ -52,10 +52,13 @@ export function Contact() {
 
             <Reveal delay={0.2}>
               <div className="mt-8 flex gap-3">
-                {[Facebook, Twitter, Instagram, Linkedin].map((I, i) => (
-                  <a key={i} href="#" aria-label="Social link"
+                {[
+                  { Icon: Facebook, href: "https://www.fb.com/l/6lp1kJRRR", label: "Facebook" },
+                  { Icon: Twitter, href: "https://x.com/Wazee1971", label: "X" },
+                ].map(({ Icon, href, label }) => (
+                  <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label}
                     className="grid h-11 w-11 place-items-center rounded-full border border-border bg-card text-foreground/70 transition-colors hover:border-accent hover:text-accent">
-                    <I className="h-4 w-4" />
+                    <Icon className="h-4 w-4" />
                   </a>
                 ))}
               </div>
