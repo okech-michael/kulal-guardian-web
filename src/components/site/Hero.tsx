@@ -36,20 +36,11 @@ export function Hero() {
       >
         <div className="container-x">
           <div className="max-w-3xl">
-            <motion.span
-              initial={mounted ? { opacity: 0, y: 20 } : undefined}
-              animate={mounted ? { opacity: 1, y: 0 } : undefined}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-[0.9rem] font-semibold uppercase tracking-[0.18em] text-white backdrop-blur-md"
-            >
-              Community-Based Organisation · Marsabit, Kenya
-            </motion.span>
-
             <motion.h1
               initial={mounted ? { opacity: 0, y: 30 } : undefined}
               animate={mounted ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 1, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-6 font-display text-[2.5rem] leading-[1.04] text-white text-balance sm:text-[3.3rem] md:text-[4.2rem] lg:text-[4.8rem]"
+              className="mt-8 font-display text-[2.2rem] leading-[1.04] text-white text-balance sm:mt-10 sm:text-[2.9rem] md:text-[3.6rem] lg:text-[4.1rem]"
             >
               Protecting Mount Kulal.<br />
               <span className="italic text-accent">Empowering</span> Communities.<br />
@@ -60,7 +51,7 @@ export function Hero() {
               initial={mounted ? { opacity: 0, y: 20 } : undefined}
               animate={mounted ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 0.9, delay: 0.6 }}
-              className="mt-6 max-w-2xl text-[1.06rem] leading-[1.8] text-white/85 sm:text-[1.18rem]"
+              className="mt-7 max-w-2xl text-[1.06rem] leading-[1.8] text-white/85 sm:mt-8 sm:text-[1.18rem]"
             >
               Wazee wa Mazingira is a grassroots conservation movement safeguarding the sacred
               forests, biodiversity, and pastoralist heritage of Mount Kulal, through youth
@@ -71,28 +62,37 @@ export function Hero() {
               initial={mounted ? { opacity: 0, y: 20 } : undefined}
               animate={mounted ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 0.9, delay: 0.8 }}
-              className="mt-9 flex flex-wrap items-center gap-3"
+              className="mt-8 flex flex-col items-stretch gap-2 sm:mt-9 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3"
             >
               <a
                 href="#register"
-                className="group inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-accent-foreground shadow-elegant transition-transform hover:scale-[1.03]"
+                className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-[0.95rem] font-semibold text-accent-foreground shadow-elegant transition-transform hover:scale-[1.03] sm:w-auto"
               >
                 Join Our Youth Program
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </a>
               <a
                 href="#impact"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-7 py-3.8 text-[0.98rem] font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20 sm:w-auto"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-7 py-3.5 text-[0.95rem] font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20 sm:w-auto"
               >
                 Explore Our Work
               </a>
               <a
                 href="tel:+254711856795"
-                className="group inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-accent-foreground shadow-elegant transition-transform hover:scale-[1.03]"
+                className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-[0.95rem] font-semibold text-accent-foreground shadow-elegant transition-transform hover:scale-[1.03] sm:w-auto"
               >
                 Donate to Conservation
               </a>
             </motion.div>
+
+            <motion.span
+              initial={mounted ? { opacity: 0, y: 20 } : undefined}
+              animate={mounted ? { opacity: 1, y: 0 } : undefined}
+              transition={{ duration: 0.8, delay: 0.95 }}
+              className="mt-5 inline-flex max-w-full flex-wrap items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-[0.9rem] font-semibold uppercase tracking-[0.18em] text-white backdrop-blur-md sm:mt-6"
+            >
+              Community-Based Organisation · Marsabit, Kenya
+            </motion.span>
           </div>
         </div>
       </motion.div>
