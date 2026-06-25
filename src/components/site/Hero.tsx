@@ -40,7 +40,7 @@ export function Hero() {
               initial={mounted ? { opacity: 0, y: 20 } : undefined}
               animate={mounted ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.18em] text-white backdrop-blur-md"
+              className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-[0.9rem] font-semibold uppercase tracking-[0.18em] text-white backdrop-blur-md"
             >
               Community-Based Organisation · Marsabit, Kenya
             </motion.span>
@@ -49,7 +49,7 @@ export function Hero() {
               initial={mounted ? { opacity: 0, y: 30 } : undefined}
               animate={mounted ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 1, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-6 font-display text-4xl leading-[1.05] text-white text-balance sm:text-5xl md:text-6xl lg:text-7xl"
+              className="mt-6 font-display text-[2.5rem] leading-[1.04] text-white text-balance sm:text-[3.3rem] md:text-[4.2rem] lg:text-[4.8rem]"
             >
               Protecting Mount Kulal.<br />
               <span className="italic text-accent">Empowering</span> Communities.<br />
@@ -60,7 +60,7 @@ export function Hero() {
               initial={mounted ? { opacity: 0, y: 20 } : undefined}
               animate={mounted ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 0.9, delay: 0.6 }}
-              className="mt-6 max-w-2xl text-base leading-relaxed text-white/85 sm:text-lg"
+              className="mt-6 max-w-2xl text-[1.06rem] leading-[1.8] text-white/85 sm:text-[1.18rem]"
             >
               Wazee wa Mazingira is a grassroots conservation movement safeguarding the sacred
               forests, biodiversity, and pastoralist heritage of Mount Kulal, through youth
@@ -82,7 +82,7 @@ export function Hero() {
               </a>
               <a
                 href="#impact"
-                className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-7 py-3.8 text-[0.98rem] font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20 sm:w-auto"
               >
                 Explore Our Work
               </a>

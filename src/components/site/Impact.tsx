@@ -24,13 +24,13 @@ export function Impact() {
       <div className="container-x">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal>
-            <span className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">
+            <span className="site-section-label">
               Our Impact
             </span>
-            <h2 className="mt-4 font-display text-4xl text-balance sm:text-5xl">
+            <h2 className="site-section-title">
               Conservation that is lived, not lectured.
             </h2>
-            <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
+            <p className="site-section-intro">
               Six interlocking pillars of work that protect Mount Kulal&rsquo;s ecosystem
               while improving the lives of the people who call it home.
             </p>
@@ -45,8 +45,8 @@ export function Impact() {
                 <span className="grid h-12 w-12 place-items-center rounded-2xl bg-primary text-primary-foreground transition-transform duration-500 group-hover:scale-110">
                   <p.icon className="h-5 w-5" />
                 </span>
-                <h3 className="mt-5 font-display text-xl">{p.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
+                <h3 className="mt-5 site-card-title">{p.title}</h3>
+                <p className="mt-3 site-card-copy">{p.body}</p>
               </div>
             </Reveal>
           ))}
@@ -56,10 +56,10 @@ export function Impact() {
           <div className="mt-20 grid gap-y-10 gap-x-6 rounded-3xl bg-primary px-6 py-12 text-primary-foreground shadow-elegant sm:grid-cols-2 sm:px-10 lg:grid-cols-4">
             {stats.map((s) => (
               <div key={s.label} className="text-center">
-                <div className="font-display text-5xl text-accent sm:text-6xl">
+                <div className="font-display text-[2.4rem] text-accent sm:text-[3rem]">
                   <Counter to={s.value} suffix={s.suffix} />
                 </div>
-                <div className="mt-2 text-sm uppercase tracking-wider text-primary-foreground/75">
+                <div className="mt-3 text-[0.95rem] uppercase tracking-wider text-primary-foreground/75">
                   {s.label}
                 </div>
               </div>

@@ -20,15 +20,15 @@ export function MountKulal() {
       <div className="container-x relative grid gap-12 py-28 sm:py-36 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-6">
           <Reveal>
-            <span className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">
+            <span className="site-section-label">
               The Sacred Mountain
             </span>
-            <h2 className="mt-4 font-display text-4xl text-balance text-white sm:text-5xl md:text-6xl">
+            <h2 className="site-section-title text-white">
               Mount Kulal &mdash; a living biosphere reserve.
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
-            <p className="mt-6 text-lg leading-relaxed text-white/85">
+            <p className="mt-6 text-[1.06rem] leading-[1.8] text-white/85 sm:text-[1.18rem]">
               Rising more than 2,300 metres above the Chalbi desert, Mount Kulal is a
               UNESCO-designated Biosphere Reserve and an ecological island. Since UNESCO
               first arrived in the 1970s, Wazee wa Mazingira has helped sustain its montane
@@ -37,7 +37,7 @@ export function MountKulal() {
             </p>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="mt-5 text-base leading-relaxed text-white/75">
+            <p className="mt-5 text-[1.01rem] leading-[1.8] text-white/75">
               For the Gabra, Rendille, Turkana, Elmolo and Samburu peoples, Kulal is sacred
               ground &mdash; the source of life, story, and identity. Protecting it is not an
               environmental choice; it is a cultural inheritance.
@@ -53,8 +53,8 @@ export function MountKulal() {
                 { k: "180+", v: "Resident & migratory birds" },
               ].map((s) => (
                 <div key={s.v}>
-                  <dt className="font-display text-3xl text-accent">{s.k}</dt>
-                  <dd className="mt-1 text-sm text-white/70">{s.v}</dd>
+                  <dt className="font-display text-[1.7rem] text-accent sm:text-[2rem]">{s.k}</dt>
+                  <dd className="mt-1 text-[0.95rem] text-white/70">{s.v}</dd>
                 </div>
               ))}
             </dl>

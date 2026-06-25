@@ -22,10 +22,10 @@ export function Testimonials() {
       <div className="container-x">
         <Reveal>
           <div className="mx-auto max-w-3xl text-center">
-            <span className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">
+            <span className="site-section-label">
               Community Voices
             </span>
-            <h2 className="mt-4 font-display text-4xl text-balance sm:text-5xl">
+            <h2 className="site-section-title">
               The mountain speaks through her people.
             </h2>
           </div>
@@ -44,16 +44,16 @@ export function Testimonials() {
                   className="rounded-3xl border border-border/70 bg-card p-8 shadow-card sm:p-12"
                 >
                   <Quote className="h-9 w-9 text-accent" strokeWidth={1.5} />
-                  <blockquote className="mt-6 font-display text-2xl leading-snug text-foreground text-balance sm:text-3xl">
+                  <blockquote className="mt-6 font-display text-[1.5rem] leading-snug text-foreground text-balance sm:text-[1.85rem]">
                     &ldquo;{items[i].quote}&rdquo;
                   </blockquote>
                   <figcaption className="mt-7 flex items-center gap-4">
-                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-primary font-display text-lg text-primary-foreground">
+                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-primary font-display text-[1.1rem] text-primary-foreground">
                       {items[i].name.charAt(0)}
                     </span>
                     <div>
                       <div className="font-semibold">{items[i].name}</div>
-                      <div className="text-sm text-muted-foreground">{items[i].role}</div>
+                      <div className="text-[0.98rem] text-muted-foreground">{items[i].role}</div>
                     </div>
                   </figcaption>
                 </motion.figure>

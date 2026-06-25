@@ -36,25 +36,25 @@ export function Nav() {
         <a
           href="#top"
           className={cn(
-            "flex flex-1 min-w-0 items-center gap-2.5 font-display text-lg tracking-tight transition-colors",
+            "flex flex-1 min-w-0 items-center gap-3 font-display text-xl tracking-tight transition-colors",
             scrolled ? "text-foreground" : "text-white",
           )}
         >
-          <span className="relative h-9 w-9 flex-shrink-0 overflow-hidden rounded-full border border-white/20 bg-white/5">
+          <span className="relative h-11 w-11 flex-shrink-0 overflow-hidden rounded-full border border-white/20 bg-white/5">
             <img src="/logo.png" alt="Wazee wa Mazingira logo" className="h-full w-full object-cover" />
           </span>
-          <span className="min-w-0 text-base leading-tight sm:text-lg sm:leading-snug whitespace-normal break-words">
+          <span className="min-w-0 text-[1.05rem] leading-tight whitespace-normal break-words sm:text-[1.2rem] sm:leading-snug">
             Wazee wa Mazingira
           </span>
         </a>
 
-        <nav className="hidden lg:flex items-center gap-7 text-sm font-medium">
+        <nav className="hidden lg:flex items-center gap-7 text-[1rem] font-semibold">
           {links.map((l) => (
             <a
               key={l.href}
               href={l.href}
               className={cn(
-                "transition-colors hover:text-accent",
+                "site-nav-link transition-colors hover:text-accent",
                 scrolled ? "text-foreground/80" : "text-white/85",
               )}
             >
@@ -66,7 +66,7 @@ export function Nav() {
         <div className="flex items-center gap-2">
           <a
             href="#register"
-            className="hidden sm:inline-flex items-center justify-center rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition-transform hover:scale-105"
+            className="hidden sm:inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-[0.98rem] font-semibold text-accent-foreground transition-transform hover:scale-105"
           >
             Join Us
           </a>
@@ -91,7 +91,7 @@ export function Nav() {
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="py-3 text-base font-medium text-foreground/80 hover:text-accent"
+                className="py-3 text-[1.05rem] font-semibold text-foreground/80 hover:text-accent"
               >
                 {l.label}
               </a>

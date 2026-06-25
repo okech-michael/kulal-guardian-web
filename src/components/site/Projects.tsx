@@ -54,10 +54,10 @@ export function Projects() {
       <div className="container-x">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <Reveal>
-            <span className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">
+            <span className="site-section-label">
               Projects &amp; Programs
             </span>
-            <h2 className="mt-4 max-w-2xl font-display text-4xl text-balance sm:text-5xl">
+            <h2 className="site-section-title max-w-2xl">
               Work that takes root in the soil and the soul of Kulal.
             </h2>
           </Reveal>
@@ -69,19 +69,19 @@ export function Projects() {
               <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-border/70 bg-card transition-all hover:-translate-y-1 hover:shadow-elegant">
                 <div className="relative aspect-[16/10] overflow-hidden">
                   <img src={p.img} alt={p.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-[1.4s] group-hover:scale-110" />
-                  <span className="absolute left-4 top-4 rounded-full bg-accent px-3 py-1 text-xs font-semibold uppercase tracking-wider text-accent-foreground">
+                  <span className="absolute left-4 top-4 rounded-full bg-accent px-3 py-1.5 text-[0.82rem] font-semibold uppercase tracking-wider text-accent-foreground">
                     {p.tag}
                   </span>
                 </div>
                 <div className="flex flex-1 flex-col p-7">
-                  <h3 className="font-display text-2xl">{p.title}</h3>
+                  <h3 className="site-card-title">{p.title}</h3>
                   <p
-                    className="mt-3 text-sm leading-relaxed text-muted-foreground"
+                    className="mt-3 site-card-copy"
                     dangerouslySetInnerHTML={{ __html: p.summary }}
                   />
                   <button
                     onClick={() => setOpen(open === i ? null : i)}
-                    className="mt-5 inline-flex items-center gap-1.5 self-start text-sm font-semibold text-primary hover:text-accent"
+                    className="mt-5 inline-flex items-center gap-1.5 self-start text-[0.98rem] font-semibold text-primary hover:text-accent"
                     aria-expanded={open === i}
                   >
                     {open === i ? "Show less" : "Read more"}
@@ -94,7 +94,7 @@ export function Projects() {
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                        className="mt-4 overflow-hidden text-sm leading-relaxed text-muted-foreground"
+                        className="mt-4 overflow-hidden site-card-copy"
                       >
                         {p.details}
                       </motion.p>

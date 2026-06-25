@@ -10,15 +10,15 @@ export function About() {
         <div className="grid gap-16 lg:grid-cols-12 lg:gap-20">
           <div className="lg:col-span-5">
             <Reveal>
-              <span className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">
+              <span className="site-section-label">
                 About the Organisation
               </span>
-              <h2 className="mt-4 font-display text-4xl text-balance sm:text-5xl">
+              <h2 className="site-section-title">
                 A movement rooted in the highlands of Marsabit.
               </h2>
             </Reveal>
             <Reveal delay={0.1}>
-              <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
+              <p className="site-section-intro">
                 For generations, the elders of the Mount Kulal region have been the silent
                 guardians of one of Kenya&rsquo;s most fragile and biodiverse landscapes.
                 Wazee wa Mazingira, “Elders of the Environment,”
@@ -28,7 +28,7 @@ export function About() {
               </p>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="mt-5 text-base leading-relaxed text-muted-foreground">
+              <p className="mt-5 site-section-copy">
                 We work alongside pastoralist families, schools, and youth across these
                 communities to restore degraded ecosystems, champion biodiversity, and
                 create dignified livelihoods grounded in the land.
@@ -47,8 +47,8 @@ export function About() {
                       <v.icon className="h-5 w-5" />
                     </span>
                     <div className="min-w-0">
-                      <h3 className="font-display text-lg">{v.title}</h3>
-                      <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{v.body}</p>
+                      <h3 className="site-card-title">{v.title}</h3>
+                      <p className="mt-1 site-card-copy">{v.body}</p>
                     </div>
                   </div>
                 </Reveal>
@@ -70,10 +70,10 @@ export function About() {
               </Reveal>
               <Reveal delay={0.2}>
                 <div className="flex h-full flex-col justify-between rounded-3xl bg-primary p-6 text-primary-foreground shadow-elegant">
-                  <p className="font-display text-3xl leading-tight">
+                  <p className="font-display text-[1.7rem] leading-tight sm:text-[2rem]">
                     &ldquo;The mountain feeds us. Now we rise to protect her.&rdquo;
                   </p>
-                  <div className="mt-6 text-sm text-primary-foreground/80">
+                  <div className="mt-6 text-[1rem] text-primary-foreground/80">
                     &mdash; A Gabra elder, Mount Kulal
                   </div>
                 </div>

@@ -62,18 +62,18 @@ export function Register() {
       <div className="container-x relative grid gap-12 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-5">
           <Reveal>
-            <span className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">
+            <span className="site-section-label">
               Youth Registration Portal
             </span>
-            <h2 className="mt-4 font-display text-4xl text-balance text-white sm:text-5xl">
+            <h2 className="site-section-title text-white">
               Become a steward of Mount Kulal.
             </h2>
-            <p className="mt-6 text-lg leading-relaxed text-white/85">
+            <p className="mt-6 text-[1.05rem] leading-[1.8] text-white/85 sm:text-[1.16rem]">
               Join hundreds of young people from the wards and villages of Marsabit
               shaping the future of conservation in northern Kenya. Training,
               mentorship and a real role in protecting our land await.
             </p>
-            <ul className="mt-8 space-y-3 text-sm text-white/85">
+            <ul className="mt-8 space-y-3 text-[1rem] text-white/85">
               {["Field training in forest restoration", "Leadership & community organising", "Mentorship from conservation practitioners", "Stipend-supported field deployments"].map((b) => (
                 <li key={b} className="flex items-start gap-3">
                   <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
@@ -90,14 +90,14 @@ export function Register() {
               {done ? (
                 <div className="grid place-items-center py-16 text-center">
                   <CheckCircle2 className="h-16 w-16 text-accent" strokeWidth={1.5} />
-                  <h3 className="mt-6 font-display text-3xl">Karibu sana!</h3>
-                  <p className="mt-3 max-w-md text-muted-foreground">
+                  <h3 className="mt-6 font-display text-[1.8rem] sm:text-[2.2rem]">Karibu sana!</h3>
+                  <p className="mt-3 max-w-md site-card-copy">
                     Thank you for registering. Our youth coordinator will reach out
                     to you at the contact details you provided.
                   </p>
                   <button
                     onClick={() => setDone(false)}
-                    className="mt-8 rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+                    className="mt-8 rounded-full bg-primary px-6 py-3 text-[0.98rem] font-semibold text-primary-foreground hover:bg-primary/90"
                   >
                     Submit another registration
                   </button>
@@ -155,7 +155,7 @@ export function Register() {
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60 sm:w-auto"
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.8 text-[0.98rem] font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-60 sm:w-auto"
                     >
                       {submitting ? <><Loader2 className="h-4 w-4 animate-spin" /> Submitting...</> : "Submit Registration"}
                     </button>
@@ -170,14 +170,14 @@ export function Register() {
   );
 }
 
-const inputCls = "w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm text-foreground outline-none transition-all focus:border-accent focus:ring-2 focus:ring-accent/30";
+const inputCls = "site-form-input";
 
 function Field({ label, children, hint, className }: { label: string; children: React.ReactNode; hint?: string; className?: string }) {
   return (
     <label className={`block ${className ?? ""}`}>
-      <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-foreground/70">{label}</span>
+      <span className="site-form-label">{label}</span>
       {children}
-      {hint && <span className="mt-1 block text-xs text-muted-foreground" dangerouslySetInnerHTML={{ __html: hint }} />}
+      {hint && <span className="site-form-hint" dangerouslySetInnerHTML={{ __html: hint }} />}
     </label>
   );
 }

@@ -30,13 +30,13 @@ export function Contact() {
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
             <Reveal>
-              <span className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">
+              <span className="site-section-label">
                 Get in touch
               </span>
-              <h2 className="mt-4 font-display text-4xl text-balance sm:text-5xl">
+              <h2 className="site-section-title">
                 Let&rsquo;s build a greener Kulal together.
               </h2>
-              <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
+              <p className="site-section-intro">
                 Whether you are a partner organisation, donor, journalist, or
                 community member, we would love to hear from you.
               </p>
@@ -83,7 +83,7 @@ export function Contact() {
                 <Field label="Subject"><input required maxLength={150} value={form.subject} onChange={(e) => setForm((f) => ({ ...f, subject: e.target.value }))} className={inputCls} /></Field>
                 <Field label="Message"><textarea required rows={6} maxLength={2000} value={form.message} onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))} className={`${inputCls} resize-none`} /></Field>
                 <button type="submit" disabled={sending}
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground hover:opacity-90 disabled:opacity-60 sm:w-fit">
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.8 text-[0.98rem] font-semibold text-primary-foreground hover:opacity-90 disabled:opacity-60 sm:w-fit">
                   <Send className="h-4 w-4" />
                   {sending ? "Sending..." : "Send Message"}
                 </button>
@@ -96,12 +96,12 @@ export function Contact() {
   );
 }
 
-const inputCls = "w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm outline-none transition-all focus:border-accent focus:ring-2 focus:ring-accent/30";
+const inputCls = "site-form-input";
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-foreground/70">{label}</span>
+      <span className="site-form-label">{label}</span>
       {children}
     </label>
   );
@@ -114,8 +114,8 @@ function ContactRow({ icon: Icon, label, value, href }: { icon: typeof Phone; la
         <Icon className="h-5 w-5" />
       </span>
       <div className="min-w-0">
-        <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{label}</div>
-        <div className="mt-0.5 truncate font-medium">{value}</div>
+        <div className="text-[0.95rem] font-semibold uppercase tracking-wider text-muted-foreground">{label}</div>
+        <div className="mt-0.5 truncate text-[1rem] font-medium">{value}</div>
       </div>
     </>
   );

@@ -36,10 +36,10 @@ export function Gallery() {
       <div className="container-x">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <Reveal>
-            <span className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">
+            <span className="site-section-label">
               Events &amp; Activities
             </span>
-            <h2 className="mt-4 max-w-2xl font-display text-4xl text-balance sm:text-5xl">
+            <h2 className="site-section-title max-w-2xl">
               Moments from the field.
             </h2>
           </Reveal>
@@ -49,7 +49,7 @@ export function Gallery() {
                 <button
                   key={t}
                   onClick={() => setFilter(t)}
-                  className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
+                  className={`rounded-full border px-4 py-2.5 text-[0.96rem] font-semibold transition-colors ${
                     filter === t
                       ? "border-primary bg-primary text-primary-foreground"
                       : "border-border bg-card text-foreground/70 hover:border-accent/40 hover:text-foreground"
@@ -77,7 +77,7 @@ export function Gallery() {
               >
                 <img src={it.src} alt={it.alt} loading="lazy" className="h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/0 opacity-0 transition-opacity group-hover:opacity-100" />
-                <span className="absolute bottom-3 left-3 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary opacity-0 transition-opacity group-hover:opacity-100">
+                <span className="absolute bottom-3 left-3 rounded-full bg-white/90 px-3 py-1.5 text-[0.78rem] font-semibold uppercase tracking-wider text-primary opacity-0 transition-opacity group-hover:opacity-100">
                   {it.tag}
                 </span>
               </motion.button>
