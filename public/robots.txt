@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin
+Disallow: /api/
+Disallow: /_server
+Disallow: /_build
+
+Sitemap: https://www.wazeewamazingira.org/sitemap.xml
