@@ -50,7 +50,7 @@ export function Footer() {
                 Join the Youth Program
               </a>
               <a
-                href="mailto:infor@wazeewamazingira.org?subject=Donation%20to%20Wazee%20wa%20Mazingira"
+                href="mailto:donations@wazeewamazingira.org?subject=Donation%20to%20Wazee%20wa%20Mazingira"
                 className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/10 px-5 py-3 text-[0.98rem] font-semibold text-white hover:bg-white/20 transition-colors"
               >
                 Donate to Conservation

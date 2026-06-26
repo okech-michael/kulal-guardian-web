@@ -78,7 +78,7 @@ export function Hero() {
                 Explore Our Work
               </a>
               <a
-                href="tel:+254711856795"
+                href="mailto:donations@wazeewamazingira.org?subject=Donation%20to%20Wazee%20wa%20Mazingira"
                 className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-[0.95rem] font-semibold text-accent-foreground shadow-elegant transition-transform hover:scale-[1.03] sm:w-auto"
               >
                 Donate to Conservation
