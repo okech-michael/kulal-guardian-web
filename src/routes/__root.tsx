@@ -79,9 +79,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:title", content: "Kulal Guardian" },
       { property: "og:description", content: "A modern, mobile-first website for environmental conservation and community empowerment." },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "/logo.png" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:title", content: "Kulal Guardian" },
       { name: "twitter:description", content: "A modern, mobile-first website for environmental conservation and community empowerment." },
+      { name: "twitter:image", content: "/logo.png" },
     ],
     links: [
       {
@@ -96,10 +98,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "apple-touch-icon",
         href: "/logo.png",
       },
-    ],
-    meta: [
-      { property: "og:image", content: "/logo.png" },
-      { name: "twitter:image", content: "/logo.png" },
     ],
   }),
   shellComponent: RootShell,
