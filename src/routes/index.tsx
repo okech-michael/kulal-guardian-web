@@ -9,9 +9,9 @@ import { Footer } from "@/components/site/Footer";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Wazee wa Mazingira — Protecting Mount Kulal, Marsabit, Kenya" },
+      { title: "Wazee wa Mazingira, Protecting Mount Kulal, Marsabit, Kenya" },
       { name: "description", content: "Community-based conservation in Marsabit County. Protecting Mount Kulal's forests and biodiversity through youth leadership, indigenous knowledge and sustainable development." },
-      { property: "og:title", content: "Wazee wa Mazingira — Conservation on Mount Kulal" },
+      { property: "og:title", content: "Wazee wa Mazingira, Conservation on Mount Kulal" },
       { property: "og:description", content: "Protecting Mount Kulal. Empowering Communities. Preserving Nature." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/" },

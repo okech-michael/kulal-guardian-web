@@ -34,8 +34,8 @@ This project is designed to deploy to Vercel.
    ```
 
 ### API routes
-- `POST /api/donations/mpesa` — initiates Daraja STK Push
-- `POST /api/donations/callback` — receives Daraja payment confirmation
+- `POST /api/donations/mpesa`, initiates Daraja STK Push
+- `POST /api/donations/callback`, receives Daraja payment confirmation
 
 ### Production check
 - Run `npm run build` before deployment.

@@ -81,7 +81,7 @@ export function Team() {
           <Reveal>
             <h2 className="site-section-title">Leading Conservation Through Community</h2>
             <p className="mt-6 max-w-3xl site-section-copy">
-              Wazee wa Mazingira believes environmental conservation, indigenous knowledge, and cultural heritage are deeply interconnected. Our work is rooted in community participation — convening elders, empowering youth, and collaborating with local stewards to protect Mount Kulal for present and future generations. When communities lead, conservation endures.
+              Wazee wa Mazingira believes environmental conservation, indigenous knowledge, and cultural heritage are deeply interconnected. Our work is rooted in community participation; convening elders, empowering youth, and collaborating with local stewards to protect Mount Kulal for present and future generations. When communities lead, conservation endures.
             </p>
           </Reveal>
         </div>

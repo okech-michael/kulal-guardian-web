@@ -14,7 +14,7 @@ const projects = [
     tag: "Reforestation",
     title: "Kulal Indigenous Tree Initiative",
     summary: "Restoring 50 hectares of degraded forest with indigenous species nurtured by local women&rsquo;s groups.",
-    details: "Working with three village nurseries, the programme has raised over 42,000 indigenous seedlings — Olea africana, Juniperus procera, and Hagenia abyssinica — for planting in the Kulal catchment. Survival rates exceed 78% thanks to community-led monitoring."
+    details: "Working with three village nurseries, the programme has raised over 42,000 indigenous seedlings, Olea africana, Juniperus procera, and Hagenia abyssinica, for planting in the Kulal catchment. Survival rates exceed 78% thanks to community-led monitoring."
   },
   {
     img: officeLaunch,
