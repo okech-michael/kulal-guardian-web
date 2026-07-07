@@ -5,7 +5,7 @@ import { Reveal } from "./Reveal";
 
 type Item = { src: string; alt: string; tag: "Conservation" | "Community" | "Education" | "Wildlife"; span?: string };
 
-const modules = import.meta.globEager('/src/assets/*.{jpg,jpeg,png,webp,gif,svg}') as Record<string, { default: string }>;
+const modules = import.meta.glob('/src/assets/*.{jpg,jpeg,png,webp,gif,svg}', { eager: true }) as Record<string, { default: string }>;
 
 type FileEntry = { path: string; src: string };
 
