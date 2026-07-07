@@ -16,7 +16,14 @@ function inferTagFromName(name: string): Item['tag'] {
   return 'Conservation';
 }
 
-const fileEntries: FileEntry[] = Object.entries(modules).map(([path, mod]) => ({ path, src: mod.default }));
+const fileEntries: FileEntry[] = Object.entries(modules)
+  .map(([path, mod]) => ({ path, src: mod.default }))
+  .filter(({ path }) => {
+    const filename = path.split('/').pop()?.toLowerCase() ?? '';
+    // Exclude logo files and any placeholder images
+    if (filename.startsWith('logo') || filename.includes('logo.')) return false;
+    return true;
+  });
 fileEntries.sort((a, b) => {
   if (a.path.includes('hero')) return -1;
   if (b.path.includes('hero')) return 1;
