@@ -15,8 +15,10 @@
     }
   ],
   "routes": [
+    { "src": "/api/donations/(.*)", "dest": "/api/donations/$1.js" },
+    { "src": "/sitemap\.xml", "dest": "/api/server.js" },
     { "src": "/", "dest": "/api/server.js" },
     { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/api/server.js" }
+    { "src": "(.*)", "dest": "/api/server.js" }
   ]
 }

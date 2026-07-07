@@ -46,7 +46,14 @@ export function DonationModalRoot() {
         body: JSON.stringify({ phone, amount, type: isMonthly ? "monthly" : "once" }),
       });
 
-      const data = await res.json();
+      let data: any;
+      try {
+        data = await res.json();
+      } catch {
+        const text = await res.text();
+        throw new Error(`Server response was not JSON: ${text}`);
+      }
+
       if (!res.ok) throw new Error(data?.message || "Payment request failed");
 
       setStatus("success");
