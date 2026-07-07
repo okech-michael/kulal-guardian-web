@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from "motion/react";
 import { X } from "lucide-react";
 import { Reveal } from "./Reveal";
 
+type Item = { src: string; alt: string; tag: "Conservation" | "Community" | "Education" | "Wildlife"; span?: string };
+
 const modules = import.meta.globEager('/src/assets/*.{jpg,jpeg,png,webp,gif,svg}') as Record<string, { default: string }>;
 
 type FileEntry = { path: string; src: string };
@@ -31,19 +33,6 @@ const items: Item[] = fileEntries.map(({ path, src }) => {
   const span = name.includes('hero') || name.includes('wildlife') ? 'row-span-2' : undefined;
   return { src, alt, tag, span } as Item;
 });
-
-type Item = { src: string; alt: string; tag: "Conservation" | "Community" | "Education" | "Wildlife"; span?: string };
-
-const items: Item[] = [
-  { src: hero, alt: "Mount Kulal at golden hour", tag: "Conservation", span: "row-span-2" },
-  { src: youth, alt: "Youth planting indigenous trees", tag: "Community" },
-  { src: education, alt: "School environmental class", tag: "Education" },
-  { src: wildlife, alt: "Elephants at sunrise", tag: "Wildlife", span: "row-span-2" },
-  { src: elders, alt: "Community elders gathered", tag: "Community" },
-  { src: canopy, alt: "Misty forest canopy", tag: "Conservation" },
-  { src: sapling, alt: "Hands planting sapling", tag: "Conservation" },
-  { src: landscape, alt: "Mount Kulal landscape", tag: "Conservation" },
-];
 
 const tags = ["All", "Conservation", "Community", "Education", "Wildlife"] as const;
 
