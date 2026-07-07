@@ -47,10 +47,10 @@ export function DonationModalRoot() {
       });
 
       let data: any;
+      const text = await res.text();
       try {
-        data = await res.json();
+        data = JSON.parse(text);
       } catch {
-        const text = await res.text();
         throw new Error(`Server response was not JSON: ${text}`);
       }
 
