@@ -56,7 +56,7 @@ export function Nav() {
             to="/"
             className={cn(
               "site-nav-link transition-colors hover:text-accent",
-              isHome ? "text-white" : "text-foreground",
+              isTransparent ? "text-white" : "text-foreground",
             )}
           >
             Home
