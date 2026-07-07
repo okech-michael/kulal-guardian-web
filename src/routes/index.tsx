@@ -2,16 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Toaster } from "@/components/ui/sonner";
 import { Nav } from "@/components/site/Nav";
 import { Hero } from "@/components/site/Hero";
-import { About } from "@/components/site/About";
-import { Impact } from "@/components/site/Impact";
-import { MountKulal } from "@/components/site/MountKulal";
-import { Projects } from "@/components/site/Projects";
-import { Awards } from "@/components/site/Awards";
-import { Gallery } from "@/components/site/Gallery";
-import { Register } from "@/components/site/Register";
-import { Testimonials } from "@/components/site/Testimonials";
 import { CallToAction } from "@/components/site/CallToAction";
-import { Contact } from "@/components/site/Contact";
+import { Testimonials } from "@/components/site/Testimonials";
 import { Footer } from "@/components/site/Footer";
 
 export const Route = createFileRoute("/")({
@@ -40,16 +32,8 @@ function Page() {
     <main>
       <Nav />
       <Hero />
-      <About />
-      <Impact />
-      <MountKulal />
-      <Projects />
-      <Awards />
-      <Gallery />
-      <Register />
-      <Testimonials />
       <CallToAction />
-      <Contact />
+      <Testimonials />
       <Footer />
       <Toaster richColors position="top-center" />
     </main>

@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { Leaf, Facebook, Twitter } from "lucide-react";
 
 export function Footer() {
@@ -6,12 +7,12 @@ export function Footer() {
       <div className="container-x py-16">
         <div className="grid gap-10 md:grid-cols-12">
           <div className="md:col-span-5">
-            <a href="#top" className="inline-flex items-center gap-3 font-display text-[1.24rem] sm:text-[1.35rem]">
+            <Link to="/" className="inline-flex items-center gap-3 font-display text-[1.24rem] sm:text-[1.35rem]">
               <span className="grid h-11 w-11 place-items-center rounded-full bg-accent text-accent-foreground">
                 <Leaf className="h-5 w-5" />
               </span>
               Wazee wa Mazingira
-            </a>
+            </Link>
             <p className="mt-5 max-w-md text-[1rem] leading-[1.8] text-primary-foreground/80">
               A community-based organisation safeguarding the forests, biodiversity and
               cultural heritage of Mount Kulal in Marsabit County, Kenya.
@@ -32,8 +33,8 @@ export function Footer() {
           <div className="md:col-span-3">
             <h4 className="font-display text-[1.15rem]">Explore</h4>
             <ul className="mt-4 space-y-2.5 text-[1rem] text-primary-foreground/75">
-              {[["#about", "About Us"], ["#impact", "Our Impact"], ["#mount-kulal", "Mount Kulal"], ["#projects", "Projects"], ["#awards", "Awards"], ["#gallery", "Gallery"]].map(([h, l]) => (
-                <li key={h}><a href={h} className="site-footer-link hover:text-accent">{l}</a></li>
+              {[["/about", "About Us"], ["/impact", "Our Impact"], ["/mount-kulal", "Mount Kulal"], ["/projects", "Projects"], ["/awards", "Awards"], ["/gallery", "Gallery"]].map(([to, label]) => (
+                <li key={to}><Link to={to as string} className="site-footer-link hover:text-accent">{label}</Link></li>
               ))}
             </ul>
           </div>
@@ -46,15 +47,15 @@ export function Footer() {
               <li>Mount Kulal area, Marsabit County, Kenya</li>
             </ul>
             <div className="mt-6 flex flex-col gap-3">
-              <a href="#register" className="inline-flex items-center justify-center rounded-full bg-accent px-5 py-3 text-[0.98rem] font-semibold text-accent-foreground hover:scale-105 transition-transform">
+              <Link to="/register" className="inline-flex items-center justify-center rounded-full bg-accent px-5 py-3 text-[0.98rem] font-semibold text-accent-foreground hover:scale-105 transition-transform">
                 Join the Youth Program
-              </a>
-              <a
-                href="mailto:donations@wazeewamazingira.org?subject=Donation%20to%20Wazee%20wa%20Mazingira"
+              </Link>
+              <button
+                onClick={() => window.dispatchEvent(new Event("openDonationModal"))}
                 className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/10 px-5 py-3 text-[0.98rem] font-semibold text-white hover:bg-white/20 transition-colors"
               >
                 Donate to Conservation
-              </a>
+              </button>
             </div>
           </div>
         </div>

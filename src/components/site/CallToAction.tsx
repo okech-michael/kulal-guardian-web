@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { Reveal } from "./Reveal";
 import { ArrowRight } from "lucide-react";
 import youth from "@/assets/youth-planting.jpeg";
@@ -24,13 +25,13 @@ export function CallToAction() {
           </Reveal>
           <Reveal delay={0.2}>
             <div className="mt-8 flex flex-col items-stretch gap-3 sm:mt-9 sm:flex-row sm:flex-wrap">
-              <a href="#register" className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-[0.95rem] font-semibold text-accent-foreground shadow-elegant transition-transform hover:scale-[1.03] sm:w-auto">
+              <Link to="/register" className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-[0.95rem] font-semibold text-accent-foreground shadow-elegant transition-transform hover:scale-[1.03] sm:w-auto">
                 Join Us
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </a>
-              <a href="#contact" className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-7 py-3.5 text-[0.95rem] font-semibold text-white backdrop-blur-md hover:bg-white/20 sm:w-auto">
+              </Link>
+              <Link to="/contact" className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-7 py-3.5 text-[0.95rem] font-semibold text-white backdrop-blur-md hover:bg-white/20 sm:w-auto">
                 Contact Us
-              </a>
+              </Link>
             </div>
           </Reveal>
         </div>

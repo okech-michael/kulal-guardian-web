@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, ChevronDown } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import hero from "@/assets/hero-mount-kulal.jpg";
 
 export function Hero() {
@@ -64,25 +65,25 @@ export function Hero() {
               transition={{ duration: 0.9, delay: 0.8 }}
               className="mt-8 flex flex-col items-stretch gap-2 sm:mt-9 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3"
             >
-              <a
-                href="#register"
+              <Link
+                to="/register"
                 className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-[0.95rem] font-semibold text-accent-foreground shadow-elegant transition-transform hover:scale-[1.03] sm:w-auto"
               >
                 Join Our Youth Program
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </a>
-              <a
-                href="#impact"
+              </Link>
+              <Link
+                to="/impact"
                 className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/30 bg-white/10 px-7 py-3.5 text-[0.95rem] font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/20 sm:w-auto"
               >
                 Explore Our Work
-              </a>
-              <a
-                href="mailto:donations@wazeewamazingira.org?subject=Donation%20to%20Wazee%20wa%20Mazingira"
+              </Link>
+              <button
+                onClick={() => window.dispatchEvent(new Event("openDonationModal"))}
                 className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-[0.95rem] font-semibold text-accent-foreground shadow-elegant transition-transform hover:scale-[1.03] sm:w-auto"
               >
                 Donate to Conservation
-              </a>
+              </button>
             </motion.div>
 
             <motion.span
@@ -97,16 +98,17 @@ export function Hero() {
         </div>
       </motion.div>
 
-      <motion.a
-        href="#about"
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.6, duration: 1 }}
         className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 text-white/70 hover:text-white"
         aria-label="Scroll down"
       >
-        <ChevronDown className="h-7 w-7 animate-bounce" />
-      </motion.a>
+        <Link to="/about">
+          <ChevronDown className="h-7 w-7 animate-bounce" />
+        </Link>
+      </motion.div>
     </section>
   );
 }
