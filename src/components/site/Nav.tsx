@@ -18,6 +18,7 @@ export function Nav() {
   const router = useRouter();
   const isHome = router.state.location.pathname === "/";
   const isTransparent = isHome && !scrolled;
+  const navTextColor = isTransparent ? "text-white" : "text-foreground";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -40,7 +41,7 @@ export function Nav() {
           to="/"
           className={cn(
             "flex flex-1 min-w-0 items-center gap-3 font-display text-xl tracking-tight transition-colors",
-            scrolled ? "text-foreground" : "text-white",
+            navTextColor,
           )}
         >
           <span className="relative h-14 w-14 flex-shrink-0 overflow-hidden rounded-full border border-white/20 bg-white/5">
@@ -56,7 +57,7 @@ export function Nav() {
             to="/"
             className={cn(
               "site-nav-link transition-colors hover:text-accent",
-              isTransparent ? "text-white" : "text-foreground",
+              navTextColor,
             )}
           >
             Home
@@ -70,7 +71,7 @@ export function Nav() {
               onMouseLeave={() => setAboutOpen(false)}
               className={cn(
                 "site-nav-link inline-flex items-center rounded-md bg-transparent px-2 py-1 text-inherit transition-colors hover:text-accent hover:bg-accent/10",
-                isTransparent ? "text-white/85" : "text-foreground/80",
+                navTextColor,
               )}
             >
               About
@@ -102,7 +103,7 @@ export function Nav() {
               to={l.href}
               className={cn(
                 "site-nav-link transition-colors hover:text-accent",
-                isTransparent ? "text-white/85" : "text-foreground/80",
+                navTextColor,
               )}
             >
               {l.label}
