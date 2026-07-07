@@ -2,14 +2,35 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X } from "lucide-react";
 import { Reveal } from "./Reveal";
-import youth from "@/assets/youth-planting.jpeg";
-import wildlife from "@/assets/wildlife.jpg";
-import education from "@/assets/education.jpeg";
-import elders from "@/assets/community-elders.jpeg";
-import canopy from "@/assets/forest-canopy.jpg";
-import landscape from "@/assets/kulal-landscape.jpg";
-import sapling from "@/assets/sapling.jpeg";
-import hero from "@/assets/hero-mount-kulal.jpg";
+
+const modules = import.meta.globEager('/src/assets/*.{jpg,jpeg,png,webp,gif,svg}') as Record<string, { default: string }>;
+
+type FileEntry = { path: string; src: string };
+
+function inferTagFromName(name: string): Item['tag'] {
+  if (name.includes('education')) return 'Education';
+  if (name.includes('wildlife')) return 'Wildlife';
+  if (name.includes('youth') || name.includes('winners') || name.includes('mr-') || name.includes('community')) return 'Community';
+  return 'Conservation';
+}
+
+const fileEntries: FileEntry[] = Object.entries(modules).map(([path, mod]) => ({ path, src: mod.default }));
+fileEntries.sort((a, b) => {
+  if (a.path.includes('hero')) return -1;
+  if (b.path.includes('hero')) return 1;
+  if (a.path.includes('wildlife')) return -1;
+  if (b.path.includes('wildlife')) return 1;
+  return a.path.localeCompare(b.path);
+});
+
+const items: Item[] = fileEntries.map(({ path, src }) => {
+  const filename = path.split('/').pop() || path;
+  const name = filename.replace(/\.[^/.]+$/, '').toLowerCase();
+  const tag = inferTagFromName(name);
+  const alt = name.replace(/[-_]/g, ' ').replace(/\b(\w)/g, (m) => m.toUpperCase());
+  const span = name.includes('hero') || name.includes('wildlife') ? 'row-span-2' : undefined;
+  return { src, alt, tag, span } as Item;
+});
 
 type Item = { src: string; alt: string; tag: "Conservation" | "Community" | "Education" | "Wildlife"; span?: string };
 
