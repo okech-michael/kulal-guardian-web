@@ -22,6 +22,9 @@ const fileEntries: FileEntry[] = Object.entries(modules)
     const filename = path.split('/').pop()?.toLowerCase() ?? '';
     // Exclude logo files and any placeholder images
     if (filename.startsWith('logo') || filename.includes('logo.')) return false;
+    // Exclude executive/staff portraits (filenames starting with mr- or containing officer titles)
+    if (filename.startsWith('mr-')) return false;
+    if (filename.includes('chair') || filename.includes('treasurer') || filename.includes('secretary') || filename.includes('secreatary') || filename.includes('executive')) return false;
     return true;
   });
 fileEntries.sort((a, b) => {
