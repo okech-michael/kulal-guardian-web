@@ -4,7 +4,7 @@
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).json({ message: "Method not allowed" });
 
-  // Safaricom will send a JSON body — store/process as needed.
+  // Safaricom will send a JSON body; store/process as needed.
   try {
     const data = req.body;
 

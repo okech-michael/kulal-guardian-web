@@ -3,7 +3,7 @@ import { Reveal } from "./Reveal";
 import winners from "@/assets/winners.jpeg";
 
 const timeline = [
-  { year: "2025 · November 7", icon: Award, title: "UNESCO-Greece Melina Mercouri International Prize", body: "USD 30,000 award for Safeguarding and Management of Cultural Landscapes — recognising community stewardship of Mount Kulal." },
+  { year: "2025 · November 7", icon: Award, title: "UNESCO-Greece Melina Mercouri International Prize", body: "USD 30,000 award for Safeguarding and Management of Cultural Landscapes, recognising community stewardship of Mount Kulal." },
   { year: "2024", icon: Globe2, title: "National Environmental Recognition", body: "Honoured by the Ministry of Environment for outstanding contribution to indigenous forest conservation." },
   { year: "2023", icon: Medal, title: "County Conservation Partnership", body: "Marsabit County Government partnership for community-led ecosystem restoration." },
   { year: "2022", icon: Award, title: "Community Stewardship Award", body: "Recognised by regional conservation network for grassroots leadership and biodiversity work." },

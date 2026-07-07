@@ -21,7 +21,7 @@ export function Hero() {
       <motion.div style={{ scale, y }} className="absolute inset-0 will-change-transform">
         <img
           src={hero}
-          alt="Mount Kulal at sunrise — ancient forested mountain in Marsabit, Kenya"
+          alt="Mount Kulal at sunrise, ancient forested mountain in Marsabit, Kenya"
           className="h-full w-full object-cover"
           fetchPriority="high"
         />
