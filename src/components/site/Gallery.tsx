@@ -1,11 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X } from "lucide-react";
 import { Reveal } from "./Reveal";
 
 type Item = { src: string; alt: string; tag: "Conservation" | "Community" | "Education" | "Wildlife"; span?: string };
-
-const modules = import.meta.globEager('/src/assets/*.{jpg,jpeg,png,webp,gif,svg}') as Record<string, { default: string }>;
 
 type FileEntry = { path: string; src: string };
 
@@ -16,29 +14,57 @@ function inferTagFromName(name: string): Item['tag'] {
   return 'Conservation';
 }
 
-const fileEntries: FileEntry[] = Object.entries(modules).map(([path, mod]) => ({ path, src: mod.default }));
-fileEntries.sort((a, b) => {
-  if (a.path.includes('hero')) return -1;
-  if (b.path.includes('hero')) return 1;
-  if (a.path.includes('wildlife')) return -1;
-  if (b.path.includes('wildlife')) return 1;
-  return a.path.localeCompare(b.path);
-});
+// Load asset list on client only to avoid SSR/runtime import.meta.glob issues in production
+// Items are populated after mount.
+const useAssets = () => {
+  const [items, setItems] = useState<Item[]>([]);
+  useEffect(() => {
+    try {
+      const modules = import.meta.glob('/src/assets/*.{jpg,jpeg,png,webp,gif,svg}', { eager: true }) as Record<string, { default: string }>;
+      const fileEntries: FileEntry[] = Object.entries(modules)
+        .map(([path, mod]) => ({ path, src: (mod as any).default }))
+        .filter(({ path }) => {
+          const filename = path.split('/').pop()?.toLowerCase() ?? '';
+          if (filename.startsWith('logo') || filename.includes('logo.')) return false;
+          if (filename.startsWith('mr-')) return false;
+          if (filename.includes('chair') || filename.includes('treasurer') || filename.includes('secretary') || filename.includes('secreatary') || filename.includes('executive')) return false;
+          return true;
+        });
 
-const items: Item[] = fileEntries.map(({ path, src }) => {
-  const filename = path.split('/').pop() || path;
-  const name = filename.replace(/\.[^/.]+$/, '').toLowerCase();
-  const tag = inferTagFromName(name);
-  const alt = name.replace(/[-_]/g, ' ').replace(/\b(\w)/g, (m) => m.toUpperCase());
-  const span = name.includes('hero') || name.includes('wildlife') ? 'row-span-2' : undefined;
-  return { src, alt, tag, span } as Item;
-});
+      fileEntries.sort((a, b) => {
+        if (a.path.includes('hero')) return -1;
+        if (b.path.includes('hero')) return 1;
+        if (a.path.includes('wildlife')) return -1;
+        if (b.path.includes('wildlife')) return 1;
+        return a.path.localeCompare(b.path);
+      });
+
+      const result: Item[] = fileEntries.map(({ path, src }) => {
+        const filename = path.split('/').pop() || path;
+        const name = filename.replace(/\.[^/.]+$/, '').toLowerCase();
+        const tag = inferTagFromName(name);
+        const alt = name.replace(/[-_]/g, ' ').replace(/\b(\w)/g, (m) => m.toUpperCase());
+        const span = name.includes('hero') || name.includes('wildlife') ? 'row-span-2' : undefined;
+        return { src, alt, tag, span } as Item;
+      });
+
+      setItems(result);
+    } catch (e) {
+      // If import.meta.glob isn't available in this runtime, leave items empty
+      // and let the page render without gallery images.
+      // eslint-disable-next-line no-console
+      console.error('Failed to load gallery assets', e);
+    }
+  }, []);
+  return items;
+};
 
 const tags = ["All", "Conservation", "Community", "Education", "Wildlife"] as const;
 
 export function Gallery() {
   const [filter, setFilter] = useState<(typeof tags)[number]>("All");
   const [lightbox, setLightbox] = useState<Item | null>(null);
+  const items = useAssets();
   const filtered = items.filter((i) => filter === "All" || i.tag === filter);
 
   return (
