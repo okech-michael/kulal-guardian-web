@@ -19,24 +19,18 @@ const teamMembers = [
     name: "Joseph Leiti Lengoiyap",
     title: "Chairperson",
     roleDescription: "Provides strategic leadership for the organization and represents Wazee wa Mazingira in partnerships, public engagement, and conservation planning across Mount Kulal.",
-    bio: `Provides strategic leadership for the organization, oversees all conservation initiatives, represents Wazee wa Mazingira in partnerships and public engagements, and ensures that the organization's mission of protecting Mount Kulal and preserving cultural heritage remains at the center of every project.`,
-    quote: `"Protecting Mount Kulal is protecting our history, our identity, and the future of generations yet to come."`,
   },
   {
     img: secretary,
     name: "Timothy Lmaimpya Ledany",
     title: "Secretary",
     roleDescription: "Coordinates records, communications, and member activities so conservation efforts remain documented, organized, and responsive to community needs.",
-    bio: `Coordinates organizational activities, manages official records and communications, documents conservation initiatives, and ensures effective collaboration between members, partners, and stakeholders.`,
-    quote: `"Every documented effort today becomes a legacy of conservation for tomorrow."`,
   },
   {
     img: treasurer,
     name: "Moses Lemuni",
     title: "Treasurer",
     roleDescription: "Oversees financial stewardship with transparency so resources are directed toward conservation programs, community support, and long-term environmental protection.",
-    bio: `Manages the organization's financial resources with transparency and accountability, ensuring that funds are effectively utilized to support environmental conservation projects, community programs, and cultural heritage preservation.`,
-    quote: `"Every resource entrusted to us is an investment in the protection of Mount Kulal and the prosperity of our communities."`,
   },
   {
     img: receptionist,
@@ -131,10 +125,10 @@ export function Team() {
           <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
             {teamMembers.map((m, i) => (
               <Reveal key={m.name} delay={0.06 * i}>
-                <article className="flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-border/70 bg-card p-6 shadow-card transition-transform hover:-translate-y-1">
+                <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-card p-6 shadow-card transition-transform hover:-translate-y-1">
                   <div className="flex items-center gap-5">
-                    <div className="h-28 w-28 flex-shrink-0 overflow-hidden rounded-full border border-border/60 bg-muted sm:h-24 sm:w-24">
-                      <img src={m.img} alt={m.name} className="h-full w-full object-cover" />
+                    <div className="h-24 w-24 sm:h-28 sm:w-28 md:h-32 md:w-32 flex-shrink-0 overflow-hidden rounded-full border border-border/60 bg-muted">
+                      <img src={m.img} alt={m.name} className="h-full w-full object-cover object-center" />
                     </div>
                     <div className="min-w-0">
                       <h3 className="site-card-title">{m.name}</h3>
@@ -142,18 +136,15 @@ export function Team() {
                     </div>
                   </div>
 
-                  <div className="mt-6">
+                  <div className="mt-6 flex flex-1 flex-col">
                     {m.roleDescription ? (
-                      <p className="text-sm leading-relaxed text-foreground/80">{m.roleDescription}</p>
-                    ) : null}
-                    {m.bio ? (
-                      <p className="mt-3 site-card-copy text-foreground/85">{m.bio}</p>
+                      <p className="text-[15px] leading-relaxed text-foreground/80">{m.roleDescription}</p>
                     ) : null}
                     {m.details ? (
-                      <p className="mt-3 text-sm text-muted-foreground">{m.details}</p>
+                      <p className="mt-3 text-[15px] text-muted-foreground">{m.details}</p>
                     ) : null}
                     {m.quote ? (
-                      <blockquote className="mt-4 border-l-2 border-accent pl-4 italic text-muted-foreground">{m.quote}</blockquote>
+                      <blockquote className="mt-4 border-l-2 border-accent pl-4 text-[15px] italic text-muted-foreground">{m.quote}</blockquote>
                     ) : null}
                   </div>
                 </article>
