@@ -20,7 +20,8 @@
   ],
   "routes": [
     { "handle": "filesystem" },
-    { "src": "/api/donations/(.*)", "dest": "/api/donations/$1" },
+    { "src": "/api/donations/mpesa", "dest": "/api/donations/mpesa.js" },
+    { "src": "/api/donations/(.*)", "dest": "/api/donations/$1.js" },
     { "src": "/sitemap\\.xml", "dest": "/api/server.js" },
     { "src": "(.*)", "dest": "/api/server.js" }
   ]
