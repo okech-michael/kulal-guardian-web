@@ -28,6 +28,9 @@ const useAssets = () => {
           if (filename.startsWith('logo') || filename.includes('logo.')) return false;
           if (filename.startsWith('mr-')) return false;
           if (filename.includes('chair') || filename.includes('treasurer') || filename.includes('secretary') || filename.includes('secreatary') || filename.includes('executive')) return false;
+          if (filename.includes('receptionist')) return false;
+          if (filename.includes('tour guide') || filename.includes('forest guard') || filename.includes('forest-guard')) return false;
+          if (filename.includes('shukuri') || filename.includes('tali') || filename.includes('lemaim') || filename.includes('sapuki') || filename.includes('lchekuti') || filename.includes('lmeli') || filename.includes('lepolote') || filename.includes('lkaruni')) return false;
           return true;
         });
 
