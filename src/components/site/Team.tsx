@@ -19,18 +19,21 @@ const teamMembers = [
     name: "Joseph Leiti Lengoiyap",
     title: "Chairperson",
     roleDescription: "Provides strategic leadership for the organization and represents Wazee wa Mazingira in partnerships, public engagement, and conservation planning across Mount Kulal.",
+    quote: `"Protecting Mount Kulal today is preserving our heritage for generations yet to come."`,
   },
   {
     img: secretary,
     name: "Timothy Lmaimpya Ledany",
     title: "Secretary",
     roleDescription: "Coordinates records, communications, and member activities so conservation efforts remain documented, organized, and responsive to community needs.",
+    quote: `"Every record we keep and every voice we hear strengthens the future of conservation."`,
   },
   {
     img: treasurer,
     name: "Moses Lemuni",
     title: "Treasurer",
     roleDescription: "Oversees financial stewardship with transparency so resources are directed toward conservation programs, community support, and long-term environmental protection.",
+    quote: `"True stewardship is measured by how faithfully every resource serves both people and nature."`,
   },
   {
     img: receptionist,
@@ -133,6 +136,12 @@ export function Team() {
                     <div className="min-w-0">
                       <h3 className="site-card-title">{m.name}</h3>
                       <p className="mt-1 text-base font-semibold uppercase tracking-[0.12em] text-muted-foreground">{m.title}</p>
+                      {m.title === "Mt. Kulal Tour Guide" && m.details ? (
+                        <p className="mt-2 text-sm text-muted-foreground">
+                          <span className="font-semibold">Contact:</span>{" "}
+                          <span className="font-semibold">{m.details.replace("Contact: ", "")}</span>
+                        </p>
+                      ) : null}
                     </div>
                   </div>
 
@@ -140,7 +149,7 @@ export function Team() {
                     {m.roleDescription ? (
                       <p className="text-base leading-relaxed text-foreground/80">{m.roleDescription}</p>
                     ) : null}
-                    {m.details ? (
+                    {m.details && m.title !== "Mt. Kulal Tour Guide" ? (
                       <p className="mt-3 text-base text-muted-foreground">{m.details}</p>
                     ) : null}
                     {m.quote ? (
