@@ -7,9 +7,14 @@ export function DonationModalRoot() {
   // this component mounts once and listens for an open signal via a small DOM trick
   // we use a simple event to open the modal so we avoid global state complexity
   const [open, setOpen] = useState(false);
+  // selected is stored in KES (base amount)
   const [selected, setSelected] = useState<number | null>(1000);
   const [isMonthly, setIsMonthly] = useState(false);
   const [custom, setCustom] = useState<string>("");
+  // customBase stores the custom amount in KES (base currency)
+  const [customBase, setCustomBase] = useState<number | null>(null);
+  const [currency, setCurrency] = useState<"KES" | "USD">("KES");
+  const [rate, setRate] = useState<number | null>(null); // 1 USD = rate KES
   const [phone, setPhone] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState<string | null>(null);
@@ -24,7 +29,43 @@ export function DonationModalRoot() {
     return () => window.removeEventListener("openDonationModal", handler as EventListener);
   }, []);
 
-  const amount = selected ?? (custom ? parseInt(custom.replace(/[^0-9]/g, ""), 10) || 0 : 0);
+  // Fetch exchange rate when modal opens (cache in sessionStorage)
+  useEffect(() => {
+    if (!open) return;
+
+    async function fetchRate() {
+      try {
+        const cached = sessionStorage.getItem("usd_kes_rate");
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (parsed?.rate) setRate(parsed.rate);
+        }
+
+        const res = await fetch("https://api.exchangerate.host/latest?base=USD&symbols=KES");
+        if (!res.ok) throw new Error("Rate fetch failed");
+        const data = await res.json();
+        const fetched = data?.rates?.KES;
+        if (fetched) {
+          setRate(fetched);
+          sessionStorage.setItem("usd_kes_rate", JSON.stringify({ rate: fetched, ts: Date.now() }));
+        }
+      } catch (err) {
+        // fallback to previously cached or a sensible default (130)
+        const cached = sessionStorage.getItem("usd_kes_rate");
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (parsed?.rate) setRate(parsed.rate);
+        } else {
+          setRate(130);
+        }
+      }
+    }
+
+    fetchRate();
+  }, [open]);
+
+  // compute the final amount in KES for submission
+  const amount = selected ?? (customBase ? Math.round(customBase) : (custom ? parseInt(custom.replace(/[^0-9]/g, ""), 10) || 0 : 0));
 
   async function submit() {
     if (!amount || amount <= 0) {
@@ -40,6 +81,7 @@ export function DonationModalRoot() {
     setMessage(null);
 
     try {
+      // Ensure amount sent to backend is in KES (M-Pesa requirement)
       const res = await fetch("/api/donations/mpesa", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -66,6 +108,54 @@ export function DonationModalRoot() {
 
   if (!open) return null;
 
+  const formatDisplay = (kes: number) => {
+    if (currency === "KES") return `KSh ${kes.toLocaleString()}`;
+    const r = rate || 130;
+    const usd = kes / r;
+    return `$${usd.toFixed(2)}`;
+  };
+
+  const formatInputDisplay = (kes: number | null) => {
+    if (!kes && kes !== 0) return "";
+    if (currency === "KES") return Math.round(kes as number).toString();
+    const r = rate || 130;
+    return ( (kes as number) / r ).toFixed(2);
+  };
+
+  function handleCustomChange(val: string) {
+    // parse numeric value from current currency input and store base KES
+    const cleaned = val.replace(/[^0-9.]/g, "");
+    if (cleaned === "") {
+      setCustom("");
+      setCustomBase(null);
+      setSelected(null);
+      return;
+    }
+    const num = parseFloat(cleaned);
+    if (Number.isNaN(num)) return;
+    if (currency === "KES") {
+      setCustom(cleaned);
+      setCustomBase(Math.round(num));
+    } else {
+      // USD entered -> convert to KES
+      const r = rate || 130;
+      setCustom(cleaned);
+      setCustomBase(num * r);
+    }
+    setSelected(null);
+  }
+
+  function switchCurrency(to: "KES" | "USD") {
+    if (currency === to) return;
+    setCurrency(to);
+    // Update custom input visible string to reflect new currency
+    if (customBase != null) {
+      setCustom(formatInputDisplay(customBase));
+    } else {
+      setCustom("");
+    }
+  }
+
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center px-4">
       <div className="absolute inset-0 bg-black/50" onClick={() => setOpen(false)} />
@@ -79,6 +169,13 @@ export function DonationModalRoot() {
         </div>
 
         <div className="mt-5 grid gap-4">
+          <div className="flex items-center gap-3">
+            <label className="text-sm">Currency</label>
+            <div className="rounded-full bg-muted p-1 inline-flex">
+              <button className={`px-3 py-1 rounded-full ${currency === "KES" ? "bg-accent text-accent-foreground" : "text-foreground"}`} onClick={() => switchCurrency("KES")}>KES</button>
+              <button className={`px-3 py-1 rounded-full ${currency === "USD" ? "bg-accent text-accent-foreground" : "text-foreground"}`} onClick={() => switchCurrency("USD")}>USD</button>
+            </div>
+          </div>
           <div className="rounded-full bg-muted p-1 inline-flex">
             <button className={`px-4 py-2 rounded-full ${!isMonthly ? "bg-accent text-accent-foreground" : "text-foreground"}`} onClick={() => setIsMonthly(false)}>Give Once</button>
             <button className={`px-4 py-2 rounded-full ${isMonthly ? "bg-accent text-accent-foreground" : "text-foreground"}`} onClick={() => setIsMonthly(true)}>Monthly</button>
@@ -86,15 +183,15 @@ export function DonationModalRoot() {
 
           <div className="grid grid-cols-3 gap-3">
             {AMOUNTS.map((a) => (
-              <button key={a} onClick={() => { setSelected(a); setCustom(""); }} className={`rounded-lg border p-3 text-sm ${selected === a ? "border-accent bg-accent/10" : "border-border bg-card"}`}>
-                KSh {a.toLocaleString()}
+              <button key={a} onClick={() => { setSelected(a); setCustom(""); setCustomBase(null); }} className={`rounded-lg border p-3 text-sm ${selected === a ? "border-accent bg-accent/10" : "border-border bg-card"}`}>
+                {formatDisplay(a)}
               </button>
             ))}
             <div className="col-span-3">
-              <label className="text-sm">Custom amount (KES)</label>
+              <label className="text-sm">Custom amount ({currency})</label>
               <div className="mt-2 flex items-center gap-2">
-                <span className="text-sm font-semibold">KSh</span>
-                <input value={custom} onChange={(e) => { setCustom(e.target.value); setSelected(null); }} placeholder="0" inputMode="numeric" className="w-full rounded-lg border px-3 py-2" />
+                <span className="text-sm font-semibold">{currency === "KES" ? "KSh" : "$"}</span>
+                <input value={custom} onChange={(e) => { handleCustomChange(e.target.value); }} placeholder="0" inputMode="numeric" className="w-full rounded-lg border px-3 py-2" />
               </div>
             </div>
           </div>
