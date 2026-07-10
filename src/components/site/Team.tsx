@@ -3,6 +3,15 @@ import hero from "@/assets/hero-mount-kulal.jpg";
 import chairman from "@/assets/mr-chairman.jpeg";
 import secretary from "@/assets/mr-secreatary.jpeg";
 import treasurer from "@/assets/mr-treasurer.jpeg";
+import receptionist from "@/assets/Receptionist-wazee Gatab.jpeg";
+import shukuri from "@/assets/Shukuri Lasapicho .jpeg";
+import tali from "@/assets/Tali Lenyumba - Forest Guard - Arapal.jpeg";
+import lemaim from "@/assets/Lemaim Lenawamuro-Forest guar -Arapal.jpeg";
+import sapuki from "@/assets/Forest-guard-Gatab-Junction-village.jpeg";
+import lchekuti from "@/assets/Forest guard Gatab Lgoon.jpeg";
+import lmeli from "@/assets/Forest guard Gatab Nkaibelech.jpeg";
+import lepolote from "@/assets/Forest guard Nkororoi village.jpeg";
+import lkaruni from "@/assets/Forest guard Larachi sub location.jpeg";
 
 const teamMembers = [
   {
@@ -25,6 +34,62 @@ const teamMembers = [
     title: "Treasurer",
     bio: `Manages the organization's financial resources with transparency and accountability, ensuring that funds are effectively utilized to support environmental conservation projects, community programs, and cultural heritage preservation.`,
     quote: `"Every resource entrusted to us is an investment in the protection of Mount Kulal and the prosperity of our communities."`,
+  },
+  {
+    img: receptionist,
+    name: "Joseph Lengoiyap",
+    title: "Receptionist",
+    details: "Office: Wazee wa Mazingira Office • Location: Gatab",
+    quote: `"A warm welcome and a helping hand create the first step toward meaningful conservation."`,
+  },
+  {
+    img: shukuri,
+    name: "Shukuri Lasapicho",
+    title: "Mt. Kulal Tour Guide",
+    details: "Contact: 0729924433",
+    quote: `"Every trail tells a story, and every visitor becomes part of Mt. Kulal's legacy."`,
+  },
+  {
+    img: tali,
+    name: "Tali Lenyumba",
+    title: "Forest Guard",
+    details: "Area: Arapal",
+  },
+  {
+    img: lemaim,
+    name: "Lemaim Lenawamuro",
+    title: "Forest Guard",
+    details: "Area: Arapal",
+  },
+  {
+    img: sapuki,
+    name: "Sapuki Lengoyiap",
+    title: "Forest Guard",
+    details: "Area: Gatab Junction Village",
+  },
+  {
+    img: lchekuti,
+    name: "Lchekuti Legumato",
+    title: "Forest Guard",
+    details: "Area: Gatab Lagoon",
+  },
+  {
+    img: lmeli,
+    name: "Lmeli Lemunguku",
+    title: "Forest Guard",
+    details: "Area: Gatab Nkaibelech",
+  },
+  {
+    img: lepolote,
+    name: "Lepolote Lolokuria",
+    title: "Forest Guard",
+    details: "Area: Nkororoi Village",
+  },
+  {
+    img: lkaruni,
+    name: "Lkaruni Lenarokushu",
+    title: "Forest Guard",
+    details: "Area: Larachi Sub-location",
   },
 ];
 
@@ -66,8 +131,15 @@ export function Team() {
                   </div>
 
                   <div className="mt-6">
-                    <p className="site-card-copy text-foreground/85">{m.bio}</p>
-                    <blockquote className="mt-4 border-l-2 border-accent pl-4 italic text-muted-foreground">{m.quote}</blockquote>
+                    {m.bio ? (
+                      <p className="site-card-copy text-foreground/85">{m.bio}</p>
+                    ) : null}
+                    {m.details ? (
+                      <p className="mt-3 text-sm text-muted-foreground">{m.details}</p>
+                    ) : null}
+                    {m.quote ? (
+                      <blockquote className="mt-4 border-l-2 border-accent pl-4 italic text-muted-foreground">{m.quote}</blockquote>
+                    ) : null}
                   </div>
                 </article>
               </Reveal>
