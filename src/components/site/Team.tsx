@@ -132,19 +132,19 @@ export function Team() {
                     </div>
                     <div className="min-w-0">
                       <h3 className="site-card-title">{m.name}</h3>
-                      <p className="mt-1 text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">{m.title}</p>
+                      <p className="mt-1 text-base font-semibold uppercase tracking-[0.12em] text-muted-foreground">{m.title}</p>
                     </div>
                   </div>
 
                   <div className="mt-6 flex flex-1 flex-col">
                     {m.roleDescription ? (
-                      <p className="text-[15px] leading-relaxed text-foreground/80">{m.roleDescription}</p>
+                      <p className="text-base leading-relaxed text-foreground/80">{m.roleDescription}</p>
                     ) : null}
                     {m.details ? (
-                      <p className="mt-3 text-[15px] text-muted-foreground">{m.details}</p>
+                      <p className="mt-3 text-base text-muted-foreground">{m.details}</p>
                     ) : null}
                     {m.quote ? (
-                      <blockquote className="mt-4 border-l-2 border-accent pl-4 text-[15px] italic text-muted-foreground">{m.quote}</blockquote>
+                      <blockquote className="mt-4 border-l-2 border-accent pl-4 text-base italic text-muted-foreground">{m.quote}</blockquote>
                     ) : null}
                   </div>
                 </article>
