@@ -3,12 +3,22 @@ import hero from "@/assets/hero-mount-kulal.jpg";
 import chairman from "@/assets/mr-chairman.jpeg";
 import secretary from "@/assets/mr-secreatary.jpeg";
 import treasurer from "@/assets/mr-treasurer.jpeg";
+import receptionist from "@/assets/Receptionist-wazee Gatab.jpeg";
+import shukuri from "@/assets/Shukuri Lasapicho .jpeg";
+import tali from "@/assets/Tali Lenyumba - Forest Guard - Arapal.jpeg";
+import lemaim from "@/assets/Lemaim Lenawamuro-Forest guar -Arapal.jpeg";
+import sapuki from "@/assets/Forest-guard-Gatab-Junction-village.jpeg";
+import lchekuti from "@/assets/Forest guard Gatab Lgoon.jpeg";
+import lmeli from "@/assets/Forest guard Gatab Nkaibelech.jpeg";
+import lepolote from "@/assets/Forest guard Nkororoi village.jpeg";
+import lkaruni from "@/assets/Forest guard Larachi sub location.jpeg";
 
 const teamMembers = [
   {
     img: chairman,
     name: "Joseph Leiti Lengoiyap",
     title: "Chairperson",
+    roleDescription: "Provides strategic leadership for the organization and represents Wazee wa Mazingira in partnerships, public engagement, and conservation planning across Mount Kulal.",
     bio: `Provides strategic leadership for the organization, oversees all conservation initiatives, represents Wazee wa Mazingira in partnerships and public engagements, and ensures that the organization's mission of protecting Mount Kulal and preserving cultural heritage remains at the center of every project.`,
     quote: `"Protecting Mount Kulal is protecting our history, our identity, and the future of generations yet to come."`,
   },
@@ -16,6 +26,7 @@ const teamMembers = [
     img: secretary,
     name: "Timothy Lmaimpya Ledany",
     title: "Secretary",
+    roleDescription: "Coordinates records, communications, and member activities so conservation efforts remain documented, organized, and responsive to community needs.",
     bio: `Coordinates organizational activities, manages official records and communications, documents conservation initiatives, and ensures effective collaboration between members, partners, and stakeholders.`,
     quote: `"Every documented effort today becomes a legacy of conservation for tomorrow."`,
   },
@@ -23,8 +34,74 @@ const teamMembers = [
     img: treasurer,
     name: "Moses Lemuni",
     title: "Treasurer",
+    roleDescription: "Oversees financial stewardship with transparency so resources are directed toward conservation programs, community support, and long-term environmental protection.",
     bio: `Manages the organization's financial resources with transparency and accountability, ensuring that funds are effectively utilized to support environmental conservation projects, community programs, and cultural heritage preservation.`,
     quote: `"Every resource entrusted to us is an investment in the protection of Mount Kulal and the prosperity of our communities."`,
+  },
+  {
+    img: receptionist,
+    name: "Joseph Lengoiyap",
+    title: "Receptionist",
+    roleDescription: "Serves as the first point of contact for visitors, community members, and partners, welcoming guests and coordinating office communication at the Wazee wa Mazingira office in Gatab.",
+    details: "Office: Wazee wa Mazingira Office • Location: Gatab",
+    quote: `"A warm welcome and a helping hand create the first step toward meaningful conservation."`,
+  },
+  {
+    img: shukuri,
+    name: "Shukuri Lasapicho",
+    title: "Mt. Kulal Tour Guide",
+    roleDescription: "Guides visitors through Mount Kulal's landscapes, sharing conservation stories while promoting responsible travel and appreciation for the mountain's cultural and ecological value.",
+    details: "Contact: 0729924433",
+    quote: `"Every trail tells a story, and every visitor becomes part of Mt. Kulal's legacy."`,
+  },
+  {
+    img: tali,
+    name: "Tali Lenyumba",
+    title: "Forest Guard",
+    roleDescription: "Protects the forests of Arapal by monitoring wildlife habitats, preventing illegal activity, and supporting community-led conservation around the area.",
+    details: "Area: Arapal",
+  },
+  {
+    img: lemaim,
+    name: "Lemaim Lenawamuro",
+    title: "Forest Guard",
+    roleDescription: "Works closely with the Arapal community to preserve forest ecosystems through regular patrols, awareness initiatives, and protection of indigenous vegetation and wildlife.",
+    details: "Area: Arapal",
+  },
+  {
+    img: sapuki,
+    name: "Sapuki Lengoyiap",
+    title: "Forest Guard",
+    roleDescription: "Oversees conservation efforts around Gatab Junction Village by protecting forest resources, reporting environmental threats, and encouraging responsible use of natural resources.",
+    details: "Area: Gatab Junction Village",
+  },
+  {
+    img: lchekuti,
+    name: "Lchekuti Legumato",
+    title: "Forest Guard",
+    roleDescription: "Supports conservation near Gatab Lagoon through routine patrols, habitat protection, and collaboration with local residents to maintain biodiversity.",
+    details: "Area: Gatab Lagoon",
+  },
+  {
+    img: lmeli,
+    name: "Lmeli Lemunguku",
+    title: "Forest Guard",
+    roleDescription: "Safeguards the forests of Gatab Nkaibelech by preventing illegal logging, supporting restoration efforts, and promoting environmental stewardship among local communities.",
+    details: "Area: Gatab Nkaibelech",
+  },
+  {
+    img: lepolote,
+    name: "Lepolote Lolokuria",
+    title: "Forest Guard",
+    roleDescription: "Protects the forests surrounding Nkororoi Village by preserving wildlife habitats, monitoring conservation activities, and strengthening community participation in environmental protection.",
+    details: "Area: Nkororoi Village",
+  },
+  {
+    img: lkaruni,
+    name: "Lkaruni Lenarokushu",
+    title: "Forest Guard",
+    roleDescription: "Leads conservation efforts within Larachi Sub-location through regular forest patrols, protection of indigenous ecosystems, and partnerships with residents to promote sustainable natural resource management.",
+    details: "Area: Larachi Sub-location",
   },
 ];
 
@@ -66,8 +143,18 @@ export function Team() {
                   </div>
 
                   <div className="mt-6">
-                    <p className="site-card-copy text-foreground/85">{m.bio}</p>
-                    <blockquote className="mt-4 border-l-2 border-accent pl-4 italic text-muted-foreground">{m.quote}</blockquote>
+                    {m.roleDescription ? (
+                      <p className="text-sm leading-relaxed text-foreground/80">{m.roleDescription}</p>
+                    ) : null}
+                    {m.bio ? (
+                      <p className="mt-3 site-card-copy text-foreground/85">{m.bio}</p>
+                    ) : null}
+                    {m.details ? (
+                      <p className="mt-3 text-sm text-muted-foreground">{m.details}</p>
+                    ) : null}
+                    {m.quote ? (
+                      <blockquote className="mt-4 border-l-2 border-accent pl-4 italic text-muted-foreground">{m.quote}</blockquote>
+                    ) : null}
                   </div>
                 </article>
               </Reveal>
