@@ -128,7 +128,7 @@ export function Team() {
                 <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-card p-6 shadow-card transition-transform hover:-translate-y-1">
                   <div className="flex items-center gap-5">
                     <div className="h-24 w-24 sm:h-28 sm:w-28 md:h-32 md:w-32 flex-shrink-0 overflow-hidden rounded-full border border-border/60 bg-muted">
-                      <img src={m.img} alt={m.name} className="h-full w-full object-contain object-center" />
+                      <img src={m.img} alt={m.name} className="h-full w-full object-cover object-center" />
                     </div>
                     <div className="min-w-0">
                       <h3 className="site-card-title">{m.name}</h3>
