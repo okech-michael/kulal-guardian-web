@@ -136,6 +136,12 @@ export function Team() {
                     <div className="min-w-0">
                       <h3 className="site-card-title">{m.name}</h3>
                       <p className="mt-1 text-base font-semibold uppercase tracking-[0.12em] text-muted-foreground">{m.title}</p>
+                      {m.title === "Mt. Kulal Tour Guide" && m.details ? (
+                        <p className="mt-2 text-sm text-muted-foreground">
+                          <span className="font-semibold">Contact:</span>{" "}
+                          <span className="font-semibold">{m.details.replace("Contact: ", "")}</span>
+                        </p>
+                      ) : null}
                     </div>
                   </div>
 
@@ -143,7 +149,7 @@ export function Team() {
                     {m.roleDescription ? (
                       <p className="text-base leading-relaxed text-foreground/80">{m.roleDescription}</p>
                     ) : null}
-                    {m.details ? (
+                    {m.details && m.title !== "Mt. Kulal Tour Guide" ? (
                       <p className="mt-3 text-base text-muted-foreground">{m.details}</p>
                     ) : null}
                     {m.quote ? (
