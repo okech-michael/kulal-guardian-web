@@ -13,6 +13,7 @@ import lmeli from "@/assets/Forest guard Gatab Nkaibelech.jpeg";
 import lepolote from "@/assets/Forest guard Nkororoi village.jpeg";
 import lkaruni from "@/assets/Forest guard Larachi sub location.jpeg";
 import josephLekupuny from "@/assets/Joseph-lekupuny.jpeg";
+import peterLekula from "@/assets/Forest-guard-Lolkujita.jpeg";
 
 const teamMembers = [
   {
@@ -107,6 +108,13 @@ const teamMembers = [
     title: "Forest Guard",
     roleDescription: "Protects the forests around Mbarnat village by conducting patrols, preventing illegal activity, and supporting the local community in sustainable conservation practices.",
     details: "Area: Mbarnat village",
+  },
+  {
+    img: peterLekula,
+    name: "Peter Lekula",
+    title: "Forest Guard",
+    roleDescription: "Supports conservation efforts in Lolkujita by monitoring forest conditions, helping prevent environmental threats, and strengthening community stewardship of the area.",
+    details: "Area: Lolkujita",
   },
 ];
 
