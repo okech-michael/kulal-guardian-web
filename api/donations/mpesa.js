@@ -20,6 +20,20 @@ export default async function handler(req, res) {
   const { phone, amount, type } = req.body || {};
   if (!phone || !amount) return res.status(400).json({ message: "Missing phone or amount" });
 
+  function normalizePhone(raw) {
+    const digits = String(raw).replace(/\D/g, "");
+    if (!digits) return null;
+    if (digits.startsWith("254")) return digits;
+    if (digits.startsWith("07")) return `254${digits.slice(1)}`;
+    if (digits.startsWith("7")) return `254${digits}`;
+    return digits;
+  }
+
+  const normalizedPhone = normalizePhone(phone);
+  if (!normalizedPhone || !/^2547\d{8}$/.test(normalizedPhone)) {
+    return res.status(400).json({ message: "Phone number must be a valid Safaricom number in the format 07XXXXXXXX." });
+  }
+
   const {
     DARAJA_CONSUMER_KEY,
     DARAJA_CONSUMER_SECRET,
@@ -28,8 +42,18 @@ export default async function handler(req, res) {
     DARAJA_CALLBACK_URL,
   } = process.env;
 
-  if (!DARAJA_CONSUMER_KEY || !DARAJA_CONSUMER_SECRET || !DARAJA_PASSKEY || !DARAJA_SHORTCODE || !DARAJA_CALLBACK_URL) {
-    return res.status(501).json({ message: "Daraja credentials not configured. Set environment variables." });
+  const missing = [];
+  if (!DARAJA_CONSUMER_KEY) missing.push("DARAJA_CONSUMER_KEY");
+  if (!DARAJA_CONSUMER_SECRET) missing.push("DARAJA_CONSUMER_SECRET");
+  if (!DARAJA_PASSKEY) missing.push("DARAJA_PASSKEY");
+  if (!DARAJA_SHORTCODE) missing.push("DARAJA_SHORTCODE");
+  if (!DARAJA_CALLBACK_URL) missing.push("DARAJA_CALLBACK_URL");
+
+  if (missing.length) {
+    return res.status(501).json({
+      message: "Daraja credentials not configured. Missing environment variables.",
+      missing,
+    });
   }
 
   try {
@@ -42,7 +66,12 @@ export default async function handler(req, res) {
 
     if (!tokenRes.ok) {
       const text = await tokenRes.text();
-      return res.status(502).json({ message: "Failed to obtain Daraja token", detail: text });
+      return res.status(502).json({
+        message: "Failed to obtain Daraja token",
+        status: tokenRes.status,
+        detail: text,
+        hint: "Check that your Daraja consumer key/secret are correct, the sandbox account is active, and the app is using the same environment in Vercel.",
+      });
     }
 
     const tokenJson = await tokenRes.json();
@@ -58,9 +87,9 @@ export default async function handler(req, res) {
       Timestamp: timestamp,
       TransactionType: "CustomerPayBillOnline",
       Amount: amount,
-      PartyA: phone,
+      PartyA: normalizedPhone,
       PartyB: DARAJA_SHORTCODE,
-      PhoneNumber: phone,
+      PhoneNumber: normalizedPhone,
       CallBackURL: DARAJA_CALLBACK_URL,
       AccountReference: `WazeeDonation-${type}`,
       TransactionDesc: `Donation ${type}`,
@@ -75,8 +104,22 @@ export default async function handler(req, res) {
       body: JSON.stringify(stkBody),
     });
 
-    const stkJson = await stkRes.json();
-    if (!stkRes.ok) return res.status(502).json({ message: "Daraja STK Push failed", detail: stkJson });
+    const stkText = await stkRes.text();
+    let stkJson;
+    try {
+      stkJson = JSON.parse(stkText);
+    } catch {
+      stkJson = { raw: stkText };
+    }
+
+    if (!stkRes.ok) {
+      return res.status(502).json({
+        message: "Daraja STK Push failed",
+        status: stkRes.status,
+        detail: stkJson,
+        hint: "Check that your sandbox shortcode, passkey, callback URL, and phone number format are valid for Safaricom's test environment.",
+      });
+    }
 
     return res.status(200).json({ success: true, data: stkJson });
   } catch (err) {
