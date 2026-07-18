@@ -67,13 +67,24 @@ export function DonationModalRoot() {
   // compute the final amount in KES for submission
   const amount = selected ?? (customBase ? Math.round(customBase) : (custom ? parseInt(custom.replace(/[^0-9]/g, ""), 10) || 0 : 0));
 
+  function normalizePhone(raw: string) {
+    const digits = raw.replace(/\D/g, "");
+    if (!digits) return null;
+    if (digits.startsWith("254")) return digits;
+    if (digits.startsWith("07")) return `254${digits.slice(1)}`;
+    if (digits.startsWith("7")) return `254${digits}`;
+    return digits;
+  }
+
   async function submit() {
     if (!amount || amount <= 0) {
       setMessage("Please select or enter a valid amount.");
       return;
     }
-    if (!phone || !/^07|\+254|254/.test(phone)) {
-      setMessage("Enter a valid Safaricom phone number (eg. 07XXXXXXXX).");
+
+    const normalizedPhone = normalizePhone(phone);
+    if (!normalizedPhone || !/^2547\d{8}$/.test(normalizedPhone)) {
+      setMessage("Enter a valid Safaricom phone number (eg. 07XXXXXXXX)." );
       return;
     }
 
@@ -85,7 +96,7 @@ export function DonationModalRoot() {
       const res = await fetch("/api/donations/mpesa", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone, amount, type: isMonthly ? "monthly" : "once" }),
+        body: JSON.stringify({ phone: normalizedPhone, amount, type: isMonthly ? "monthly" : "once" }),
       });
 
       let data: any;
