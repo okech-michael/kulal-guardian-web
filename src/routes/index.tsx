@@ -2,7 +2,20 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Toaster } from "@/components/ui/sonner";
 import { Nav } from "@/components/site/Nav";
 import { Hero } from "@/components/site/Hero";
-import { CallToAction } from "@/components/site/CallToAction";
+import { ScrollProgress } from "@/components/site/Cinematic";
+import {
+  OurStory,
+  SpiritOfTheMountain,
+  Communities,
+  Biodiversity,
+  ConservationJourney,
+  UnescoRecognition,
+  ImpactBand,
+  TheYouth,
+  LatestStories,
+  Partners,
+  TheFuture,
+} from "@/components/site/Story";
 import { Testimonials } from "@/components/site/Testimonials";
 import { Footer } from "@/components/site/Footer";
 
@@ -10,9 +23,9 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Wazee wa Mazingira, Protecting Mount Kulal, Marsabit, Kenya" },
-      { name: "description", content: "Community-based conservation in Marsabit County. Protecting Mount Kulal's forests and biodiversity through youth leadership, indigenous knowledge and sustainable development." },
+      { name: "description", content: "Community-based conservation in Marsabit County. Protecting Mount Kulal's cloud forest, springs and biodiversity through youth leadership, indigenous knowledge and sustainable development." },
       { property: "og:title", content: "Wazee wa Mazingira, Conservation on Mount Kulal" },
-      { property: "og:description", content: "Protecting Mount Kulal. Empowering Communities. Preserving Nature." },
+      { property: "og:description", content: "A mountain that makes rain. A people who keep it alive." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -30,10 +43,21 @@ export const Route = createFileRoute("/")({
 function Page() {
   return (
     <main>
+      <ScrollProgress />
       <Nav />
       <Hero />
-      <CallToAction />
+      <OurStory />
+      <SpiritOfTheMountain />
+      <Communities />
+      <Biodiversity />
+      <ConservationJourney />
+      <UnescoRecognition />
+      <ImpactBand />
+      <TheYouth />
       <Testimonials />
+      <LatestStories />
+      <Partners />
+      <TheFuture />
       <Footer />
       <Toaster richColors position="top-center" />
     </main>
