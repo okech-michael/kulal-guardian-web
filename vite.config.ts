@@ -23,7 +23,6 @@ export default defineConfig({
   plugins: [
     ...tanstackStart({
       server: { entry: "server" },
-      nitro: true,
     }),
     react(),
     tailwindcss(),
