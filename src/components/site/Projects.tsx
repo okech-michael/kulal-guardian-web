@@ -1,107 +1,89 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { Link } from "@tanstack/react-router";
+import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "./Reveal";
-import { ChevronDown } from "lucide-react";
-import youth from "@/assets/youth-planting.jpeg";
-import wildlife from "@/assets/wildlife.jpg";
-import education from "@/assets/education.jpeg";
-import elders from "@/assets/community-elders.jpeg";
-import officeLaunch from "@/assets/office-launch.jpeg";
-
-const projects = [
-  {
-    img: youth,
-    tag: "Reforestation",
-    title: "Kulal Indigenous Tree Initiative",
-    summary: "Restoring 50 hectares of degraded forest with indigenous species nurtured by local women&rsquo;s groups.",
-    details: "Working with three village nurseries, the programme has raised over 42,000 indigenous seedlings, Olea africana, Juniperus procera, and Hagenia abyssinica, for planting in the Kulal catchment. Survival rates exceed 78% thanks to community-led monitoring."
-  },
-  {
-    img: officeLaunch,
-    tag: "Office",
-    title: "Community Office Launch",
-    summary: "A dedicated office space to coordinate Kulal conservation, outreach and local partnership work.",
-    details: "The new office provides a central hub for staff, volunteer meetings and community planning sessions. It supports efficient project delivery and strengthens our presence in Marsabit County."
-  },
-  {
-    img: wildlife,
-    tag: "Biodiversity",
-    title: "Kulal Wildlife Watch",
-    summary: "Citizen-science monitoring of birds, mammals and pollinators across the Kulal ecosystem.",
-    details: "Trained community rangers conduct quarterly transects, contributing data to national biodiversity databases. The programme has documented the return of greater kudu and three previously unrecorded bird species."
-  },
-  {
-    img: education,
-    tag: "Education",
-    title: "Green Schools of Kulal",
-    summary: "Environmental clubs in 14 primary and secondary schools across Loiyangalani, Gatab and Kargi wards.",
-    details: "Curriculum-integrated lessons, school tree nurseries, and an annual inter-school conservation festival. Over 3,200 learners reached since inception."
-  },
-  {
-    img: elders,
-    tag: "Community",
-    title: "Elders & Indigenous Knowledge",
-    summary: "Documenting traditional ecological knowledge and embedding it in modern conservation planning.",
-    details: "We convene quarterly elders&rsquo; councils to record indigenous practices for grazing, water management and forest taboos &mdash; ensuring this knowledge informs every project we run."
-  },
-];
+import { projects } from "@/content/projects";
 
 export function Projects() {
-  const [open, setOpen] = useState<number | null>(null);
+  const [lead, ...rest] = projects;
 
   return (
     <section id="projects" className="bg-background py-24 sm:py-32">
       <div className="container-x">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-          <Reveal>
-            <span className="site-section-label">
-              Projects &amp; Programs
-            </span>
-            <h2 className="site-section-title max-w-2xl">
-              Work that takes root in the soil and the soul of Kulal.
-            </h2>
-          </Reveal>
-        </div>
+        <Reveal>
+          <span className="site-section-label">Projects &amp; Programs</span>
+          <h2 className="site-section-title max-w-3xl">
+            Work that takes root in the soil and the soul of Kulal.
+          </h2>
+        </Reveal>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-2">
-          {projects.map((p, i) => (
-            <Reveal key={p.title} delay={i * 0.08}>
-              <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-border/70 bg-card transition-all hover:-translate-y-1 hover:shadow-elegant">
+        <Reveal delay={0.08}>
+          <Link
+            to="/projects/$slug"
+            params={{ slug: lead.slug }}
+            className="group mt-14 grid overflow-hidden rounded-[2rem] border border-border/70 bg-card shadow-card transition-all hover:-translate-y-1 hover:shadow-elegant lg:grid-cols-2"
+          >
+            <div className="relative aspect-[16/11] overflow-hidden lg:aspect-auto lg:min-h-[26rem]">
+              <img
+                src={lead.cover}
+                alt={lead.title}
+                className="h-full w-full object-cover transition-transform duration-[1.6s] group-hover:scale-110"
+              />
+              <span className="absolute left-5 top-5 rounded-full bg-accent px-3.5 py-1.5 text-[0.8rem] font-semibold uppercase tracking-wider text-accent-foreground">
+                Flagship · {lead.tag}
+              </span>
+            </div>
+            <div className="flex flex-col justify-center gap-5 p-8 sm:p-12">
+              <p className="text-[0.85rem] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                {lead.location}
+              </p>
+              <h3 className="font-display text-[2rem] leading-tight text-foreground sm:text-[2.6rem]">
+                {lead.title}
+              </h3>
+              <p className="site-card-copy max-w-xl">{lead.summary}</p>
+              <div className="flex flex-wrap gap-x-8 gap-y-4 pt-2">
+                {lead.results.slice(0, 3).map((r) => (
+                  <div key={r.label}>
+                    <div className="font-display text-2xl text-primary">{r.value}</div>
+                    <div className="text-sm text-muted-foreground">{r.label}</div>
+                  </div>
+                ))}
+              </div>
+              <span className="mt-2 inline-flex items-center gap-2 text-[1rem] font-semibold text-primary group-hover:text-accent">
+                Explore this project
+                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+              </span>
+            </div>
+          </Link>
+        </Reveal>
+
+        <div className="mt-8 grid gap-6 md:grid-cols-2">
+          {rest.map((p, i) => (
+            <Reveal key={p.slug} delay={i * 0.07}>
+              <Link
+                to="/projects/$slug"
+                params={{ slug: p.slug }}
+                className="group flex h-full flex-col overflow-hidden rounded-3xl border border-border/70 bg-card transition-all hover:-translate-y-1 hover:shadow-elegant"
+              >
                 <div className="relative aspect-[16/10] overflow-hidden">
-                  <img src={p.img} alt={p.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-[1.4s] group-hover:scale-110" />
+                  <img
+                    src={p.cover}
+                    alt={p.title}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-[1.4s] group-hover:scale-110"
+                  />
                   <span className="absolute left-4 top-4 rounded-full bg-accent px-3 py-1.5 text-[0.82rem] font-semibold uppercase tracking-wider text-accent-foreground">
                     {p.tag}
                   </span>
                 </div>
                 <div className="flex flex-1 flex-col p-7">
                   <h3 className="site-card-title">{p.title}</h3>
-                  <p
-                    className="mt-3 site-card-copy"
-                    dangerouslySetInnerHTML={{ __html: p.summary }}
-                  />
-                  <button
-                    onClick={() => setOpen(open === i ? null : i)}
-                    className="mt-5 inline-flex items-center gap-1.5 self-start text-[0.98rem] font-semibold text-primary hover:text-accent"
-                    aria-expanded={open === i}
-                  >
-                    {open === i ? "Show less" : "Read more"}
-                    <ChevronDown className={`h-4 w-4 transition-transform ${open === i ? "rotate-180" : ""}`} />
-                  </button>
-                  <AnimatePresence initial={false}>
-                    {open === i && (
-                      <motion.p
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                        className="mt-4 overflow-hidden site-card-copy"
-                      >
-                        {p.details}
-                      </motion.p>
-                    )}
-                  </AnimatePresence>
+                  <p className="mt-3 site-card-copy">{p.summary}</p>
+                  <span className="mt-6 inline-flex items-center gap-1.5 text-[0.98rem] font-semibold text-primary group-hover:text-accent">
+                    View project
+                    <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                  </span>
                 </div>
-              </article>
+              </Link>
             </Reveal>
           ))}
         </div>

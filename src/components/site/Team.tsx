@@ -1,4 +1,5 @@
 import { Reveal } from "./Reveal";
+import { WordReveal, BlurReveal } from "./Cinematic";
 import hero from "@/assets/hero-mount-kulal.jpg";
 import chairman from "@/assets/mr-chairman.jpeg";
 import secretary from "@/assets/mr-secreatary.jpeg";
@@ -15,162 +16,167 @@ import lkaruni from "@/assets/Forest guard Larachi sub location.jpeg";
 import josephLekupuny from "@/assets/Joseph-lekupuny.jpeg";
 import peterLekula from "@/assets/Forest-guard-Lolkujita.jpeg";
 
-const teamMembers = [
+type Member = {
+  img: string;
+  name: string;
+  title: string;
+  roleDescription: string;
+  bio?: string;
+  details?: string;
+  quote?: string;
+  focus?: string[];
+};
+
+const leadership: Member[] = [
   {
     img: chairman,
     name: "Joseph Leiti Lengoiyap",
     title: "Chairperson",
-    roleDescription: "Provides strategic leadership for the organization and represents Wazee wa Mazingira in partnerships, public engagement, and conservation planning across Mount Kulal.",
+    roleDescription:
+      "Provides strategic leadership for the organization and represents Wazee wa Mazingira in partnerships, public engagement, and conservation planning across Mount Kulal.",
+    bio: "A community elder who has walked the slopes of Mount Kulal since childhood, Joseph brings decades of customary knowledge into modern conservation planning. He chairs the elders' councils that document indigenous grazing and forest law, and has led the organisation's engagement with county government, national agencies and international partners, including the delegation recognised by UNESCO in 2025.",
+    focus: ["Strategy & governance", "Elders' councils", "Partnerships"],
     quote: `"Protecting Mount Kulal today is preserving our heritage for generations yet to come."`,
   },
   {
     img: secretary,
     name: "Timothy Lmaimpya Ledany",
     title: "Secretary",
-    roleDescription: "Coordinates records, communications, and member activities so conservation efforts remain documented, organized, and responsive to community needs.",
+    roleDescription:
+      "Coordinates records, communications, and member activities so conservation efforts remain documented, organized, and responsive to community needs.",
+    bio: "Timothy built the organisation's record system from a set of handwritten notebooks into a maintained register of more than four hundred members, twenty years of minutes and a searchable archive of planting records. He convenes the village barazas where programme decisions are made and keeps the line open between the mountain's settlements and the Gatab office.",
+    focus: ["Records & archive", "Community mobilisation", "Reporting"],
     quote: `"Every record we keep and every voice we hear strengthens the future of conservation."`,
   },
   {
     img: treasurer,
     name: "Moses Lemuni",
     title: "Treasurer",
-    roleDescription: "Oversees financial stewardship with transparency so resources are directed toward conservation programs, community support, and long-term environmental protection.",
+    roleDescription:
+      "Oversees financial stewardship with transparency so resources are directed toward conservation programs, community support, and long-term environmental protection.",
+    bio: "Moses manages the organisation's finances with a discipline that has earned the trust of both village members and international funders. He designed the per-surviving-seedling payment model that now rewards nursery groups for outcomes rather than deliveries, and presents open accounts at every annual general meeting.",
+    focus: ["Financial stewardship", "Grant compliance", "Community accountability"],
     quote: `"True stewardship is measured by how faithfully every resource serves both people and nature."`,
   },
+];
+
+const operations: Member[] = [
   {
     img: receptionist,
     name: "Joseph Lengoiyap",
     title: "Receptionist",
-    roleDescription: "Serves as the first point of contact for visitors, community members, and partners, welcoming guests and coordinating office communication at the Wazee wa Mazingira office in Gatab.",
-    details: "Office: Wazee wa Mazingira Office • Location: Gatab",
+    roleDescription:
+      "Serves as the first point of contact for visitors, community members, and partners, welcoming guests and coordinating office communication at the Wazee wa Mazingira office in Gatab.",
+    details: "Wazee wa Mazingira Office · Gatab",
     quote: `"A warm welcome and a helping hand create the first step toward meaningful conservation."`,
   },
   {
     img: shukuri,
     name: "Shukuri Lasapicho",
     title: "Mt. Kulal Tour Guide",
-    roleDescription: "Guides visitors through Mount Kulal's landscapes, sharing conservation stories while promoting responsible travel and appreciation for the mountain's cultural and ecological value.",
+    roleDescription:
+      "Guides visitors through Mount Kulal's landscapes, sharing conservation stories while promoting responsible travel and appreciation for the mountain's cultural and ecological value.",
     details: "Contact: 0729924433",
     quote: `"Every trail tells a story, and every visitor becomes part of Mt. Kulal's legacy."`,
   },
-  {
-    img: tali,
-    name: "Tali Lenyumba",
-    title: "Forest Guard",
-    roleDescription: "Protects the forests of Arapal by monitoring wildlife habitats, preventing illegal activity, and supporting community-led conservation around the area.",
-    details: "Area: Arapal",
-  },
-  {
-    img: lemaim,
-    name: "Lemaim Lenawamuro",
-    title: "Forest Guard",
-    roleDescription: "Works closely with the Arapal community to preserve forest ecosystems through regular patrols, awareness initiatives, and protection of indigenous vegetation and wildlife.",
-    details: "Area: Arapal",
-  },
-  {
-    img: sapuki,
-    name: "Sapuki Lengoyiap",
-    title: "Forest Guard",
-    roleDescription: "Oversees conservation efforts around Gatab Junction Village by protecting forest resources, reporting environmental threats, and encouraging responsible use of natural resources.",
-    details: "Area: Gatab Junction Village",
-  },
-  {
-    img: lchekuti,
-    name: "Lchekuti Legumato",
-    title: "Forest Guard",
-    roleDescription: "Supports conservation near Gatab Lagoon through routine patrols, habitat protection, and collaboration with local residents to maintain biodiversity.",
-    details: "Area: Gatab Lagoon",
-  },
-  {
-    img: lmeli,
-    name: "Lmeli Lemunguku",
-    title: "Forest Guard",
-    roleDescription: "Safeguards the forests of Gatab Nkaibelech by preventing illegal logging, supporting restoration efforts, and promoting environmental stewardship among local communities.",
-    details: "Area: Gatab Nkaibelech",
-  },
-  {
-    img: lepolote,
-    name: "Lepolote Lolokuria",
-    title: "Forest Guard",
-    roleDescription: "Protects the forests surrounding Nkororoi Village by preserving wildlife habitats, monitoring conservation activities, and strengthening community participation in environmental protection.",
-    details: "Area: Nkororoi Village",
-  },
-  {
-    img: lkaruni,
-    name: "Lkaruni Lenarokushu",
-    title: "Forest Guard",
-    roleDescription: "Leads conservation efforts within Larachi Sub-location through regular forest patrols, protection of indigenous ecosystems, and partnerships with residents to promote sustainable natural resource management.",
-    details: "Area: Larachi Sub-location",
-  },
-  {
-    img: josephLekupuny,
-    name: "Joseph Lekupuny",
-    title: "Forest Guard",
-    roleDescription: "Protects the forests around Mbarnat village by conducting patrols, preventing illegal activity, and supporting the local community in sustainable conservation practices.",
-    details: "Area: Mbarnat village",
-  },
-  {
-    img: peterLekula,
-    name: "Peter Lekula",
-    title: "Forest Guard",
-    roleDescription: "Supports conservation efforts in Lolkujita by monitoring forest conditions, helping prevent environmental threats, and strengthening community stewardship of the area.",
-    details: "Area: Lolkujita",
-  },
+];
+
+const guards: Member[] = [
+  { img: tali, name: "Tali Lenyumba", title: "Forest Guard", details: "Arapal", roleDescription: "Protects the forests of Arapal by monitoring wildlife habitats, preventing illegal activity, and supporting community-led conservation." },
+  { img: lemaim, name: "Lemaim Lenawamuro", title: "Forest Guard", details: "Arapal", roleDescription: "Works with the Arapal community to preserve forest ecosystems through patrols, awareness work and protection of indigenous vegetation." },
+  { img: sapuki, name: "Sapuki Lengoyiap", title: "Forest Guard", details: "Gatab Junction Village", roleDescription: "Oversees conservation around Gatab Junction by protecting forest resources and encouraging responsible use of natural resources." },
+  { img: lchekuti, name: "Lchekuti Legumato", title: "Forest Guard", details: "Gatab Lagoon", roleDescription: "Supports conservation near Gatab Lagoon through routine patrols, habitat protection and collaboration with residents." },
+  { img: lmeli, name: "Lmeli Lemunguku", title: "Forest Guard", details: "Gatab Nkaibelech", roleDescription: "Safeguards the forests of Nkaibelech by preventing illegal logging and supporting restoration efforts." },
+  { img: lepolote, name: "Lepolote Lolokuria", title: "Forest Guard", details: "Nkororoi Village", roleDescription: "Protects forests around Nkororoi by preserving wildlife habitats and strengthening community participation." },
+  { img: lkaruni, name: "Lkaruni Lenarokushu", title: "Forest Guard", details: "Larachi Sub-location", roleDescription: "Leads patrols within Larachi, protecting indigenous ecosystems and promoting sustainable resource management." },
+  { img: josephLekupuny, name: "Joseph Lekupuny", title: "Forest Guard", details: "Mbarnat Village", roleDescription: "Protects the forests around Mbarnat through patrols and support for sustainable community practice." },
+  { img: peterLekula, name: "Peter Lekula", title: "Forest Guard", details: "Lolkujita", roleDescription: "Monitors forest conditions in Lolkujita and strengthens community stewardship of the area." },
 ];
 
 export function Team() {
   return (
     <main>
-      <section className="relative">
-        <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden">
-          <img src={hero} alt="Mount Kulal landscape" className="h-full w-full object-cover brightness-90" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/40 to-background/95" />
-        </div>
-        <div className="container-x py-28 sm:py-36">
+      {/* Hero */}
+      <section className="relative min-h-[70svh] overflow-hidden">
+        <img src={hero} alt="Mount Kulal landscape" className="absolute inset-0 h-full w-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/35 to-background" />
+        <div className="container-x relative flex min-h-[70svh] flex-col justify-end pb-20 pt-40">
           <Reveal>
-            <span className="site-section-label text-accent">Meet Our Leadership</span>
-            <h1 className="mt-4 max-w-4xl site-section-title text-white">Meet Our Leadership Team</h1>
+            <span className="site-section-label text-accent">The people of the mountain</span>
           </Reveal>
-          <Reveal delay={0.08}>
-            <p className="mt-6 max-w-3xl site-section-copy text-white/90">
-              These are the leaders guiding Wazee wa Mazingira in its mission to conserve Mount Kulal's unique ecosystem and preserve the region's cultural heritage for future generations.
+          <WordReveal
+            as="h1"
+            text="The hands and memory behind Mount Kulal"
+            delay={0.1}
+            className="mt-5 max-w-4xl font-display text-[2.4rem] leading-[1.05] text-white sm:text-[3.8rem]"
+          />
+          <BlurReveal delay={0.3}>
+            <p className="mt-6 max-w-2xl text-[1.1rem] leading-[1.9] text-white/85">
+              Elders who remember the forest as it was, guards who walk it every morning, and young people
+              determined it will still be here in fifty years.
             </p>
-          </Reveal>
+          </BlurReveal>
         </div>
       </section>
 
-      <section className="bg-background py-20 sm:py-24">
+      {/* Leadership spotlight */}
+      <section className="bg-background py-20 sm:py-28">
         <div className="container-x">
-          <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-            {teamMembers.map((m, i) => (
-              <Reveal key={m.name} delay={0.06 * i}>
-                <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-card p-6 shadow-card transition-transform hover:-translate-y-1">
-                  <div className="flex items-center gap-5">
-                    <div className="h-24 w-24 sm:h-28 sm:w-28 md:h-32 md:w-32 flex-shrink-0 overflow-hidden rounded-full border border-border/60 bg-muted">
-                      <img src={m.img} alt={m.name} className="h-full w-full object-cover object-center" />
-                    </div>
-                    <div className="min-w-0">
-                      <h3 className="site-card-title">{m.name}</h3>
-                      <p className="mt-1 text-base font-semibold uppercase tracking-[0.12em] text-muted-foreground">{m.title}</p>
-                      {m.title === "Mt. Kulal Tour Guide" && m.details ? (
-                        <p className="mt-2 text-sm text-muted-foreground">
-                          <span className="font-semibold">Contact:</span>{" "}
-                          <span className="font-semibold">{m.details.replace("Contact: ", "")}</span>
-                        </p>
-                      ) : null}
-                    </div>
-                  </div>
+          <Reveal>
+            <span className="site-section-label">Leadership spotlight</span>
+            <h2 className="mt-4 site-section-title max-w-3xl">Those who carry the mandate</h2>
+          </Reveal>
 
-                  <div className="mt-6 flex flex-1 flex-col">
-                    {m.roleDescription ? (
-                      <p className="text-base leading-relaxed text-foreground/80">{m.roleDescription}</p>
-                    ) : null}
-                    {m.details && m.title !== "Mt. Kulal Tour Guide" ? (
-                      <p className="mt-3 text-base text-muted-foreground">{m.details}</p>
-                    ) : null}
-                    {m.quote ? (
-                      <blockquote className="mt-4 border-l-2 border-accent pl-4 text-base italic text-muted-foreground">{m.quote}</blockquote>
-                    ) : null}
+          <div className="mt-16 space-y-16 sm:space-y-24">
+            {leadership.map((m, i) => (
+              <Reveal key={m.name} delay={0.05}>
+                <article
+                  className={`grid items-center gap-10 lg:grid-cols-12 ${
+                    i % 2 ? "lg:[&>figure]:order-2" : ""
+                  }`}
+                >
+                  <figure className="lg:col-span-5">
+                    <div className="relative overflow-hidden rounded-[2rem] border border-border/60 bg-muted shadow-elegant">
+                      <div className="aspect-[4/5] overflow-hidden">
+                        <img
+                          src={m.img}
+                          alt={m.name}
+                          className="h-full w-full object-cover object-center transition-transform duration-[1.6s] hover:scale-105"
+                        />
+                      </div>
+                      <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                        <span className="text-[0.78rem] uppercase tracking-[0.22em] text-accent">{m.title}</span>
+                        <p className="mt-1 font-display text-[1.5rem] leading-tight text-white">{m.name}</p>
+                      </figcaption>
+                    </div>
+                  </figure>
+
+                  <div className="lg:col-span-7">
+                    <span className="site-section-label">{m.title}</span>
+                    <h3 className="mt-3 font-display text-[1.9rem] leading-tight text-foreground sm:text-[2.4rem]">
+                      {m.name}
+                    </h3>
+                    <p className="mt-5 text-[1.06rem] leading-[1.9] text-foreground/80">{m.roleDescription}</p>
+                    {m.bio && (
+                      <p className="mt-4 text-[1.06rem] leading-[1.9] text-foreground/70">{m.bio}</p>
+                    )}
+                    {m.focus && (
+                      <ul className="mt-6 flex flex-wrap gap-2">
+                        {m.focus.map((f) => (
+                          <li
+                            key={f}
+                            className="rounded-full border border-border bg-card px-4 py-2 text-[0.9rem] font-semibold text-foreground/70"
+                          >
+                            {f}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    {m.quote && (
+                      <blockquote className="mt-8 border-l-2 border-accent pl-6 font-display text-[1.25rem] leading-[1.6] italic text-foreground/80 sm:text-[1.45rem]">
+                        {m.quote}
+                      </blockquote>
+                    )}
                   </div>
                 </article>
               </Reveal>
@@ -179,12 +185,88 @@ export function Team() {
         </div>
       </section>
 
-      <section className="bg-background/50 py-20 sm:py-28">
+      {/* Operations */}
+      <section className="bg-muted/50 py-20 sm:py-28">
         <div className="container-x">
           <Reveal>
-            <h2 className="site-section-title">Leading Conservation Through Community</h2>
+            <span className="site-section-label">Office &amp; visitors</span>
+            <h2 className="mt-4 site-section-title max-w-3xl">Where the mountain meets its guests</h2>
+          </Reveal>
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            {operations.map((m, i) => (
+              <Reveal key={m.name} delay={i * 0.07}>
+                <article className="flex h-full flex-col overflow-hidden rounded-3xl border border-border/70 bg-card shadow-card sm:flex-row">
+                  <div className="h-64 w-full shrink-0 overflow-hidden sm:h-auto sm:w-48">
+                    <img src={m.img} alt={m.name} loading="lazy" className="h-full w-full object-cover object-center" />
+                  </div>
+                  <div className="flex flex-1 flex-col p-7">
+                    <span className="text-[0.78rem] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                      {m.title}
+                    </span>
+                    <h3 className="mt-2 site-card-title">{m.name}</h3>
+                    {m.details && <p className="mt-1 text-[0.95rem] font-semibold text-primary">{m.details}</p>}
+                    <p className="mt-4 site-card-copy">{m.roleDescription}</p>
+                    {m.quote && (
+                      <blockquote className="mt-4 border-l-2 border-accent pl-4 text-[0.98rem] italic text-muted-foreground">
+                        {m.quote}
+                      </blockquote>
+                    )}
+                  </div>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Forest guards */}
+      <section className="bg-background py-20 sm:py-28">
+        <div className="container-x">
+          <Reveal>
+            <span className="site-section-label">The forest guards</span>
+            <h2 className="mt-4 site-section-title max-w-3xl">Nine villages, nine pairs of eyes</h2>
+            <p className="mt-5 max-w-2xl site-section-copy">
+              Each guard is chosen by the village they protect. They patrol at dawn, record what they see, and
+              answer to their neighbours before anyone else.
+            </p>
+          </Reveal>
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            {guards.map((m, i) => (
+              <Reveal key={m.name} delay={i * 0.05}>
+                <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-border/70 bg-card shadow-card transition-all hover:-translate-y-1 hover:shadow-elegant">
+                  <div className="aspect-[4/3] overflow-hidden">
+                    <img
+                      src={m.img}
+                      alt={m.name}
+                      loading="lazy"
+                      className="h-full w-full object-cover object-center transition-transform duration-[1.4s] group-hover:scale-110"
+                    />
+                  </div>
+                  <div className="flex flex-1 flex-col p-6">
+                    <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
+                      <h3 className="min-w-0 site-card-title">{m.name}</h3>
+                      <span className="shrink-0 rounded-full bg-accent/15 px-3 py-1 text-[0.78rem] font-semibold uppercase tracking-wider text-primary">
+                        {m.details}
+                      </span>
+                    </div>
+                    <p className="mt-3 site-card-copy">{m.roleDescription}</p>
+                  </div>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-muted/50 py-20 sm:py-28">
+        <div className="container-x">
+          <Reveal>
+            <h2 className="site-section-title max-w-3xl">Leading conservation through community</h2>
             <p className="mt-6 max-w-3xl site-section-copy">
-              Wazee wa Mazingira believes environmental conservation, indigenous knowledge, and cultural heritage are deeply interconnected. Our work is rooted in community participation; convening elders, empowering youth, and collaborating with local stewards to protect Mount Kulal for present and future generations. When communities lead, conservation endures.
+              Wazee wa Mazingira believes environmental conservation, indigenous knowledge and cultural heritage
+              are inseparable. Our work is rooted in community participation: convening elders, empowering youth
+              and collaborating with local stewards to protect Mount Kulal. When communities lead, conservation
+              endures.
             </p>
           </Reveal>
         </div>

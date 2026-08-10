@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X } from "lucide-react";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Reveal } from "./Reveal";
 
 type Item = { src: string; alt: string; tag: "Conservation" | "Community" | "Education" | "Wildlife"; span?: string };
@@ -67,9 +67,26 @@ const tags = ["All", "Conservation", "Community", "Education", "Wildlife"] as co
 
 export function Gallery() {
   const [filter, setFilter] = useState<(typeof tags)[number]>("All");
-  const [lightbox, setLightbox] = useState<Item | null>(null);
+  const [index, setIndex] = useState<number | null>(null);
   const items = useAssets();
   const filtered = items.filter((i) => filter === "All" || i.tag === filter);
+  const lightbox = index === null ? null : filtered[index] ?? null;
+
+  useEffect(() => {
+    if (index === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIndex(null);
+      if (e.key === "ArrowRight") setIndex((v) => (v === null ? v : (v + 1) % filtered.length));
+      if (e.key === "ArrowLeft") setIndex((v) => (v === null ? v : (v - 1 + filtered.length) % filtered.length));
+    };
+    window.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [index, filtered.length]);
+
 
   return (
     <section id="gallery" className="bg-background py-24 sm:py-32">
@@ -104,7 +121,7 @@ export function Gallery() {
 
         <motion.div layout className="mt-12 grid auto-rows-[180px] grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
           <AnimatePresence mode="popLayout">
-            {filtered.map((it) => (
+            {filtered.map((it, i) => (
               <motion.button
                 key={it.src}
                 layout
@@ -112,7 +129,7 @@ export function Gallery() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                onClick={() => setLightbox(it)}
+                onClick={() => setIndex(i)}
                 className={`group relative overflow-hidden rounded-2xl bg-muted ${it.span ?? ""}`}
               >
                 <img src={it.src} alt={it.alt} loading="lazy" className="h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-110" />
@@ -132,29 +149,60 @@ export function Gallery() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setLightbox(null)}
-            className="fixed inset-0 z-[100] grid place-items-center bg-black/90 p-4 backdrop-blur-sm"
+            onClick={() => setIndex(null)}
+            className="fixed inset-0 z-[100] grid place-items-center bg-black/95 p-4 backdrop-blur-sm"
           >
             <button
               aria-label="Close"
-              onClick={() => setLightbox(null)}
-              className="absolute right-4 top-4 grid h-11 w-11 place-items-center rounded-full bg-white/10 text-white hover:bg-white/20"
+              onClick={() => setIndex(null)}
+              className="absolute right-4 top-4 z-10 grid h-11 w-11 place-items-center rounded-full bg-white/10 text-white hover:bg-white/20"
             >
               <X className="h-5 w-5" />
             </button>
-            <motion.img
-              key={lightbox.src}
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              src={lightbox.src}
-              alt={lightbox.alt}
-              className="max-h-[88vh] max-w-[92vw] rounded-2xl object-contain shadow-elegant"
-              onClick={(e) => e.stopPropagation()}
-            />
+            <button
+              aria-label="Previous image"
+              onClick={(e) => { e.stopPropagation(); setIndex((v) => (v === null ? v : (v - 1 + filtered.length) % filtered.length)); }}
+              className="absolute left-3 top-1/2 z-10 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full bg-white/10 text-white hover:bg-white/20 sm:left-6"
+            >
+              <ChevronLeft className="h-6 w-6" />
+            </button>
+            <button
+              aria-label="Next image"
+              onClick={(e) => { e.stopPropagation(); setIndex((v) => (v === null ? v : (v + 1) % filtered.length)); }}
+              className="absolute right-3 top-1/2 z-10 grid h-12 w-12 -translate-y-1/2 place-items-center rounded-full bg-white/10 text-white hover:bg-white/20 sm:right-6"
+            >
+              <ChevronRight className="h-6 w-6" />
+            </button>
+            <AnimatePresence mode="wait">
+              <motion.figure
+                key={lightbox.src}
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 1.02 }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                onClick={(e) => e.stopPropagation()}
+                className="flex max-w-[92vw] flex-col items-center gap-4"
+              >
+                <img
+                  src={lightbox.src}
+                  alt={lightbox.alt}
+                  className="max-h-[80vh] max-w-[92vw] rounded-2xl object-contain shadow-elegant"
+                />
+                <figcaption className="text-center text-[0.95rem] text-white/80">
+                  <span className="mr-3 rounded-full bg-white/10 px-3 py-1 text-[0.78rem] uppercase tracking-wider text-white">
+                    {lightbox.tag}
+                  </span>
+                  {lightbox.alt}
+                  <span className="ml-3 text-white/50">
+                    {(index ?? 0) + 1} / {filtered.length}
+                  </span>
+                </figcaption>
+              </motion.figure>
+            </AnimatePresence>
           </motion.div>
         )}
       </AnimatePresence>
+
     </section>
   );
 }
