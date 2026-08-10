@@ -8,6 +8,7 @@ const links = [
   { href: "/projects", label: "Projects" },
   { href: "/awards", label: "Awards" },
   { href: "/gallery", label: "Gallery" },
+  { href: "/blog", label: "Journal" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -101,6 +102,7 @@ export function Nav() {
             <Link
               key={l.href}
               to={l.href}
+              activeProps={{ className: "text-accent" }}
               className={cn(
                 "site-nav-link transition-colors hover:text-accent",
                 navTextColor,

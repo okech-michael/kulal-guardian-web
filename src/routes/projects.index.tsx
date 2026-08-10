@@ -4,7 +4,7 @@ import { Nav } from "@/components/site/Nav";
 import { Projects } from "@/components/site/Projects";
 import { Footer } from "@/components/site/Footer";
 
-export const Route = createFileRoute("/projects")({
+export const Route = createFileRoute("/projects/")({
   head: () => ({
     meta: [
       { title: "Projects · Wazee wa Mazingira" },
