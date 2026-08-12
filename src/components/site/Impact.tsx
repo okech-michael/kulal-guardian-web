@@ -303,7 +303,7 @@ export function Impact() {
             <div className="lg:col-span-5">
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
                 {[
-                  { k: "Altitude range", v: "600 m — 2,285 m" },
+                  { k: "Altitude range", v: "600 m - 2,285 m" },
                   { k: "Reserve status", v: "UNESCO Biosphere Reserve since 1974" },
                   { k: "Wards covered", v: "Loiyangalani, Gatab & Kargi" },
                   { k: "Guard stations", v: "9 village-nominated forest guards" },

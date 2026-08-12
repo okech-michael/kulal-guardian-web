@@ -74,7 +74,7 @@ export function About() {
                     &ldquo;The mountain feeds us. Now we rise to protect her.&rdquo;
                   </p>
                   <div className="mt-6 text-[1rem] text-primary-foreground/80">
-                    &mdash; A Gabra elder, Mount Kulal
+                    - A Gabra elder, Mount Kulal
                   </div>
                 </div>
               </Reveal>

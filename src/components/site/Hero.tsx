@@ -29,7 +29,7 @@ export function Hero() {
       id="top"
       className="relative h-[100svh] min-h-[660px] w-full overflow-hidden bg-primary"
     >
-      {/* Layer 1 — the mountain */}
+      {/* Layer 1 - the mountain */}
       <motion.div style={{ scale: bgScale, y: bgY }} className="absolute inset-0 will-change-transform">
         <img
           src={hero}
@@ -39,12 +39,12 @@ export function Hero() {
         />
       </motion.div>
 
-      {/* Layer 2 — atmosphere: mist, sunlight, particles */}
+      {/* Layer 2 - atmosphere: mist, sunlight, particles */}
       <motion.div style={{ y: midY }} className="absolute inset-0 will-change-transform">
         <Atmosphere particles={22} />
       </motion.div>
 
-      {/* Layer 3 — foreground canopy silhouette for depth */}
+      {/* Layer 3 - foreground canopy silhouette for depth */}
       <motion.div
         style={{ y: fgY }}
         className="pointer-events-none absolute -bottom-16 left-0 right-0 h-[42%] will-change-transform"
@@ -93,7 +93,7 @@ export function Hero() {
               transition={{ duration: 0.9, delay: 0.6 }}
               className="mt-7 max-w-2xl text-[1.06rem] leading-[1.8] text-white/85 sm:mt-8 sm:text-[1.18rem]"
             >
-              For over fifty years, Wazee wa Mazingira &mdash; the Elders of the Environment &mdash;
+              For over fifty years, Wazee wa Mazingira, the Elders of the Environment,
               have guarded the cloud forest of Mount Kulal: its springs, its wildlife, and the
               pastoralist cultures that have read this landscape for generations. This is their story.
             </motion.p>

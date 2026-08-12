@@ -39,7 +39,7 @@ export const projects: Project[] = [
     cover: youth,
     location: "Gatab, Arapal & Larachi, Mount Kulal",
     status: "Ongoing",
-    years: "2019 — present",
+    years: "2019 - present",
     partners: ["Kenya Forest Service", "Marsabit County Government", "Village women's groups"],
     challenge: [
       "Mount Kulal's cloud forest is an isolated island of moisture in one of Kenya's driest counties. It feeds the springs that sustain thousands of pastoralist households, yet decades of charcoal burning, fuelwood harvesting and prolonged drought have thinned its canopy along the lower slopes.",
@@ -87,7 +87,7 @@ export const projects: Project[] = [
     cover: officeLaunch,
     location: "Gatab Town, Mount Kulal",
     status: "Completed",
-    years: "2024 — 2025",
+    years: "2024 - 2025",
     partners: ["Marsabit County Government", "Local business community"],
     challenge: [
       "For years Wazee wa Mazingira operated from under a tree. Records were kept in members' homes, visiting partners had nowhere to meet, and reporting relied on whoever happened to be travelling to Marsabit town with a phone signal.",
@@ -131,11 +131,11 @@ export const projects: Project[] = [
     cover: wildlife,
     location: "Mount Kulal ecosystem, Marsabit County",
     status: "Scaling",
-    years: "2021 — present",
+    years: "2021 - present",
     partners: ["National Museums of Kenya", "Community ranger network"],
     challenge: [
       "Mount Kulal is a UNESCO Biosphere Reserve, yet almost no continuous wildlife data existed for the massif. Conservation decisions were being made on the strength of anecdote and decade-old surveys.",
-      "Professional survey teams are expensive and visit rarely. The people who walk these slopes daily — herders, guards and guides — held the observations, but had no way to record them.",
+      "Professional survey teams are expensive and visit rarely. The people who walk these slopes daily, herders, guards and guides, held the observations, but had no way to record them.",
     ],
     activities: [
       { title: "Ranger training", body: "Community rangers trained in transect walking, species identification and standardised data forms." },
@@ -177,7 +177,7 @@ export const projects: Project[] = [
     cover: education,
     location: "Loiyangalani, Gatab & Kargi wards",
     status: "Ongoing",
-    years: "2018 — present",
+    years: "2018 - present",
     partners: ["School boards", "Ministry of Education (county office)"],
     challenge: [
       "Children in Kulal grow up surrounded by one of Kenya's rarest ecosystems, yet the syllabus they study describes forests they will never visit and rivers that do not exist here.",
@@ -222,10 +222,10 @@ export const projects: Project[] = [
     cover: elders,
     location: "Mount Kulal & surrounding settlements",
     status: "Ongoing",
-    years: "2016 — present",
+    years: "2016 - present",
     partners: ["Community elders' councils", "Cultural heritage researchers"],
     challenge: [
-      "The management rules that kept Mount Kulal intact for generations were never written down. They live in the memory of elders — grazing rotations, sacred groves, taboos on felling certain species near water.",
+      "The management rules that kept Mount Kulal intact for generations were never written down. They live in the memory of elders, grazing rotations, sacred groves, taboos on felling certain species near water.",
       "As that generation passes, the risk is not only cultural loss but practical loss: conservation plans drawn up without this knowledge repeatedly failed on the ground.",
     ],
     activities: [

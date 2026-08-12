@@ -24,7 +24,7 @@ export function MountKulal() {
               The Sacred Mountain
             </span>
             <h2 className="site-section-title text-white">
-              Mount Kulal &mdash; a living biosphere reserve.
+              Mount Kulal, a living biosphere reserve.
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
@@ -39,7 +39,7 @@ export function MountKulal() {
           <Reveal delay={0.2}>
             <p className="mt-5 text-[1.01rem] leading-[1.8] text-white/75">
               For the Gabra, Rendille, Turkana, Elmolo and Samburu peoples, Kulal is sacred
-              ground &mdash; the source of life, story, and identity. Protecting it is not an
+              ground, the source of life, story, and identity. Protecting it is not an
               environmental choice; it is a cultural inheritance.
             </p>
           </Reveal>
