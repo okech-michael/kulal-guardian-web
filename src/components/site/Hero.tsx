@@ -68,15 +68,6 @@ export function Hero() {
       >
         <div className="container-x">
           <div className="max-w-3xl">
-            <motion.span
-              initial={mounted ? { opacity: 0, y: 14 } : undefined}
-              animate={mounted ? { opacity: 1, y: 0 } : undefined}
-              transition={{ duration: 0.9, delay: 0.15 }}
-              className="inline-flex max-w-full flex-wrap items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-[0.78rem] font-semibold uppercase tracking-[0.24em] text-white/90 backdrop-blur-md"
-            >
-              UNESCO Biosphere Reserve · Marsabit, Kenya
-            </motion.span>
-
             <motion.h1
               initial={mounted ? { opacity: 0, y: 30, filter: "blur(12px)" } : undefined}
               animate={mounted ? { opacity: 1, y: 0, filter: "blur(0px)" } : undefined}
