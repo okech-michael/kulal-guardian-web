@@ -18,8 +18,8 @@ import education from "@/assets/education.jpeg";
 export function OurStory() {
   const { ref, y } = useParallax(["14%", "-14%"]);
   return (
-    <section className="relative overflow-hidden bg-background py-24 sm:py-32">
-      <div className="container-x grid gap-14 lg:grid-cols-12 lg:items-center lg:gap-20">
+    <section className="relative overflow-hidden bg-background py-16 sm:py-24">
+      <div className="container-x grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
         <div className="lg:col-span-6">
           <Reveal>
             <span className="site-section-label">Chapter One - Our Story</span>
@@ -48,7 +48,7 @@ export function OurStory() {
           <Reveal delay={0.3}>
             <Link
               to="/about"
-              className="group mt-9 inline-flex items-center gap-2 text-[0.98rem] font-semibold text-primary"
+              className="group mt-6 inline-flex items-center gap-2 text-[0.98rem] font-semibold text-primary"
             >
               Read the full history
               <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
@@ -85,7 +85,7 @@ export function SpiritOfTheMountain() {
   return (
     <section className="relative bg-primary text-primary-foreground">
       <SectionCurve fill="text-background" flip />
-      <div className="container-x pt-8 pb-16 sm:pb-20">
+      <div className="container-x pt-6 pb-10 sm:pb-12">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal>
             <span className="site-section-label">Chapter Two - The Mountain</span>
@@ -112,7 +112,7 @@ export function SpiritOfTheMountain() {
         caption="Mount Kulal at first light - a forested island in a sea of desert."
       />
 
-      <div className="container-x py-20 sm:py-24">
+      <div className="container-x py-12 sm:py-16">
         <dl className="grid grid-cols-2 gap-8 border-t border-white/15 pt-10 lg:grid-cols-4">
           {[
             { k: "2,335 m", v: "Peak elevation" },
@@ -141,7 +141,7 @@ export function Communities() {
     { name: "El Molo", note: "Kenya's smallest Indigenous community, guardians of the lake shoreline." },
   ];
   return (
-    <section className="relative overflow-hidden bg-background py-24 sm:py-32">
+    <section className="relative overflow-hidden bg-background py-16 sm:py-24">
       <div className="container-x">
         <div className="max-w-2xl">
           <Reveal><span className="site-section-label">Chapter Three - The Communities</span></Reveal>
@@ -154,7 +154,7 @@ export function Communities() {
           </BlurReveal>
         </div>
 
-        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {peoples.map((p, i) => (
             <Reveal key={p.name} delay={i * 0.07}>
               <article className="group h-full rounded-[1.6rem] border border-border/70 bg-card p-7 shadow-card transition-all duration-500 hover:-translate-y-1.5 hover:shadow-elegant">
@@ -188,8 +188,8 @@ export function Biodiversity() {
     { Icon: Users, t: "Livelihoods", d: "Honey, herbs, pasture and tourism income all begin under the canopy." },
   ];
   return (
-    <section className="relative overflow-hidden bg-muted py-24 sm:py-32">
-      <div className="container-x grid gap-14 lg:grid-cols-12 lg:gap-20">
+    <section className="relative overflow-hidden bg-muted py-16 sm:py-24">
+      <div className="container-x grid gap-10 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-5">
           <Reveal><span className="site-section-label">Chapter Four - Biodiversity</span></Reveal>
           <WordReveal as="h2" text="A forest is a water system wearing leaves." className="site-section-title" />
@@ -216,7 +216,7 @@ export function Biodiversity() {
           </div>
         </div>
       </div>
-      <div className="mt-20">
+      <div className="mt-8">
         <PanoramaStrip src={wildlife} alt="Wildlife of the Mount Kulal biosphere reserve" />
       </div>
     </section>
@@ -234,7 +234,7 @@ export function ConservationJourney() {
     { year: "2023", t: "International prize", d: "UNESCO-Greece Melina Mercouri International Prize honours the movement's cultural landscape work." },
   ];
   return (
-    <section className="relative overflow-hidden bg-primary py-24 text-primary-foreground sm:py-32">
+    <section className="relative overflow-hidden bg-primary py-12 sm:py-16 text-primary-foreground">
       <div className="container-x">
         <div className="max-w-2xl">
           <Reveal><span className="site-section-label">Chapter Five - The Journey</span></Reveal>
@@ -248,7 +248,7 @@ export function ConservationJourney() {
           </BlurReveal>
         </div>
 
-        <ol className="relative mt-16 space-y-10 border-l border-white/20 pl-7 sm:pl-10">
+        <ol className="relative mt-8 space-y-7 border-l border-white/20 pl-7 sm:pl-10">
           {milestones.map((m, i) => (
             <motion.li
               key={m.year}
@@ -274,8 +274,8 @@ export function ConservationJourney() {
 export function UnescoRecognition() {
   const { ref, y } = useParallax(["10%", "-10%"]);
   return (
-    <section className="relative overflow-hidden bg-background py-24 sm:py-32">
-      <div className="container-x grid gap-14 lg:grid-cols-12 lg:items-center lg:gap-20">
+    <section className="relative overflow-hidden bg-background py-16 sm:py-24">
+      <div className="container-x grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
         <div ref={ref} className="order-2 lg:order-1 lg:col-span-6">
           <motion.div style={{ y }} className="overflow-hidden rounded-[2rem] shadow-elegant will-change-transform">
             <img src={winners} alt="Wazee wa Mazingira representatives receiving international recognition" loading="lazy" className="aspect-[5/4] w-full object-cover" />
@@ -293,7 +293,7 @@ export function UnescoRecognition() {
             </p>
           </BlurReveal>
           <Reveal delay={0.2}>
-            <Link to="/awards" className="group mt-8 inline-flex items-center gap-2 text-[0.98rem] font-semibold text-primary">
+            <Link to="/awards" className="group mt-6 inline-flex items-center gap-2 text-[0.98rem] font-semibold text-primary">
               See the recognition
               <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
             </Link>
@@ -313,14 +313,14 @@ export function ImpactBand() {
     { n: 12, s: "", l: "Springs protected and restored" },
   ];
   return (
-    <section className="relative overflow-hidden bg-earth py-20 text-earth-foreground sm:py-28">
+    <section className="relative overflow-hidden bg-earth py-16 sm:py-24 text-earth-foreground">
       <div className="container-x">
         <Reveal>
           <h2 className="max-w-2xl font-display text-[2rem] leading-tight sm:text-[2.6rem]">
             The measurable side of a fifty-year promise.
           </h2>
         </Reveal>
-        <div className="mt-14 grid grid-cols-2 gap-10 lg:grid-cols-4">
+        <div className="mt-10 grid grid-cols-2 gap-10 lg:grid-cols-4">
           {stats.map((s, i) => (
             <Reveal key={s.l} delay={i * 0.08}>
               <div>
@@ -354,8 +354,8 @@ export function TheYouth() {
         caption="Youth scouts planting indigenous seedlings above Gatab."
         height="h-[60svh] md:h-[86svh]"
       />
-      <div className="container-x py-20 sm:py-28">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-20">
+      <div className="container-x py-16 sm:py-24">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
             <Reveal><span className="site-section-label">Chapter Seven - The Youth</span></Reveal>
             <WordReveal as="h2" text="The next fifty years are already being trained." className="site-section-title" />
@@ -377,7 +377,7 @@ export function TheYouth() {
               </p>
             </BlurReveal>
             <Reveal delay={0.25}>
-              <Link to="/register" className="site-button-primary mt-9">
+              <Link to="/register" className="site-button-primary mt-7">
                 Join the youth programme <ArrowRight className="h-4 w-4" />
               </Link>
             </Reveal>
@@ -392,7 +392,7 @@ export function TheYouth() {
 export function LatestStories() {
   const featured = posts.slice(0, 3);
   return (
-    <section className="relative overflow-hidden bg-muted py-24 sm:py-32">
+    <section className="relative overflow-hidden bg-muted py-16 sm:py-24">
       <div className="container-x">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="max-w-xl">
@@ -407,7 +407,7 @@ export function LatestStories() {
           </Reveal>
         </div>
 
-        <div className="mt-14 grid gap-7 md:grid-cols-3">
+        <div className="mt-10 grid gap-7 md:grid-cols-3">
           {featured.map((p, i) => (
             <Reveal key={p.slug} delay={i * 0.08}>
               <Link
@@ -437,14 +437,14 @@ export function LatestStories() {
 export function Partners() {
   const names = ["UNESCO", "Man and the Biosphere", "Kenya Forest Service", "Marsabit County", "NEMA Kenya", "Community Trust Fund"];
   return (
-    <section className="border-y border-border/60 bg-background py-16">
+    <section className="border-y border-border/60 bg-background py-12">
       <div className="container-x">
         <Reveal>
           <p className="text-center text-[0.78rem] font-semibold uppercase tracking-[0.28em] text-muted-foreground">
             Working alongside
           </p>
         </Reveal>
-        <div className="mt-9 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="mt-6 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
           {names.map((n, i) => (
             <Reveal key={n} delay={i * 0.05}>
               <div className="grid h-16 place-items-center rounded-xl border border-border/60 bg-card px-4 text-center font-display text-[0.98rem] text-foreground/70 transition-colors duration-300 hover:text-primary">

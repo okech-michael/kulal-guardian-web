@@ -17,7 +17,7 @@ export function MountKulal() {
         <div className="absolute inset-0 bg-gradient-to-b from-primary/70 via-primary/40 to-primary" />
       </motion.div>
 
-      <div className="container-x relative grid gap-12 py-28 sm:py-36 lg:grid-cols-12 lg:gap-16">
+      <div className="container-x relative grid gap-12 py-16 sm:py-20 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-6">
           <Reveal>
             <span className="site-section-label">

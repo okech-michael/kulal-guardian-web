@@ -18,7 +18,7 @@ export function Testimonials() {
   }, []);
 
   return (
-    <section className="bg-muted/60 py-24 sm:py-32">
+    <section className="bg-muted/60 py-16 sm:py-20">
       <div className="container-x">
         <Reveal>
           <div className="mx-auto max-w-3xl text-center">
@@ -32,7 +32,7 @@ export function Testimonials() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <div className="relative mx-auto mt-14 max-w-3xl">
+          <div className="relative mx-auto mt-10 max-w-3xl">
             <div className="relative min-h-[280px] sm:min-h-[240px]">
               <AnimatePresence mode="wait">
                 <motion.figure

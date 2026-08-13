@@ -4,7 +4,7 @@ import { Leaf, Facebook, Twitter } from "lucide-react";
 export function Footer() {
   return (
     <footer className="bg-primary text-primary-foreground">
-      <div className="container-x py-16">
+      <div className="container-x py-12">
         <div className="grid gap-10 md:grid-cols-12">
           <div className="md:col-span-5">
             <Link to="/" className="inline-flex items-center gap-3 font-display text-[1.24rem] sm:text-[1.35rem]">

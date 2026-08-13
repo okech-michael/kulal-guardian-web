@@ -5,9 +5,9 @@ import elders from "@/assets/community-elders.jpeg";
 
 export function About() {
   return (
-    <section id="about" className="relative bg-background py-24 sm:py-32">
+    <section id="about" className="relative bg-background py-12 sm:py-16">
       <div className="container-x">
-        <div className="grid gap-16 lg:grid-cols-12 lg:gap-20">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
             <Reveal>
               <span className="site-section-label">
@@ -35,7 +35,7 @@ export function About() {
               </p>
             </Reveal>
 
-            <div className="mt-10 grid gap-5 sm:grid-cols-1">
+            <div className="mt-8 grid gap-5 sm:grid-cols-1">
               {[
                 { icon: Target, title: "Our Mission", body: "To protect the ecological integrity of Mount Kulal and empower communities to lead sustainable, dignified lives." },
                 { icon: Compass, title: "Our Vision", body: "A thriving, resilient Mount Kulal ecosystem stewarded by empowered communities for generations to come." },

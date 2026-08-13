@@ -7,7 +7,7 @@ export function Projects() {
   const [lead, ...rest] = projects;
 
   return (
-    <section id="projects" className="bg-background py-24 sm:py-32">
+    <section id="projects" className="bg-background py-12 sm:py-16">
       <div className="container-x">
         <Reveal>
           <span className="site-section-label">Projects &amp; Programs</span>
@@ -20,7 +20,7 @@ export function Projects() {
           <Link
             to="/projects/$slug"
             params={{ slug: lead.slug }}
-            className="group mt-14 grid overflow-hidden rounded-[2rem] border border-border/70 bg-card shadow-card transition-all hover:-translate-y-1 hover:shadow-elegant lg:grid-cols-2"
+            className="group mt-8 grid overflow-hidden rounded-[2rem] border border-border/70 bg-card shadow-card transition-all hover:-translate-y-1 hover:shadow-elegant lg:grid-cols-2"
           >
             <div className="relative aspect-[16/11] overflow-hidden lg:aspect-auto lg:min-h-[26rem]">
               <img
@@ -56,7 +56,7 @@ export function Projects() {
           </Link>
         </Reveal>
 
-        <div className="mt-8 grid gap-6 md:grid-cols-2">
+        <div className="mt-6 grid gap-6 md:grid-cols-2">
           {rest.map((p, i) => (
             <Reveal key={p.slug} delay={i * 0.07}>
               <Link
