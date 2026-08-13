@@ -27,7 +27,7 @@ export function Hero() {
     <section
       ref={ref}
       id="top"
-      className="relative h-[100svh] min-h-[660px] w-full overflow-hidden bg-primary"
+      className="relative h-[88svh] min-h-[540px] w-full overflow-hidden bg-primary"
     >
       {/* Layer 1 - the mountain */}
       <motion.div style={{ scale: bgScale, y: bgY }} className="absolute inset-0 will-change-transform">
@@ -64,7 +64,7 @@ export function Hero() {
 
       <motion.div
         style={{ opacity, y: contentY }}
-        className="relative z-10 flex h-full items-end pb-24 sm:pb-28 md:items-center md:pb-0"
+        className="relative z-10 flex h-full items-end pb-12 sm:pb-16 md:items-center md:pb-0"
       >
         <div className="container-x">
           <div className="max-w-3xl">
@@ -72,7 +72,7 @@ export function Hero() {
               initial={mounted ? { opacity: 0, y: 30, filter: "blur(12px)" } : undefined}
               animate={mounted ? { opacity: 1, y: 0, filter: "blur(0px)" } : undefined}
               transition={{ duration: 1.2, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-6 font-display text-[2.3rem] leading-[1.03] text-white text-balance sm:mt-8 sm:text-[3rem] md:text-[3.8rem] lg:text-[4.4rem]"
+              className="mt-4 font-display text-[2.2rem] leading-[1.04] text-white text-balance sm:mt-6 sm:text-[2.8rem] md:text-[3.4rem] lg:text-[4.1rem]"
             >
               A mountain that makes rain.<br />
               A people who <span className="italic text-accent">keep it alive</span>.
@@ -82,7 +82,7 @@ export function Hero() {
               initial={mounted ? { opacity: 0, y: 20 } : undefined}
               animate={mounted ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 0.9, delay: 0.6 }}
-              className="mt-7 max-w-2xl text-[1.06rem] leading-[1.8] text-white/85 sm:mt-8 sm:text-[1.18rem]"
+              className="mt-5 max-w-2xl text-[1.02rem] leading-[1.7] text-white/85 sm:mt-6 sm:text-[1.1rem]"
             >
               For over fifty years, Wazee wa Mazingira, the Elders of the Environment,
               have guarded the cloud forest of Mount Kulal: its springs, its wildlife, and the
@@ -93,7 +93,7 @@ export function Hero() {
               initial={mounted ? { opacity: 0, y: 20 } : undefined}
               animate={mounted ? { opacity: 1, y: 0 } : undefined}
               transition={{ duration: 0.9, delay: 0.8 }}
-              className="mt-8 flex flex-col items-stretch gap-2.5 sm:mt-9 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3"
+              className="mt-6 flex flex-col items-stretch gap-2.5 sm:mt-7 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3"
             >
               <button
                 onClick={() => window.dispatchEvent(new Event("openDonationModal"))}

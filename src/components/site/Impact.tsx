@@ -125,7 +125,7 @@ export function Impact() {
       </section>
 
       {/* Animated statistics */}
-      <section className="bg-background pb-16 pt-16 sm:pb-20 sm:pt-20">
+      <section className="bg-background pb-12 pt-12 sm:pb-16 sm:pt-16">
         <div className="container-x">
           <Reveal>
             <div className="grid gap-y-10 gap-x-6 rounded-[2rem] bg-primary px-6 py-12 text-primary-foreground shadow-elegant sm:grid-cols-2 sm:px-10 lg:grid-cols-4">
@@ -145,13 +145,13 @@ export function Impact() {
       </section>
 
       {/* Pillars */}
-      <section className="bg-background py-16 sm:py-20">
+      <section className="bg-background py-12 sm:py-16">
         <div className="container-x">
           <Reveal>
             <span className="site-section-label">Six pillars</span>
             <h2 className="mt-4 site-section-title max-w-3xl">How the work is organised</h2>
           </Reveal>
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {pillars.map((p, i) => (
               <Reveal key={p.title} delay={i * 0.06}>
                 <div className="group relative h-full overflow-hidden rounded-3xl border border-border/70 bg-card p-7 transition-all duration-500 hover:-translate-y-1 hover:border-accent/40 hover:shadow-elegant">
@@ -217,7 +217,7 @@ export function Impact() {
             <h2 className="mt-4 site-section-title max-w-3xl">An interactive history of the mountain</h2>
           </Reveal>
 
-          <div className="mt-12 -mx-4 overflow-x-auto px-4 pb-2">
+          <div className="mt-8 -mx-4 overflow-x-auto px-4 pb-2">
             <div className="relative flex min-w-max items-center gap-3">
               <div className="absolute inset-x-0 top-1/2 h-px bg-border" aria-hidden="true" />
               {timeline.map((t, i) => (

@@ -89,7 +89,7 @@ export function Gallery() {
 
 
   return (
-    <section id="gallery" className="bg-background py-24 sm:py-32">
+    <section id="gallery" className="bg-background py-12 sm:py-16">
       <div className="container-x">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <Reveal>
@@ -119,7 +119,7 @@ export function Gallery() {
           </Reveal>
         </div>
 
-        <motion.div layout className="mt-12 grid auto-rows-[180px] grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
+        <motion.div layout className="mt-10 grid auto-rows-[180px] grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
           <AnimatePresence mode="popLayout">
             {filtered.map((it, i) => (
               <motion.button

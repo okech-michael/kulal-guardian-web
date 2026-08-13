@@ -56,10 +56,10 @@ export function Awards() {
   return (
     <main>
       {/* Hero */}
-      <section className="relative min-h-[70svh] overflow-hidden">
+      <section className="relative min-h-[62svh] overflow-hidden">
         <img src={hero} alt="Mount Kulal at dawn" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/40 to-background" />
-        <div className="container-x relative flex min-h-[70svh] flex-col justify-end pb-20 pt-40">
+        <div className="container-x relative flex min-h-[62svh] flex-col justify-end pb-12 pt-24">
           <Reveal>
             <span className="site-section-label text-accent">Awards &amp; recognition</span>
           </Reveal>
@@ -124,7 +124,7 @@ export function Awards() {
       </section>
 
       {/* UNESCO storytelling */}
-      <section className="bg-muted/50 py-20 sm:py-28">
+      <section className="bg-muted/50 py-12 sm:py-16">
         <div className="container-x grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <Reveal>
