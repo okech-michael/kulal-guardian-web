@@ -33,106 +33,116 @@ export function Nav() {
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-500",
         isTransparent
-          ? "bg-transparent py-5"
-          : "bg-background/85 backdrop-blur-xl border-b border-border/60 py-3",
+          ? "bg-transparent"
+          : "bg-background/85 backdrop-blur-xl border-b border-border/60",
       )}
     >
-      <div className="container-x flex flex-wrap items-center justify-between gap-4">
-        <Link
-          to="/"
-          className={cn(
-            "flex flex-1 min-w-0 items-center gap-3 font-display text-xl tracking-tight transition-colors",
-            navTextColor,
-          )}
-        >
-          <span className="relative h-14 w-14 flex-shrink-0 overflow-hidden rounded-full border border-white/20 bg-white/5">
-            <img src="/logo.png" alt="Wazee wa Mazingira logo" className="h-full w-full object-cover" />
-          </span>
-          <span className="min-w-0 text-[1.15rem] leading-tight whitespace-normal break-words sm:text-[1.35rem] sm:leading-snug">
-            Wazee wa Mazingira
-          </span>
-        </Link>
-
-        <nav className="hidden lg:flex items-center gap-7 text-[1rem] font-semibold">
+      {/* Main navigation row */}
+      <div className={cn(
+        "transition-all duration-500",
+        isTransparent ? "py-4 sm:py-5" : "py-3 sm:py-3"
+      )}>
+        <div className="container-x flex items-center justify-between gap-4">
+          {/* Brand section - fixed width, no flex-grow */}
           <Link
             to="/"
             className={cn(
-              "site-nav-link transition-colors hover:text-accent",
+              "flex items-center gap-3 font-display text-xl tracking-tight transition-colors flex-shrink-0",
               navTextColor,
             )}
           >
-            Home
+            <span className="relative h-12 w-12 sm:h-14 sm:w-14 overflow-hidden rounded-full border border-white/20 bg-white/5">
+              <img src="/logo.png" alt="Wazee wa Mazingira logo" className="h-full w-full object-cover" />
+            </span>
+            <span className="hidden sm:block text-[1.15rem] sm:text-[1.35rem] leading-snug font-display">
+              Wazee wa Mazingira
+            </span>
           </Link>
-          <div className="relative">
-            <button
-              type="button"
-              aria-haspopup="menu"
-              aria-expanded={aboutOpen}
-              onMouseEnter={() => setAboutOpen(true)}
-              onMouseLeave={() => setAboutOpen(false)}
-              className={cn(
-                "site-nav-link inline-flex items-center rounded-md bg-transparent px-2 py-1 text-inherit transition-colors hover:text-accent hover:bg-accent/10",
-                navTextColor,
-              )}
-            >
-              About
-            </button>
-            {aboutOpen && (
-              <div
-                onMouseEnter={() => setAboutOpen(true)}
-                onMouseLeave={() => setAboutOpen(false)}
-                className="absolute left-0 top-[calc(100%_-_3px)] z-50 min-w-[180px] overflow-hidden rounded-2xl border border-border bg-background/95 p-1 shadow-card"
-              >
-                <Link
-                  to="/team"
-                  className="block rounded-lg px-4 py-2 text-sm text-foreground transition-colors hover:bg-accent/10 hover:text-accent-foreground"
-                >
-                  Team
-                </Link>
-                <Link
-                  to="/mount-kulal"
-                  className="mt-1 block rounded-lg px-4 py-2 text-sm text-foreground transition-colors hover:bg-accent/10 hover:text-accent-foreground"
-                >
-                  Mount Kulal
-                </Link>
-              </div>
-            )}
-          </div>
-          {links.map((l) => (
+
+          {/* Desktop navigation - grows to fill available space */}
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-[1rem] font-semibold flex-1">
             <Link
-              key={l.href}
-              to={l.href}
-              activeProps={{ className: "text-accent" }}
+              to="/"
               className={cn(
                 "site-nav-link transition-colors hover:text-accent",
                 navTextColor,
               )}
             >
-              {l.label}
+              Home
             </Link>
-          ))}
-        </nav>
+            <div className="relative">
+              <button
+                type="button"
+                aria-haspopup="menu"
+                aria-expanded={aboutOpen}
+                onMouseEnter={() => setAboutOpen(true)}
+                onMouseLeave={() => setAboutOpen(false)}
+                className={cn(
+                  "site-nav-link inline-flex items-center rounded-md bg-transparent px-2 py-1 text-inherit transition-colors hover:text-accent hover:bg-accent/10",
+                  navTextColor,
+                )}
+              >
+                About
+              </button>
+              {aboutOpen && (
+                <div
+                  onMouseEnter={() => setAboutOpen(true)}
+                  onMouseLeave={() => setAboutOpen(false)}
+                  className="absolute left-0 top-[calc(100%_-_3px)] z-50 min-w-[180px] overflow-hidden rounded-2xl border border-border bg-background/95 p-1 shadow-card"
+                >
+                  <Link
+                    to="/team"
+                    className="block rounded-lg px-4 py-2 text-sm text-foreground transition-colors hover:bg-accent/10 hover:text-accent-foreground"
+                  >
+                    Team
+                  </Link>
+                  <Link
+                    to="/mount-kulal"
+                    className="mt-1 block rounded-lg px-4 py-2 text-sm text-foreground transition-colors hover:bg-accent/10 hover:text-accent-foreground"
+                  >
+                    Mount Kulal
+                  </Link>
+                </div>
+              )}
+            </div>
+            {links.map((l) => (
+              <Link
+                key={l.href}
+                to={l.href}
+                activeProps={{ className: "text-accent" }}
+                className={cn(
+                  "site-nav-link transition-colors hover:text-accent",
+                  navTextColor,
+                )}
+              >
+                {l.label}
+              </Link>
+            ))}
+          </nav>
 
-        <div className="flex items-center gap-2">
-          <Link
-            to="/register"
-            className="hidden sm:inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-[0.98rem] font-semibold text-accent-foreground transition-transform hover:scale-105"
-          >
-            Join Us
-          </Link>
-          <button
-            onClick={() => setOpen((v) => !v)}
-            aria-label="Toggle menu"
-            className={cn(
-              "lg:hidden grid h-10 w-10 place-items-center rounded-full",
-              isTransparent ? "text-white hover:bg-white/10" : "text-foreground hover:bg-muted",
-            )}
-          >
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+          {/* CTA and menu button - fixed size, no shrink */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <Link
+              to="/register"
+              className="hidden sm:inline-flex items-center justify-center rounded-full bg-accent px-5 sm:px-6 py-2.5 sm:py-3 text-[0.95rem] sm:text-[0.98rem] font-semibold text-accent-foreground transition-transform hover:scale-105"
+            >
+              Join Us
+            </Link>
+            <button
+              onClick={() => setOpen((v) => !v)}
+              aria-label="Toggle menu"
+              className={cn(
+                "lg:hidden grid h-10 w-10 place-items-center rounded-full",
+                isTransparent ? "text-white hover:bg-white/10" : "text-foreground hover:bg-muted",
+              )}
+            >
+              {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
       </div>
 
+      {/* Mobile menu */}
       {open && (
         <div className="lg:hidden border-t border-border/60 bg-background/95 backdrop-blur-xl animate-fade-in">
           <nav className="container-x flex flex-col py-4">
@@ -176,6 +186,15 @@ export function Nav() {
                 {l.label}
               </Link>
             ))}
+            <div className="border-t border-border/40 mt-4 pt-4">
+              <Link
+                to="/register"
+                onClick={() => setOpen(false)}
+                className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-[0.98rem] font-semibold text-accent-foreground transition-transform hover:scale-105"
+              >
+                Join Us
+              </Link>
+            </div>
           </nav>
         </div>
       )}
