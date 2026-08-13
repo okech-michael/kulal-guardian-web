@@ -25,7 +25,7 @@ export const posts: Post[] = [
     title: "The forest that makes rain",
     category: "Conservation",
     excerpt:
-      "On Mount Kulal, the cloud forest does not wait for rain — it harvests it from the air. Understanding that single fact explains almost everything about why this mountain must be protected.",
+      "On Mount Kulal, the cloud forest does not wait for rain, it harvests it from the air. Understanding that single fact explains almost everything about why this mountain must be protected.",
     date: "12 March 2025",
     readingTime: 9,
     author: "Wazee wa Mazingira",
@@ -41,13 +41,13 @@ The mechanism is called occult precipitation, and it is one of the quieter mirac
 
 A mature cloud forest can deliver more water to the ground this way than the rain gauge ever records. On Kulal, elders describe entire dry seasons where the sky gave nothing and the springs still ran. The forest was doing the work.
 
-> "The rain comes from the trees. When you cut the trees, you are not clearing land — you are closing a tap." — a Samburu elder, Gatab
+> "The rain comes from the trees. When you cut the trees, you are not clearing land, you are closing a tap." — a Samburu elder, Gatab
 
 ## Why the canopy is not decoration
 
 This is the part that outside planners have historically found hardest to accept. A forest that captures mist only works if it retains its structure. The tall emergent trees intercept the highest moisture. The middle canopy holds humidity long enough for condensation to continue after the mist has passed. The understorey and leaf litter slow the water so it soaks into volcanic soil rather than sheeting off the slope.
 
-Remove any one layer and the system degrades disproportionately. Selective logging of the largest trees — historically the most commercially attractive activity — removes precisely the layer doing the most atmospheric work. A forest can look intact from a distance while its water function has already collapsed.
+Remove any one layer and the system degrades disproportionately. Selective logging of the largest trees, historically the most commercially attractive activity, removes precisely the layer doing the most atmospheric work. A forest can look intact from a distance while its water function has already collapsed.
 
 ## What the springs mean downslope
 
@@ -60,7 +60,7 @@ This is why we describe forest protection here as drought infrastructure rather 
 Protecting the water function of Kulal comes down to unglamorous, repeated tasks:
 
 - Walking the forest boundary and recording new cutting, encroachment and fire scars.
-- Raising indigenous seedlings — *Juniperus procera*, *Olea europaea* subsp. *cuspidata*, *Podocarpus falcatus* — in community nurseries rather than importing fast-growing exotics that drink more than they give.
+- Raising indigenous seedlings, *Juniperus procera*, *Olea europaea* subsp. *cuspidata*, *Podocarpus falcatus*, in community nurseries rather than importing fast-growing exotics that drink more than they give.
 - Negotiating grazing calendars so that highland pastures rest during regeneration windows.
 - Protecting spring eyes with fencing and vegetated buffers so livestock cannot trample the source.
 - Training young people to do all of the above, so that the knowledge outlives the people who hold it.
@@ -91,7 +91,7 @@ There is no founding document. There is no launch photograph. What exists instea
 
 ## The problem the elders named
 
-By the late 1960s the pattern was clear to anyone who moved livestock seasonally. Water points that had been reliable within living memory were becoming unreliable. The obvious explanations — poor rains, more animals — were true but incomplete. The elders who would become Wazee wa Mazingira added a third: the forest above the springs was thinning.
+By the late 1960s the pattern was clear to anyone who moved livestock seasonally. Water points that had been reliable within living memory were becoming unreliable. The obvious explanations, poor rains and more animals, were true but incomplete. The elders who would become Wazee wa Mazingira added a third: the forest above the springs was thinning.
 
 That observation required no scientific instrument. It required a lifetime of walking the same paths and the cultural habit of comparing what you see now with what your grandparents described.
 
@@ -112,7 +112,7 @@ Compliance was not perfect. It never is. But it was high enough, for long enough
 
 In 1979, Mount Kulal was designated a UNESCO Biosphere Reserve under the Man and the Biosphere programme. From the outside, this looked like an international body conferring status on a place. From the inside, it looked like confirmation of an argument the elders had been making for a decade: that this landscape was exceptional, and that its exceptional character was inseparable from the people living in it.
 
-Biosphere reserves are explicitly designed around that idea — a protected core, a buffer of managed use, and a transition zone of settlement and livelihood. It is one of the few international conservation frameworks that starts by assuming people belong in the landscape.
+Biosphere reserves are explicitly designed around that idea: a protected core, a buffer of managed use, and a transition zone of settlement and livelihood. It is one of the few international conservation frameworks that starts by assuming people belong in the landscape.
 
 > "We were not given a mandate in 1979. We were given a name for what we were already doing."
 
@@ -124,7 +124,7 @@ What did not change is where decisions are made. Every project on Kulal still be
 
 ## The succession problem
 
-The founding generation is passing. This is the single largest risk the movement carries — larger than drought, larger than funding. Ecological memory is not written down. The knowledge of which slope regenerates after fire, which spring responds to which rainfall pattern, which tree indicates groundwater, exists in the heads of people in their seventies and eighties.
+The founding generation is passing. This is the single largest risk the movement carries, larger than drought and larger than funding. Ecological memory is not written down. The knowledge of which slope regenerates after fire, which spring responds to which rainfall pattern, which tree indicates groundwater, exists in the heads of people in their seventies and eighties.
 
 Our youth programme exists for exactly this reason. It is often described as employment or skills training, and it is both. But its central purpose is transmission: pairing young scouts with elders on the same ridge, on the same walk, until the observations transfer.
 
@@ -144,11 +144,11 @@ Fifty years in, that is the work that matters most.
     image: youth,
     imageAlt: "Young conservation scouts planting seedlings on the slopes of Mount Kulal",
     body: `
-The statistics on rural youth migration in northern Kenya are not subtle. Where there is no visible economic future, young people leave — for Marsabit town, for Nairobi, for whatever work can be found. What follows is predictable: households lose labour, elders lose successors, and landscapes lose the daily human attention that keeps agreements enforced.
+The statistics on rural youth migration in northern Kenya are not subtle. Where there is no visible economic future, young people leave for Marsabit town, for Nairobi, or for whatever work can be found. What follows is predictable: households lose labour, elders lose successors, and landscapes lose the daily human attention that keeps agreements enforced.
 
 ## Making the second option real
 
-Our youth conservation programme is built on a straightforward premise. If staying is going to compete with leaving, staying has to offer training, income and status. Not one of the three — all three.
+Our youth conservation programme is built on a straightforward premise. If staying is going to compete with leaving, staying has to offer training, income and status. Not one of the three, all three.
 
 The programme runs across several tracks:
 
@@ -160,7 +160,7 @@ The programme runs across several tracks:
 
 **Eco-guiding and interpretation.** Visitors to a UNESCO Biosphere Reserve want more than a viewpoint. Guides trained in ecology, cultural history and hospitality convert the mountain's status into local income.
 
-**Digital and advocacy skills.** Mapping, photography, reporting and climate advocacy — the tools that let this community speak for itself in rooms where decisions about it are made.
+**Digital and advocacy skills.** Mapping, photography, reporting and climate advocacy, the tools that let this community speak for itself in rooms where decisions about it are made.
 
 ## Pairing with elders
 
@@ -170,7 +170,7 @@ Every track includes time on the mountain with elders. This is non-negotiable an
 
 ## Results, honestly stated
 
-More than six hundred young people have passed through some part of the programme. Not all of them stayed in conservation — many used the training as a stepping stone, which we consider a legitimate outcome. What we can say is that the number of trained, equipped people walking the forest boundary each month is now higher than at any point in the movement's history, and that incident response times have fallen sharply.
+More than six hundred young people have passed through some part of the programme. Not all of them stayed in conservation; many used the training as a stepping stone, which we consider a legitimate outcome. What we can say is that the number of trained, equipped people walking the forest boundary each month is now higher than at any point in the movement's history, and that incident response times have fallen sharply.
 
 We can also say that the age profile of decision-making meetings has changed. Ten years ago, a village conservation meeting was overwhelmingly grey-haired. Today it is not.
 
@@ -198,19 +198,19 @@ Biologists use the phrase *sky island* for a highland ecosystem separated from o
 
 ## What isolation produces
 
-Isolation produces endemism. Populations cut off from their relatives drift, adapt and eventually diverge. Kulal's most famous example is the White-eye that carries the mountain's name — a bird whose entire global range is measured in a handful of square kilometres of this forest. It is a species that exists because this canopy exists, and would not survive the canopy's loss.
+Isolation produces endemism. Populations cut off from their relatives drift, adapt and eventually diverge. Kulal's most famous example is the White-eye that carries the mountain's name, a bird whose entire global range is measured in a handful of square kilometres of this forest. It is a species that exists because this canopy exists, and would not survive the canopy's loss.
 
 The plant list runs past seven hundred documented species, with the mist belt supporting juniper, wild olive and podocarpus stands alongside an understorey of ferns, orchids and mosses more typical of far wetter regions of Kenya. Over one hundred and eighty bird species have been recorded across the reserve, mixing highland forest specialists with dryland and migratory species using the mountain as a refuge.
 
 ## Wildlife under pressure
 
-Larger fauna use Kulal as dry-season refuge. Greater kudu, klipspringer, baboon troops, leopard, and a long list of smaller mammals concentrate around the mountain when the plains fail. In severe drought years, that concentration is extreme — and it is precisely then that human and livestock pressure on the same water sources peaks.
+Larger fauna use Kulal as dry-season refuge. Greater kudu, klipspringer, baboon troops, leopard, and a long list of smaller mammals concentrate around the mountain when the plains fail. In severe drought years, that concentration is extreme, and it is precisely then that human and livestock pressure on the same water sources peaks.
 
-Managing that convergence is one of the harder ongoing negotiations in our work. Protecting a spring absolutely means excluding livestock. Excluding livestock in a drought means asking a herder to accept losses. Sustainable answers here look like buffered access points, rotational timing and compensation mechanisms — not fences and prohibition.
+Managing that convergence is one of the harder ongoing negotiations in our work. Protecting a spring absolutely means excluding livestock. Excluding livestock in a drought means asking a herder to accept losses. Sustainable answers here look like buffered access points, rotational timing and compensation mechanisms, not fences and prohibition.
 
 ## Monitoring without a budget
 
-Formal ecological survey is expensive. Our approach has been to build a monitoring system out of the people already walking the mountain. Scouts record sightings, water levels, fire scars, cutting incidents and phenology — when species flower, fruit and seed — on a standard form. Over years, that dataset becomes genuinely valuable, and it is owned by the community that produced it.
+Formal ecological survey is expensive. Our approach has been to build a monitoring system out of the people already walking the mountain. Scouts record sightings, water levels, fire scars, cutting incidents and phenology, when species flower, fruit and seed, on a standard form. Over years, that dataset becomes genuinely valuable, and it is owned by the community that produced it.
 
 > A dataset gathered by outsiders leaves when the project ends. A dataset gathered by residents stays.
 
@@ -242,7 +242,7 @@ The default outside assumption about pastoralism in the drylands is that it degr
 
 ## Mobility is the management
 
-Dryland vegetation is adapted to being grazed hard and then left alone. What damages it is not intensity but continuity — the same pasture grazed every month of every year without recovery. Traditional pastoralist systems avoid exactly that through mobility: herds move on a seasonal circuit, and specific pastures are held in reserve.
+Dryland vegetation is adapted to being grazed hard and then left alone. What damages it is not intensity but continuity, the same pasture grazed every month of every year without recovery. Traditional pastoralist systems avoid exactly that through mobility: herds move on a seasonal circuit, and specific pastures are held in reserve.
 
 On Kulal, highland pasture is traditionally treated as dry-season reserve. It is deliberately not grazed during the rains, when lowland grass is available, so that it carries forage into the hardest months. The rule is ecological and social at once, and it is enforced by elders rather than by fence.
 
@@ -252,7 +252,7 @@ Three pressures have strained the calendar:
 
 **Settlement.** Permanent settlement near water points converts mobile grazing into continuous grazing in a radius around each village. The vegetation nearest the water takes the damage.
 
-**Loss of grazing corridors.** Where movement between seasonal pastures is blocked — by land tenure change, conflict, or infrastructure — herds are forced to stay put.
+**Loss of grazing corridors.** Where movement between seasonal pastures is blocked by land tenure change, conflict, or infrastructure, herds are forced to stay put.
 
 **Compressed drought cycles.** When drought returns before the pasture has recovered from the previous one, the reserve is consumed early and there is nothing behind it.
 
@@ -263,13 +263,13 @@ Our rangelands work does not attempt to reduce herd numbers by decree; that appr
 - Publicly agreed opening and closing dates for highland pasture each season, announced through the same channels that always carried them.
 - Protected spring buffers so that water access does not destroy the vegetation around the source.
 - Reseeding and gully control on the most degraded lowland patches, so that pressure on the highland reserve is reduced.
-- Fodder banks and hay storage as a genuinely new element — a hedge against the compressed drought cycle that traditional practice never had to plan for.
+- Fodder banks and hay storage as a genuinely new element, a hedge against the compressed drought cycle that traditional practice never had to plan for.
 
 ## Drought response as conservation
 
 The most damaging thing that happens to Kulal's forest is a desperate drought. When lowland forage fails completely, herds move upslope into the mist belt, browse regenerating seedlings, and trample soil in the exact zone where restoration is most fragile. Years of nursery work can be undone in weeks.
 
-That is why we treat drought preparedness — fodder reserves, early warning, water point management, destocking support — as forest conservation. The forest survives droughts in proportion to how well the communities beneath it survive them.
+That is why we treat drought preparedness, fodder reserves, early warning, water point management, destocking support, as forest conservation. The forest survives droughts in proportion to how well the communities beneath it survive them.
 
 > Every drought that a household weathers on the plains is a drought the forest does not have to absorb.
 
@@ -283,7 +283,7 @@ We are not going to out-argue the climate. What we can do is widen the margin: m
     title: "A seedling is a fifty-year promise",
     category: "Community",
     excerpt:
-      "Indigenous highland trees grow slowly. Planting one is an act of confidence in a community's continuity — and a logistical exercise most restoration projects underestimate.",
+      "Indigenous highland trees grow slowly. Planting one is an act of confidence in a community's continuity, and a logistical exercise most restoration projects underestimate.",
     date: "5 September 2024",
     readingTime: 6,
     author: "Wazee wa Mazingira",
@@ -304,12 +304,12 @@ So our nurseries work with what belongs here: African pencil cedar, wild olive, 
 Running a community nursery is less romantic than it sounds:
 
 1. **Seed collection** from mapped mother trees, timed to fruiting, which varies by species and by year.
-2. **Pre-treatment** — many highland species need soaking, scarification or specific temperature handling before they will germinate at all.
+2. **Pre-treatment**: many highland species need soaking, scarification or specific temperature handling before they will germinate at all.
 3. **Germination beds** under shade netting, watered consistently through the dry months.
 4. **Potting on** into tubes with the right soil mix, which for volcanic highland soils means getting drainage right or losing the batch to rot.
-5. **Hardening off** — gradually exposing seedlings to sun and wind so they survive transplant shock.
-6. **Transplant timing** — putting seedlings into the ground at the start of a reliable wet window, not when a visiting delegation happens to be available.
-7. **Aftercare** — the step almost everyone skips, and the step that determines survival rate.
+5. **Hardening off**: gradually exposing seedlings to sun and wind so they survive transplant shock.
+6. **Transplant timing**: putting seedlings into the ground at the start of a reliable wet window, not when a visiting delegation happens to be available.
+7. **Aftercare**: the step almost everyone skips, and the step that determines survival rate.
 
 ## Survival rate is the only honest metric
 

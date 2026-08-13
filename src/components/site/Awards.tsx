@@ -94,7 +94,7 @@ export function Awards() {
                     UNESCO-Greece Melina Mercouri International Prize
                   </h2>
                   <p className="mt-5 text-[1.05rem] leading-[1.85] text-primary-foreground/85">
-                    For the Safeguarding and Management of Cultural Landscapes &mdash; one of the most
+                    For the Safeguarding and Management of Cultural Landscapes, one of the most
                     prestigious international honours for community-led conservation, awarded jointly by
                     UNESCO and the Government of Greece.
                   </p>

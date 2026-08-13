@@ -22,7 +22,7 @@ export function OurStory() {
       <div className="container-x grid gap-14 lg:grid-cols-12 lg:items-center lg:gap-20">
         <div className="lg:col-span-6">
           <Reveal>
-            <span className="site-section-label">Chapter One — Our Story</span>
+            <span className="site-section-label">Chapter One - Our Story</span>
           </Reveal>
           <WordReveal
             as="h2"
@@ -32,7 +32,7 @@ export function OurStory() {
           <BlurReveal delay={0.1}>
             <p className="site-section-intro">
               In 1971, a group of elders from the slopes of Mount Kulal watched the springs run
-              thinner each dry season. They had no funding, no office and no title deeds &mdash; only
+              thinner each dry season. They had no funding, no office and no title deeds, only
               an inherited certainty that the forest above them was the reason their families,
               herds and neighbours could live in one of the harshest landscapes on earth.
             </p>
@@ -40,8 +40,8 @@ export function OurStory() {
           <BlurReveal delay={0.2}>
             <p className="mt-5 site-section-copy">
               They began walking the ridgelines, mapping cut stumps, agreeing grazing seasons and
-              teaching children the names of trees. Half a century later that same practice &mdash;
-              patient, local, rooted in indigenous knowledge &mdash; has become an internationally
+              teaching children the names of trees. Half a century later that same practice,
+              patient, local, rooted in indigenous knowledge, has become an internationally
               recognised model of community-led conservation.
             </p>
           </BlurReveal>
@@ -88,7 +88,7 @@ export function SpiritOfTheMountain() {
       <div className="container-x pt-8 pb-16 sm:pb-20">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal>
-            <span className="site-section-label">Chapter Two — The Mountain</span>
+            <span className="site-section-label">Chapter Two - The Mountain</span>
           </Reveal>
           <WordReveal
             as="h2"
@@ -99,7 +99,7 @@ export function SpiritOfTheMountain() {
             <p className="mt-6 text-[1.06rem] leading-[1.85] text-white/80 sm:text-[1.15rem]">
               Rising 2,335 metres from the Chalbi desert, Mount Kulal is an ecological island. Its
               montane cloud forest combs moisture from passing mist and releases it into springs
-              that never stop &mdash; water that reaches pastoralist families far out on the plains.
+              that never stop, water that reaches pastoralist families far out on the plains.
               Lose the canopy, and the springs go with it.
             </p>
           </BlurReveal>
@@ -109,7 +109,7 @@ export function SpiritOfTheMountain() {
       <ScrollExpandImage
         src={landscape}
         alt="Mount Kulal rising above the arid plains of Marsabit County"
-        caption="Mount Kulal at first light — a forested island in a sea of desert."
+        caption="Mount Kulal at first light - a forested island in a sea of desert."
       />
 
       <div className="container-x py-20 sm:py-24">
@@ -144,7 +144,7 @@ export function Communities() {
     <section className="relative overflow-hidden bg-background py-24 sm:py-32">
       <div className="container-x">
         <div className="max-w-2xl">
-          <Reveal><span className="site-section-label">Chapter Three — The Communities</span></Reveal>
+          <Reveal><span className="site-section-label">Chapter Three - The Communities</span></Reveal>
           <WordReveal as="h2" text="Five peoples, one mountain, a shared inheritance." className="site-section-title" />
           <BlurReveal delay={0.1}>
             <p className="site-section-intro">
@@ -191,7 +191,7 @@ export function Biodiversity() {
     <section className="relative overflow-hidden bg-muted py-24 sm:py-32">
       <div className="container-x grid gap-14 lg:grid-cols-12 lg:gap-20">
         <div className="lg:col-span-5">
-          <Reveal><span className="site-section-label">Chapter Four — Biodiversity</span></Reveal>
+          <Reveal><span className="site-section-label">Chapter Four - Biodiversity</span></Reveal>
           <WordReveal as="h2" text="A forest is a water system wearing leaves." className="site-section-title" />
           <BlurReveal delay={0.1}>
             <p className="site-section-intro">
@@ -237,12 +237,12 @@ export function ConservationJourney() {
     <section className="relative overflow-hidden bg-primary py-24 text-primary-foreground sm:py-32">
       <div className="container-x">
         <div className="max-w-2xl">
-          <Reveal><span className="site-section-label">Chapter Five — The Journey</span></Reveal>
+          <Reveal><span className="site-section-label">Chapter Five - The Journey</span></Reveal>
           <WordReveal as="h2" text="Fifty years of holding the line." className="site-section-title text-white" />
           <BlurReveal delay={0.1}>
             <p className="mt-6 text-[1.05rem] leading-[1.85] text-white/80">
               Threats came slowly and then quickly: charcoal, drought, unmanaged grazing, a changing
-              climate. So did the response &mdash; patrols, nurseries, schools, and a generation that
+              climate. So did the response, patrols, nurseries, schools, and a generation that
               chose to stay.
             </p>
           </BlurReveal>
@@ -282,7 +282,7 @@ export function UnescoRecognition() {
           </motion.div>
         </div>
         <div className="order-1 lg:order-2 lg:col-span-6">
-          <Reveal><span className="site-section-label">Chapter Six — Recognition</span></Reveal>
+          <Reveal><span className="site-section-label">Chapter Six - Recognition</span></Reveal>
           <WordReveal as="h2" text="Honoured by UNESCO. Accountable to the community." className="site-section-title" />
           <BlurReveal delay={0.1}>
             <p className="site-section-intro">
@@ -357,7 +357,7 @@ export function TheYouth() {
       <div className="container-x py-20 sm:py-28">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-20">
           <div className="lg:col-span-5">
-            <Reveal><span className="site-section-label">Chapter Seven — The Youth</span></Reveal>
+            <Reveal><span className="site-section-label">Chapter Seven - The Youth</span></Reveal>
             <WordReveal as="h2" text="The next fifty years are already being trained." className="site-section-title" />
           </div>
           <div className="lg:col-span-7">
@@ -365,7 +365,7 @@ export function TheYouth() {
               <p className="site-section-copy text-[1.08rem]">
                 Young people on Kulal face a choice made in every dryland community: leave for the
                 city, or find a future in the landscape that raised you. Our youth programme makes
-                the second option real &mdash; nursery management, forest monitoring, beekeeping,
+                the second option real, nursery management, forest monitoring, beekeeping,
                 eco-guiding, digital mapping and climate advocacy, taught alongside elders who carry
                 the ecological memory of the mountain.
               </p>
@@ -472,7 +472,7 @@ export function TheFuture() {
       </div>
       <div className="container-x relative">
         <div className="mx-auto max-w-2xl text-center">
-          <Reveal><span className="site-section-label">Chapter Nine — How you can help</span></Reveal>
+          <Reveal><span className="site-section-label">Chapter Nine - How you can help</span></Reveal>
           <WordReveal as="h2" text="The mountain has kept its promise. Help us keep ours." className="site-section-title text-white" />
         </div>
         <div className="mt-14 grid gap-5 md:grid-cols-3">
