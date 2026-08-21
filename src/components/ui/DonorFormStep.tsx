@@ -24,11 +24,12 @@ interface DedicationData {
 }
 
 interface DonorFormStepProps {
-  onContinue: (donor: DonorFormData, dedication: DedicationData) => void;
+  onContinue: (donor: DonorFormData, dedication: DedicationData) => Promise<void>;
+  onBack: () => void;
   initialData?: DonorFormData & { dedication?: DedicationData };
 }
 
-export function DonorFormStep({ onContinue, initialData }: DonorFormStepProps) {
+export function DonorFormStep({ onContinue, onBack, initialData }: DonorFormStepProps) {
   const [donor, setDonor] = useState<DonorFormData>(
     initialData
       ? {
@@ -154,7 +155,7 @@ export function DonorFormStep({ onContinue, initialData }: DonorFormStepProps) {
 
     setLoading(true);
     try {
-      onContinue(donor, dedication);
+      await onContinue(donor, dedication);
     } catch (err) {
       setErrors({ submit: err instanceof Error ? err.message : "Failed to continue" });
     } finally {
@@ -467,9 +468,7 @@ export function DonorFormStep({ onContinue, initialData }: DonorFormStepProps) {
         <div className="flex gap-3 justify-end pt-4">
           <button
             type="button"
-            onClick={() => {
-              // This will be handled by the parent
-            }}
+            onClick={onBack}
             className="rounded-md border border-border px-6 py-2 hover:bg-muted"
           >
             Back

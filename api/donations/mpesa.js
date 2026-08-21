@@ -14,6 +14,7 @@
     DARAJA_CONSUMER_SECRET
     DARAJA_PASSKEY
     DARAJA_SHORTCODE
+    DARAJA_BASE_URL
     DARAJA_CALLBACK_URL
     PUBLIC_SUPABASE_URL
     SUPABASE_SERVICE_ROLE_KEY
@@ -21,10 +22,7 @@
   The handler will return 501 if credentials are not configured.
 */
 
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = process.env.PUBLIC_SUPABASE_URL;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+import { getSupabaseAdmin, normalizePhone, updateDonation } from "./_shared.js";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).json({ message: "Method not allowed" });
@@ -32,36 +30,47 @@ export default async function handler(req, res) {
   const { phone, amount, type, donation_id } = req.body || {};
   if (!phone || !amount) return res.status(400).json({ message: "Missing phone or amount" });
 
-  function normalizePhone(raw) {
-    const digits = String(raw).replace(/\D/g, "");
-    if (!digits) return null;
-    if (digits.startsWith("254")) return digits;
-    if (digits.startsWith("07")) return `254${digits.slice(1)}`;
-    if (digits.startsWith("7")) return `254${digits}`;
-    return digits;
-  }
-
   const normalizedPhone = normalizePhone(phone);
   if (!normalizedPhone || !/^2547\d{8}$/.test(normalizedPhone)) {
     return res.status(400).json({ message: "Phone number must be a valid Safaricom number in the format 07XXXXXXXX." });
   }
+
+  if (!donation_id) {
+    return res.status(400).json({ message: "Missing donation ID" });
+  }
+
+  const markFailed = async (reason) => {
+    try {
+      await updateDonation(getSupabaseAdmin(), donation_id, {
+        payment_status: "failed",
+        failure_reason: reason,
+      });
+    } catch (error) {
+      console.error("Unable to mark donation failed:", error);
+    }
+  };
 
   const {
     DARAJA_CONSUMER_KEY,
     DARAJA_CONSUMER_SECRET,
     DARAJA_PASSKEY,
     DARAJA_SHORTCODE,
+    DARAJA_BASE_URL,
     DARAJA_CALLBACK_URL,
   } = process.env;
+
+  const darajaBaseUrl = DARAJA_BASE_URL?.replace(/\/$/, "");
 
   const missing = [];
   if (!DARAJA_CONSUMER_KEY) missing.push("DARAJA_CONSUMER_KEY");
   if (!DARAJA_CONSUMER_SECRET) missing.push("DARAJA_CONSUMER_SECRET");
   if (!DARAJA_PASSKEY) missing.push("DARAJA_PASSKEY");
   if (!DARAJA_SHORTCODE) missing.push("DARAJA_SHORTCODE");
+  if (!darajaBaseUrl) missing.push("DARAJA_BASE_URL");
   if (!DARAJA_CALLBACK_URL) missing.push("DARAJA_CALLBACK_URL");
 
   if (missing.length) {
+    await markFailed("Daraja credentials are not configured");
     return res.status(501).json({
       message: "Daraja credentials not configured. Missing environment variables.",
       missing,
@@ -69,8 +78,21 @@ export default async function handler(req, res) {
   }
 
   try {
+    const supabase = getSupabaseAdmin();
+    const { data: donation, error: donationError } = await supabase
+      .from("donations")
+      .select("id, amount, payment_status")
+      .eq("id", donation_id)
+      .maybeSingle();
+    if (donationError || !donation) {
+      return res.status(404).json({ message: "Donation not found" });
+    }
+    if (!["pending", "failed", "cancelled"].includes(donation.payment_status)) {
+      return res.status(409).json({ message: "This donation is already being processed" });
+    }
+
     // 1. Get access token
-    const tokenRes = await fetch(`https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials`, {
+    const tokenRes = await fetch(`${darajaBaseUrl}/oauth/v1/generate?grant_type=client_credentials`, {
       headers: {
         Authorization: `Basic ${Buffer.from(`${DARAJA_CONSUMER_KEY}:${DARAJA_CONSUMER_SECRET}`).toString("base64")}`,
       },
@@ -78,6 +100,7 @@ export default async function handler(req, res) {
 
     if (!tokenRes.ok) {
       const text = await tokenRes.text();
+      await markFailed("Failed to obtain Daraja token");
       return res.status(502).json({
         message: "Failed to obtain Daraja token",
         status: tokenRes.status,
@@ -90,7 +113,20 @@ export default async function handler(req, res) {
     const accessToken = tokenJson.access_token;
 
     // 2. Prepare STK Push payload
-    const timestamp = new Date().toISOString().replace(/[-:TZ.]/g, "").slice(0, 14);
+    const timestampParts = new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Africa/Nairobi",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hourCycle: "h23",
+    }).formatToParts(new Date()).reduce((parts, part) => {
+      if (part.type !== "literal") parts[part.type] = part.value;
+      return parts;
+    }, {});
+    const timestamp = `${timestampParts.year}${timestampParts.month}${timestampParts.day}${timestampParts.hour}${timestampParts.minute}${timestampParts.second}`;
     const password = Buffer.from(`${DARAJA_SHORTCODE}${DARAJA_PASSKEY}${timestamp}`).toString("base64");
 
     const stkBody = {
@@ -107,7 +143,7 @@ export default async function handler(req, res) {
       TransactionDesc: `Donation ${type}`,
     };
 
-    const stkRes = await fetch("https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest", {
+    const stkRes = await fetch(`${darajaBaseUrl}/mpesa/stkpush/v1/processrequest`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -125,6 +161,7 @@ export default async function handler(req, res) {
     }
 
     if (!stkRes.ok) {
+      await markFailed("Daraja STK Push failed");
       return res.status(502).json({
         message: "Daraja STK Push failed",
         status: stkRes.status,
@@ -134,29 +171,28 @@ export default async function handler(req, res) {
     }
 
     // If donation_id provided, update donation record with Daraja response
-    if (donation_id && supabaseUrl && supabaseServiceKey) {
-      try {
-        const supabase = createClient(supabaseUrl, supabaseServiceKey);
-        const checkoutRequestId = stkJson?.CheckoutRequestID || null;
-        const merchantRequestId = stkJson?.MerchantRequestID || null;
-
-        await supabase
-          .from("donations")
-          .update({
-            checkout_request_id: checkoutRequestId,
-            merchant_request_id: merchantRequestId,
-            payment_status: "initiated",
-            updated_at: new Date().toISOString(),
-          })
-          .eq("id", donation_id);
-      } catch (err) {
-        console.error("Error updating donation record:", err);
-        // Don't fail the request - payment was initiated successfully
+    try {
+      const checkoutRequestId = stkJson?.CheckoutRequestID || null;
+      const merchantRequestId = stkJson?.MerchantRequestID || null;
+      if (!checkoutRequestId || !merchantRequestId) {
+        await markFailed("Daraja returned no request identifiers");
+        return res.status(502).json({ message: "Daraja returned an incomplete STK response" });
       }
+
+      await updateDonation(supabase, donation_id, {
+        checkout_request_id: checkoutRequestId,
+        merchant_request_id: merchantRequestId,
+        payment_status: "initiated",
+        failure_reason: null,
+      });
+    } catch (err) {
+      await markFailed("Unable to save Daraja request identifiers");
+      return res.status(500).json({ message: "Payment was initiated but could not be recorded" });
     }
 
     return res.status(200).json({ success: true, data: stkJson, donation_id });
   } catch (err) {
+    await markFailed("Unexpected payment initiation error");
     return res.status(500).json({ message: "Internal server error", error: String(err) });
   }
 }

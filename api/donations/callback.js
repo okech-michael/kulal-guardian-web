@@ -23,120 +23,81 @@
   }
 */
 
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = process.env.PUBLIC_SUPABASE_URL;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+import sgMail from "@sendgrid/mail";
+import { getSupabaseAdmin } from "./_shared.js";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).json({ message: "Method not allowed" });
 
   try {
-    const data = req.body;
-    console.log("M-Pesa callback received:", JSON.stringify(data));
-
-    // Acknowledge receipt immediately
-    res.status(200).json({ success: true });
-
-    // Process callback asynchronously
-    if (!supabaseUrl || !supabaseServiceKey) {
-      console.error("Supabase credentials not configured");
-      return;
+    const callback = req.body?.Body?.stkCallback;
+    if (!callback?.MerchantRequestID || !callback?.CheckoutRequestID) {
+      return res.status(400).json({ message: "Callback is missing request identifiers" });
     }
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
-    const stkCallback = data?.Body?.stkCallback;
+    const supabase = getSupabaseAdmin();
+    const { MerchantRequestID, CheckoutRequestID, ResultCode, ResultDesc } = callback;
+    const items = Array.isArray(callback.CallbackMetadata?.Item)
+      ? callback.CallbackMetadata.Item
+      : callback.CallbackMetadata?.Item ? [callback.CallbackMetadata.Item] : [];
+    const receipt = items.find((item) => item.Name === "MpesaReceiptNumber")?.Value || null;
 
-    if (!stkCallback) {
-      console.error("Invalid callback structure");
-      return;
-    }
-
-    const { MerchantRequestID, CheckoutRequestID, ResultCode, ResultDesc, CallbackMetadata } =
-      stkCallback;
-
-    // Extract callback metadata
-    let mpesaReceiptNumber = null;
-    let transactionDate = null;
-    let amount = null;
-    let phoneNumber = null;
-
-    if (CallbackMetadata?.Item) {
-      const items = Array.isArray(CallbackMetadata.Item)
-        ? CallbackMetadata.Item
-        : [CallbackMetadata.Item];
-
-      items.forEach((item) => {
-        if (item.Name === "MpesaReceiptNumber") mpesaReceiptNumber = item.Value;
-        if (item.Name === "TransactionDate") transactionDate = item.Value;
-        if (item.Name === "Amount") amount = item.Value;
-        if (item.Name === "PhoneNumber") phoneNumber = item.Value;
-      });
-    }
-
-    // Find donation by merchant request ID or checkout request ID
-    const { data: donation, error: fetchError } = await supabase
+    const { data: donation, error: findError } = await supabase
       .from("donations")
       .select("*")
-      .or(
-        `merchant_request_id.eq.${MerchantRequestID},checkout_request_id.eq.${CheckoutRequestID}`
-      )
-      .single();
+      .or(`merchant_request_id.eq.${MerchantRequestID},checkout_request_id.eq.${CheckoutRequestID}`)
+      .limit(1)
+      .maybeSingle();
 
-    if (fetchError || !donation) {
-      console.error("Donation not found for callback:", { MerchantRequestID, CheckoutRequestID });
-      return;
+    if (findError) throw findError;
+    if (!donation) return res.status(404).json({ message: "Donation not found" });
+
+    if (!["pending", "initiated", "processing"].includes(donation.payment_status)) {
+      return res.status(200).json({ success: true, duplicate: true });
     }
 
-    // Prevent duplicate updates (idempotency)
-    if (donation.payment_status !== "initiated" && donation.payment_status !== "processing") {
-      console.log("Donation already processed, skipping duplicate callback");
-      return;
-    }
-
-    // Determine payment status based on ResultCode
-    let paymentStatus = "failed";
-    let failureReason = ResultDesc || "Unknown error";
-
-    if (ResultCode === 0) {
-      // Success
-      paymentStatus = "completed";
-      failureReason = null;
-    }
-
-    // Update donation record with payment result
-    const updateData = {
+    const isSuccess = Number(ResultCode) === 0;
+    const isCancelled = Number(ResultCode) === 1032 || Number(ResultCode) === 1037;
+    const paymentStatus = isSuccess ? "completed" : isCancelled ? "cancelled" : "failed";
+    const now = new Date().toISOString();
+    const update = {
       payment_status: paymentStatus,
-      mpesa_receipt_number: mpesaReceiptNumber,
-      transaction_reference: CheckoutRequestID,
-      failure_reason: failureReason,
-      updated_at: new Date().toISOString(),
+      mpesa_receipt_number: receipt,
+      transaction_reference: receipt || CheckoutRequestID,
+      failure_reason: isSuccess ? null : (ResultDesc || "M-Pesa payment was not completed"),
+      updated_at: now,
+      ...(isSuccess ? { paid_at: now } : {}),
     };
 
-    if (paymentStatus === "completed") {
-      updateData.paid_at = new Date().toISOString();
-    }
-
-    const { error: updateError } = await supabase
+    const { data: updated, error: updateError } = await supabase
       .from("donations")
-      .update(updateData)
-      .eq("id", donation.id);
+      .update(update)
+      .eq("id", donation.id)
+      .in("payment_status", ["pending", "initiated", "processing"])
+      .select("id")
+      .maybeSingle();
 
-    if (updateError) {
-      console.error("Error updating donation:", updateError);
-      return;
+    if (updateError) throw updateError;
+    if (!updated) return res.status(200).json({ success: true, duplicate: true });
+
+    if (isSuccess && donation.notification_requested && donation.notification_recipient_email &&
+        process.env.SENDGRID_API_KEY && process.env.SENDGRID_FROM_EMAIL) {
+      try {
+        sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+        await sgMail.send({
+          to: donation.notification_recipient_email,
+          from: process.env.SENDGRID_FROM_EMAIL,
+          subject: "A donation has been dedicated to you",
+          text: `${donation.notification_recipient_name || "Hello"}, a donation has been dedicated to you in support of conservation around Mount Kulal.${donation.notification_message ? `\n\n${donation.notification_message}` : ""}`,
+        });
+      } catch (notificationError) {
+        console.error("Dedication notification could not be delivered:", notificationError);
+      }
     }
 
-    console.log("Donation updated successfully:", {
-      donation_id: donation.id,
-      payment_status: paymentStatus,
-      mpesa_receipt_number: mpesaReceiptNumber,
-    });
-
-    // TODO: Send notification email to donor
-    // TODO: Notify admins of successful donation
-  } catch (err) {
-    console.error("Error processing callback:", err);
+    return res.status(200).json({ success: true, payment_status: paymentStatus });
+  } catch (error) {
+    console.error("Error processing callback:", error);
     return res.status(500).json({ message: "Failed to process callback" });
   }
 }

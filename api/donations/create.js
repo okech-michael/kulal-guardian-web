@@ -23,25 +23,7 @@
   Response: { donation_id: UUID, checkout_request_id?: string, merchant_request_id?: string }
 */
 
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = process.env.PUBLIC_SUPABASE_URL;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-if (!supabaseUrl || !supabaseServiceKey) {
-  throw new Error("Missing Supabase environment variables");
-}
-
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
-
-function normalizePhone(raw) {
-  const digits = String(raw).replace(/\D/g, "");
-  if (!digits) return null;
-  if (digits.startsWith("254")) return digits;
-  if (digits.startsWith("07")) return `254${digits.slice(1)}`;
-  if (digits.startsWith("7")) return `254${digits}`;
-  return digits;
-}
+import { getSupabaseAdmin, isEmail, normalizePhone } from "./_shared.js";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -81,6 +63,10 @@ export default async function handler(req, res) {
     return res.status(400).json({ message: "Frequency must be 'once' or 'monthly'" });
   }
 
+  if (!Number.isFinite(Number(amount)) || Number(amount) <= 0) {
+    return res.status(400).json({ message: "Amount must be greater than zero" });
+  }
+
   const normalizedPhone = normalizePhone(mpesa_phone_number);
   if (!normalizedPhone || !/^2547\d{8}$/.test(normalizedPhone)) {
     return res.status(400).json({
@@ -89,7 +75,20 @@ export default async function handler(req, res) {
     });
   }
 
+  if (dedication_enabled &&
+      (!["honour", "memory", "love"].includes(dedication_type) ||
+        !honouree_first_name?.trim() || !honouree_last_name?.trim())) {
+    return res.status(400).json({ message: "Dedication type and honouree names are required" });
+  }
+
+  if (notification_requested &&
+      (!dedication_enabled || !notification_recipient_name?.trim() ||
+        !isEmail(notification_recipient_email))) {
+    return res.status(400).json({ message: "A valid notification recipient name and email are required" });
+  }
+
   try {
+    const supabase = getSupabaseAdmin();
     // Validate donor exists
     const { data: donor, error: donorError } = await supabase
       .from("donors")

@@ -16,16 +16,7 @@
   Response: { donor_id: UUID }
 */
 
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = process.env.PUBLIC_SUPABASE_URL;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-if (!supabaseUrl || !supabaseServiceKey) {
-  throw new Error("Missing Supabase environment variables");
-}
-
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+import { getSupabaseAdmin, isEmail, normalizePhone } from "./_shared.js";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -43,27 +34,44 @@ export default async function handler(req, res) {
   } = req.body || {};
 
   // Validate required fields
-  if (!first_name || !last_name || !email || !phone_number) {
+    if (!first_name?.trim() || !last_name?.trim() || !email?.trim() || !phone_number?.trim() || !country?.trim() || !region_or_county?.trim() || !city_or_town?.trim()) {
     return res.status(400).json({
-      message: "Missing required fields: first_name, last_name, email, phone_number",
+        message: "First name, last name, email, phone number, country, county/region, and town/city are required",
     });
   }
 
   // Basic email validation
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (!isEmail(email)) {
     return res.status(400).json({ message: "Invalid email format" });
   }
 
+    const normalizedPhone = normalizePhone(phone_number);
+    if (!normalizedPhone) {
+      return res.status(400).json({ message: "Phone number must be a valid Kenyan mobile number" });
+    }
+
   try {
-    // Check if donor already exists by email or phone
-    const { data: existing } = await supabase
-      .from("donors")
-      .select("id")
-      .or(`email.eq.${email},phone_number.eq.${phone_number}`)
-      .single();
+      const supabase = getSupabaseAdmin();
+      const { data: existing } = await supabase
+        .from("donors")
+        .select("id")
+        .or(`email.eq.${email.trim().toLowerCase()},phone_number.eq.${normalizedPhone}`)
+        .limit(1)
+        .maybeSingle();
 
     if (existing) {
-      return res.status(200).json({ donor_id: existing.id, is_new: false });
+        const { error } = await supabase.from("donors").update({
+          first_name: first_name.trim(),
+          last_name: last_name.trim(),
+          email: email.trim().toLowerCase(),
+          phone_number: normalizedPhone,
+          country: country.trim(),
+          region_or_county: region_or_county.trim(),
+          city_or_town: city_or_town.trim(),
+          updated_at: new Date().toISOString(),
+        }).eq("id", existing.id);
+        if (error) throw error;
+        return res.status(200).json({ donor_id: existing.id, is_new: false });
     }
 
     // Create new donor
@@ -71,13 +79,13 @@ export default async function handler(req, res) {
       .from("donors")
       .insert([
         {
-          first_name,
-          last_name,
-          email,
-          phone_number,
-          country: country || "Kenya",
-          region_or_county: region_or_county || "",
-          city_or_town: city_or_town || "",
+            first_name: first_name.trim(),
+            last_name: last_name.trim(),
+            email: email.trim().toLowerCase(),
+            phone_number: normalizedPhone,
+            country: country.trim(),
+            region_or_county: region_or_county.trim(),
+            city_or_town: city_or_town.trim(),
         },
       ])
       .select("id")

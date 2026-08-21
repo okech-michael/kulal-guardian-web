@@ -142,6 +142,7 @@ export function DonationModalRoot() {
     } catch (err) {
       setStatus("error");
       setMessage(err instanceof Error ? err.message : "Failed to save your information");
+      throw err;
     }
   };
 
@@ -234,7 +235,7 @@ export function DonationModalRoot() {
       setConfirmationStatus("pending");
       setConfirmationData({
         firstName: donor?.firstName,
-        amount,
+        amount: currency === "KES" ? amount : amount / (rate || 130),
         currency,
         frequency: isMonthly ? "monthly" : "once",
         dedicatedTo: dedication?.enabled
@@ -249,14 +250,23 @@ export function DonationModalRoot() {
 
   // Monitor donation status
   useEffect(() => {
-    if (step !== 3 || !donationId || !confirmationData) return;
+    if (step !== 3 || !donationId || !confirmationData || confirmationStatus !== "pending") return;
 
     let isMounted = true;
     let pollCount = 0;
     const maxPolls = 60; // Poll for up to 2 minutes (60 * 2 seconds)
 
     const pollDonationStatus = async () => {
-      if (pollCount >= maxPolls || !isMounted) return;
+      if (pollCount >= maxPolls || !isMounted) {
+        if (isMounted) {
+          setConfirmationStatus("failed");
+          setConfirmationData((prev: any) => ({
+            ...prev,
+            failureReason: "Payment confirmation timed out. You can try again.",
+          }));
+        }
+        return;
+      }
       pollCount++;
 
       try {
@@ -276,6 +286,10 @@ export function DonationModalRoot() {
           }));
         } else if (donation.payment_status === "failed" || donation.payment_status === "cancelled") {
           setConfirmationStatus("failed");
+          setConfirmationData((prev: any) => ({
+            ...prev,
+            failureReason: donation.failure_reason,
+          }));
         }
       } catch (err) {
         console.error("Error polling donation status:", err);
@@ -288,12 +302,22 @@ export function DonationModalRoot() {
       isMounted = false;
       clearInterval(interval);
     };
-  }, [step, donationId, confirmationData]);
+  }, [step, donationId, confirmationData, confirmationStatus]);
 
   const handleBackStep2 = () => {
     setStep(1);
     setStatus("idle");
     setMessage(null);
+  };
+
+  const switchCurrency = (nextCurrency: "KES" | "USD") => {
+    if (nextCurrency === currency) return;
+    setCurrency(nextCurrency);
+    if (customBase !== null) {
+      setCustom(nextCurrency === "KES"
+        ? String(Math.round(customBase))
+        : (customBase / (rate || 130)).toFixed(2));
+    }
   };
 
   const handleConfirmationClose = () => {
@@ -379,6 +403,7 @@ export function DonationModalRoot() {
         {step === 1 && (
           <DonorFormStep
             onContinue={handleDonorSubmit}
+            onBack={() => setOpen(false)}
             initialData={
               donor ? { ...donor, dedication } : undefined
             }
@@ -404,7 +429,7 @@ export function DonationModalRoot() {
                     className={`px-3 py-1 rounded-full ${
                       currency === "KES" ? "bg-accent text-accent-foreground" : "text-foreground"
                     }`}
-                    onClick={() => setCurrency("KES")}
+                    onClick={() => switchCurrency("KES")}
                   >
                     KES
                   </button>
@@ -412,7 +437,7 @@ export function DonationModalRoot() {
                     className={`px-3 py-1 rounded-full ${
                       currency === "USD" ? "bg-accent text-accent-foreground" : "text-foreground"
                     }`}
-                    onClick={() => setCurrency("USD")}
+                    onClick={() => switchCurrency("USD")}
                   >
                     USD
                   </button>

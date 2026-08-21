@@ -16,6 +16,22 @@
     {
       "src": "api/donations/mpesa.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "api/donations/callback.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/donations/create.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/donations/donors.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/donations/get.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
