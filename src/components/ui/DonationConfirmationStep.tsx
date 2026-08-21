@@ -8,6 +8,7 @@ interface ConfirmationData {
   mpesaReceiptNumber?: string;
   transactionReference?: string;
   dedicatedTo?: string;
+  failureReason?: string;
 }
 
 interface DonationConfirmationStepProps {
@@ -25,7 +26,7 @@ export function DonationConfirmationStep({
 }: DonationConfirmationStepProps) {
   const formatCurrency = (amount: number, currency: string) => {
     if (currency === "KES") return `KSh ${amount.toLocaleString()}`;
-    return `$${(amount / 130).toFixed(2)}`; // Simple conversion for display
+    return `$${amount.toFixed(2)}`;
   };
 
   const frequencyLabel = data.frequency === "monthly" ? "every month" : "one-time";
@@ -89,10 +90,7 @@ export function DonationConfirmationStep({
             Your support helps Wazee wa Mazingira protect biodiversity, preserve cultural heritage,
             and strengthen conservation initiatives around Mount Kulal.
           </p>
-          <p className="pt-2">
-            A detailed receipt has been sent to your email address. Thank you for being a conservation
-            partner!
-          </p>
+          <p className="pt-2">Thank you for being a conservation partner!</p>
         </div>
 
         <div>
@@ -138,8 +136,7 @@ export function DonationConfirmationStep({
 
         <div className="rounded-lg bg-red-50 p-4 text-sm text-red-900">
           <p>
-            If you continue to experience issues, please try again later or contact us at{" "}
-            <span className="font-semibold">support@wazeemamazingira.org</span>
+            {data.failureReason || "The payment was not completed. Please try again."}
           </p>
         </div>
 

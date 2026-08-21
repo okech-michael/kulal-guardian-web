@@ -23,6 +23,7 @@ This project is configured to run on Vercel with a static client bundle and Node
 - `DARAJA_CONSUMER_SECRET`
 - `DARAJA_PASSKEY`
 - `DARAJA_SHORTCODE`
+- `DARAJA_BASE_URL` (use `https://sandbox.safaricom.co.ke` for Sandbox)
 - `DARAJA_CALLBACK_URL`
 
 ### Other
