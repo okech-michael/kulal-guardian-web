@@ -1,35 +1,71 @@
 import React, { useEffect, useState } from "react";
 import { useDonationModal } from "@/lib/donationModal";
+import { DonorFormStep } from "./DonorFormStep";
+import { DonationConfirmationStep } from "./DonationConfirmationStep";
 
 const AMOUNTS = [500, 1000, 2000, 5000, 10000, 20000];
 
+interface DonorData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  country: string;
+  regionOrCounty: string;
+  cityOrTown: string;
+}
+
+interface DedicationData {
+  enabled: boolean;
+  type: "honour" | "memory" | "love" | "";
+  honoureeFirstName: string;
+  honoureeLastName: string;
+  message: string;
+  notificationRequested: boolean;
+  notificationRecipientName: string;
+  notificationRecipientEmail: string;
+  notificationMessage: string;
+}
+
 export function DonationModalRoot() {
-  // this component mounts once and listens for an open signal via a small DOM trick
-  // we use a simple event to open the modal so we avoid global state complexity
+  // Modal state
   const [open, setOpen] = useState(false);
-  // selected is stored in KES (base amount)
+  const [step, setStep] = useState<1 | 2 | 3>(1); // 1: donor info, 2: donation amount, 3: confirmation
+
+  // Step 1: Donor Information
+  const [donor, setDonor] = useState<DonorData | null>(null);
+  const [dedication, setDedication] = useState<DedicationData | null>(null);
+  const [donorId, setDonorId] = useState<string | null>(null);
+
+  // Step 2: Donation Amount & Payment
   const [selected, setSelected] = useState<number | null>(1000);
   const [isMonthly, setIsMonthly] = useState(false);
   const [custom, setCustom] = useState<string>("");
-  // customBase stores the custom amount in KES (base currency)
   const [customBase, setCustomBase] = useState<number | null>(null);
   const [currency, setCurrency] = useState<"KES" | "USD">("KES");
-  const [rate, setRate] = useState<number | null>(null); // 1 USD = rate KES
+  const [rate, setRate] = useState<number | null>(null);
   const [phone, setPhone] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [donationId, setDonationId] = useState<string | null>(null);
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error" | "pending">("idle");
   const [message, setMessage] = useState<string | null>(null);
+
+  // Step 3: Confirmation state
+  const [confirmationData, setConfirmationData] = useState<any>(null);
+  const [confirmationStatus, setConfirmationStatus] = useState<"success" | "failed" | "pending">("pending");
 
   useEffect(() => {
     function handler() {
       setOpen(true);
+      setStep(1);
       setStatus("idle");
       setMessage(null);
+      resetForm();
     }
     window.addEventListener("openDonationModal", handler as EventListener);
     return () => window.removeEventListener("openDonationModal", handler as EventListener);
   }, []);
 
-  // Fetch exchange rate when modal opens (cache in sessionStorage)
+  // Fetch exchange rate when modal opens
   useEffect(() => {
     if (!open) return;
 
@@ -50,7 +86,6 @@ export function DonationModalRoot() {
           sessionStorage.setItem("usd_kes_rate", JSON.stringify({ rate: fetched, ts: Date.now() }));
         }
       } catch (err) {
-        // fallback to previously cached or a sensible default (130)
         const cached = sessionStorage.getItem("usd_kes_rate");
         if (cached) {
           const parsed = JSON.parse(cached);
@@ -64,7 +99,53 @@ export function DonationModalRoot() {
     fetchRate();
   }, [open]);
 
-  // compute the final amount in KES for submission
+  const resetForm = () => {
+    setDonor(null);
+    setDedication(null);
+    setDonorId(null);
+    setSelected(1000);
+    setIsMonthly(false);
+    setCustom("");
+    setCustomBase(null);
+    setCurrency("KES");
+    setPhone("");
+    setDonationId(null);
+    setStatus("idle");
+    setMessage(null);
+    setConfirmationData(null);
+    setConfirmationStatus("pending");
+  };
+
+  // Step 1: Handle donor information submission
+  const handleDonorSubmit = async (donorData: DonorData, dedicationData: DedicationData) => {
+    setStatus("loading");
+    try {
+      // Create donor record
+      const donorRes = await fetch("/api/donations/donors", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(donorData),
+      });
+
+      if (!donorRes.ok) {
+        throw new Error("Failed to create donor record");
+      }
+
+      const donorResult = await donorRes.json();
+      setDonor(donorData);
+      setDedication(dedicationData);
+      setDonorId(donorResult.donor_id);
+      setPhone(donorData.phoneNumber); // Prefill phone for step 2
+      setStep(2);
+      setStatus("idle");
+      setMessage(null);
+    } catch (err) {
+      setStatus("error");
+      setMessage(err instanceof Error ? err.message : "Failed to save your information");
+    }
+  };
+
+  // Step 2: Handle donation submission
   const amount = selected ?? (customBase ? Math.round(customBase) : (custom ? parseInt(custom.replace(/[^0-9]/g, ""), 10) || 0 : 0));
 
   function normalizePhone(raw: string) {
@@ -76,7 +157,7 @@ export function DonationModalRoot() {
     return digits;
   }
 
-  async function submit() {
+  const handleDonationSubmit = async () => {
     if (!amount || amount <= 0) {
       setMessage("Please select or enter a valid amount.");
       return;
@@ -84,7 +165,12 @@ export function DonationModalRoot() {
 
     const normalizedPhone = normalizePhone(phone);
     if (!normalizedPhone || !/^2547\d{8}$/.test(normalizedPhone)) {
-      setMessage("Enter a valid Safaricom phone number (eg. 07XXXXXXXX)." );
+      setMessage("Enter a valid Safaricom phone number (eg. 07XXXXXXXX).");
+      return;
+    }
+
+    if (!donorId) {
+      setMessage("Donor information is missing. Please go back and try again.");
       return;
     }
 
@@ -92,138 +178,387 @@ export function DonationModalRoot() {
     setMessage(null);
 
     try {
-      // Ensure amount sent to backend is in KES (M-Pesa requirement)
-      const res = await fetch("/api/donations/mpesa", {
+      // Create donation record
+      const donationRes = await fetch("/api/donations/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: normalizedPhone, amount, type: isMonthly ? "monthly" : "once" }),
+        body: JSON.stringify({
+          donor_id: donorId,
+          amount,
+          currency,
+          frequency: isMonthly ? "monthly" : "once",
+          mpesa_phone_number: normalizedPhone,
+          dedication_enabled: dedication?.enabled || false,
+          dedication_type: dedication?.enabled ? dedication.type : null,
+          honouree_first_name: dedication?.enabled ? dedication.honoureeFirstName : null,
+          honouree_last_name: dedication?.enabled ? dedication.honoureeLastName : null,
+          dedication_message: dedication?.enabled ? dedication.message : null,
+          notification_requested: dedication?.enabled ? dedication.notificationRequested : false,
+          notification_recipient_name: dedication?.enabled ? dedication.notificationRecipientName : null,
+          notification_recipient_email: dedication?.enabled ? dedication.notificationRecipientEmail : null,
+          notification_message: dedication?.enabled ? dedication.notificationMessage : null,
+        }),
       });
 
-      let data: any;
-      const text = await res.text();
+      if (!donationRes.ok) {
+        throw new Error("Failed to create donation record");
+      }
+
+      const donationResult = await donationRes.json();
+      setDonationId(donationResult.donation_id);
+
+      // Initiate M-Pesa STK Push
+      const mpesaRes = await fetch("/api/donations/mpesa", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          phone: normalizedPhone,
+          amount,
+          type: isMonthly ? "monthly" : "once",
+          donation_id: donationResult.donation_id,
+        }),
+      });
+
+      let mpesaData: any;
+      const text = await mpesaRes.text();
       try {
-        data = JSON.parse(text);
+        mpesaData = JSON.parse(text);
       } catch {
         throw new Error(`Server response was not JSON: ${text}`);
       }
 
-      if (!res.ok) throw new Error(data?.message || "Payment request failed");
+      if (!mpesaRes.ok) throw new Error(mpesaData?.message || "Payment request failed");
 
-      setStatus("success");
-      setMessage("STK Push initiated. Check your phone to complete the payment.");
+      setStatus("pending");
+      setStep(3);
+      setConfirmationStatus("pending");
+      setConfirmationData({
+        firstName: donor?.firstName,
+        amount,
+        currency,
+        frequency: isMonthly ? "monthly" : "once",
+        dedicatedTo: dedication?.enabled
+          ? `${dedication.honoureeFirstName} ${dedication.honoureeLastName}`
+          : null,
+      });
     } catch (err: any) {
       setStatus("error");
       setMessage(err?.message || "Failed to initiate payment.");
     }
-  }
+  };
+
+  // Monitor donation status
+  useEffect(() => {
+    if (step !== 3 || !donationId || !confirmationData) return;
+
+    let isMounted = true;
+    let pollCount = 0;
+    const maxPolls = 60; // Poll for up to 2 minutes (60 * 2 seconds)
+
+    const pollDonationStatus = async () => {
+      if (pollCount >= maxPolls || !isMounted) return;
+      pollCount++;
+
+      try {
+        const res = await fetch(`/api/donations/get?id=${donationId}`);
+        if (!res.ok) return;
+
+        const donation = await res.json();
+
+        if (!isMounted) return;
+
+        if (donation.payment_status === "completed") {
+          setConfirmationStatus("success");
+          setConfirmationData((prev: any) => ({
+            ...prev,
+            mpesaReceiptNumber: donation.mpesa_receipt_number,
+            transactionReference: donation.transaction_reference,
+          }));
+        } else if (donation.payment_status === "failed" || donation.payment_status === "cancelled") {
+          setConfirmationStatus("failed");
+        }
+      } catch (err) {
+        console.error("Error polling donation status:", err);
+      }
+    };
+
+    const interval = setInterval(pollDonationStatus, 2000);
+
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
+  }, [step, donationId, confirmationData]);
+
+  const handleBackStep2 = () => {
+    setStep(1);
+    setStatus("idle");
+    setMessage(null);
+  };
+
+  const handleConfirmationClose = () => {
+    setOpen(false);
+    resetForm();
+  };
+
+  const handleConfirmationRetry = () => {
+    setStep(2);
+    setStatus("idle");
+    setMessage(null);
+    setConfirmationData(null);
+    setConfirmationStatus("pending");
+  };
 
   if (!open) return null;
 
-  const formatDisplay = (kes: number) => {
-    if (currency === "KES") return `KSh ${kes.toLocaleString()}`;
-    const r = rate || 130;
-    const usd = kes / r;
-    return `$${usd.toFixed(2)}`;
-  };
-
-  const formatInputDisplay = (kes: number | null) => {
-    if (!kes && kes !== 0) return "";
-    if (currency === "KES") return Math.round(kes as number).toString();
-    const r = rate || 130;
-    return ( (kes as number) / r ).toFixed(2);
-  };
-
-  function handleCustomChange(val: string) {
-    // parse numeric value from current currency input and store base KES
-    const cleaned = val.replace(/[^0-9.]/g, "");
-    if (cleaned === "") {
-      setCustom("");
-      setCustomBase(null);
-      setSelected(null);
-      return;
-    }
-    const num = parseFloat(cleaned);
-    if (Number.isNaN(num)) return;
-    if (currency === "KES") {
-      setCustom(cleaned);
-      setCustomBase(Math.round(num));
-    } else {
-      // USD entered -> convert to KES
-      const r = rate || 130;
-      setCustom(cleaned);
-      setCustomBase(num * r);
-    }
-    setSelected(null);
-  }
-
-  function switchCurrency(to: "KES" | "USD") {
-    if (currency === to) return;
-    setCurrency(to);
-    // Update custom input visible string to reflect new currency
-    if (customBase != null) {
-      setCustom(formatInputDisplay(customBase));
-    } else {
-      setCustom("");
-    }
-  }
-
+  // Render current step
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center px-4">
       <div className="absolute inset-0 bg-black/50" onClick={() => setOpen(false)} />
-      <div className="relative z-10 w-full max-w-xl rounded-2xl bg-card p-6 shadow-2xl">
-        <div className="flex items-start justify-between">
-          <div>
-            <h3 className="text-xl font-semibold">Support Conservation of Mount Kulal</h3>
-            <p className="mt-2 text-sm text-muted-foreground">Your contribution helps protect Mount Kulal's biodiversity, cultural heritage, and community conservation initiatives.</p>
-          </div>
-          <button aria-label="Close" className="ml-4 text-muted-foreground" onClick={() => setOpen(false)}>✕</button>
-        </div>
+      <div className="relative z-10 w-full max-w-2xl rounded-2xl bg-card p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+        {/* Step Indicator */}
+        {step < 3 && (
+          <div className="mb-8 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div
+                className={`flex h-8 w-8 items-center justify-center rounded-full ${
+                  step >= 1 ? "bg-accent text-accent-foreground" : "bg-muted text-muted-foreground"
+                }`}
+              >
+                {step > 1 ? "✓" : "1"}
+              </div>
+              <span className={step >= 1 ? "font-semibold" : "text-muted-foreground"}>
+                Your Information
+              </span>
+            </div>
 
-        <div className="mt-5 grid gap-4">
-          <div className="flex items-center gap-3">
-            <label className="text-sm">Currency</label>
-            <div className="rounded-full bg-muted p-1 inline-flex">
-              <button className={`px-3 py-1 rounded-full ${currency === "KES" ? "bg-accent text-accent-foreground" : "text-foreground"}`} onClick={() => switchCurrency("KES")}>KES</button>
-              <button className={`px-3 py-1 rounded-full ${currency === "USD" ? "bg-accent text-accent-foreground" : "text-foreground"}`} onClick={() => switchCurrency("USD")}>USD</button>
+            <div className={`flex-1 h-1 mx-4 ${step >= 2 ? "bg-accent" : "bg-muted"}`} />
+
+            <div className="flex items-center gap-2">
+              <div
+                className={`flex h-8 w-8 items-center justify-center rounded-full ${
+                  step >= 2 ? "bg-accent text-accent-foreground" : "bg-muted text-muted-foreground"
+                }`}
+              >
+                {step > 2 ? "✓" : "2"}
+              </div>
+              <span className={step >= 2 ? "font-semibold" : "text-muted-foreground"}>
+                Donation
+              </span>
+            </div>
+
+            <div className={`flex-1 h-1 mx-4 ${step >= 3 ? "bg-accent" : "bg-muted"}`} />
+
+            <div className="flex items-center gap-2">
+              <div
+                className={`flex h-8 w-8 items-center justify-center rounded-full ${
+                  step >= 3 ? "bg-accent text-accent-foreground" : "bg-muted text-muted-foreground"
+                }`}
+              >
+                3
+              </div>
+              <span className={step >= 3 ? "font-semibold" : "text-muted-foreground"}>
+                Confirmation
+              </span>
             </div>
           </div>
-          <div className="rounded-full bg-muted p-1 inline-flex">
-            <button className={`px-4 py-2 rounded-full ${!isMonthly ? "bg-accent text-accent-foreground" : "text-foreground"}`} onClick={() => setIsMonthly(false)}>Give Once</button>
-            <button className={`px-4 py-2 rounded-full ${isMonthly ? "bg-accent text-accent-foreground" : "text-foreground"}`} onClick={() => setIsMonthly(true)}>Monthly</button>
-          </div>
+        )}
 
-          <div className="grid grid-cols-3 gap-3">
-            {AMOUNTS.map((a) => (
-              <button key={a} onClick={() => { setSelected(a); setCustom(""); setCustomBase(null); }} className={`rounded-lg border p-3 text-sm ${selected === a ? "border-accent bg-accent/10" : "border-border bg-card"}`}>
-                {formatDisplay(a)}
-              </button>
-            ))}
-            <div className="col-span-3">
-              <label className="text-sm">Custom amount ({currency})</label>
-              <div className="mt-2 flex items-center gap-2">
-                <span className="text-sm font-semibold">{currency === "KES" ? "KSh" : "$"}</span>
-                <input value={custom} onChange={(e) => { handleCustomChange(e.target.value); }} placeholder="0" inputMode="numeric" className="w-full rounded-lg border px-3 py-2" />
+        {/* Close Button */}
+        {step < 3 && (
+          <button
+            aria-label="Close"
+            className="absolute top-6 right-6 text-muted-foreground hover:text-foreground"
+            onClick={() => setOpen(false)}
+          >
+            ✕
+          </button>
+        )}
+
+        {/* Step 1: Donor Information */}
+        {step === 1 && (
+          <DonorFormStep
+            onContinue={handleDonorSubmit}
+            initialData={
+              donor ? { ...donor, dedication } : undefined
+            }
+          />
+        )}
+
+        {/* Step 2: Donation Amount & Payment */}
+        {step === 2 && (
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-xl font-semibold">Support Conservation of Mount Kulal</h3>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Your contribution helps protect Mount Kulal's biodiversity, cultural heritage, and
+                community conservation initiatives.
+              </p>
+            </div>
+
+            <div className="mt-5 grid gap-4">
+              <div className="flex items-center gap-3">
+                <label className="text-sm">Currency</label>
+                <div className="rounded-full bg-muted p-1 inline-flex">
+                  <button
+                    className={`px-3 py-1 rounded-full ${
+                      currency === "KES" ? "bg-accent text-accent-foreground" : "text-foreground"
+                    }`}
+                    onClick={() => setCurrency("KES")}
+                  >
+                    KES
+                  </button>
+                  <button
+                    className={`px-3 py-1 rounded-full ${
+                      currency === "USD" ? "bg-accent text-accent-foreground" : "text-foreground"
+                    }`}
+                    onClick={() => setCurrency("USD")}
+                  >
+                    USD
+                  </button>
+                </div>
+              </div>
+              <div className="rounded-full bg-muted p-1 inline-flex">
+                <button
+                  className={`px-4 py-2 rounded-full ${
+                    !isMonthly ? "bg-accent text-accent-foreground" : "text-foreground"
+                  }`}
+                  onClick={() => setIsMonthly(false)}
+                >
+                  Give Once
+                </button>
+                <button
+                  className={`px-4 py-2 rounded-full ${
+                    isMonthly ? "bg-accent text-accent-foreground" : "text-foreground"
+                  }`}
+                  onClick={() => setIsMonthly(true)}
+                >
+                  Monthly
+                </button>
+              </div>
+
+              <div className="grid grid-cols-3 gap-3">
+                {AMOUNTS.map((a) => (
+                  <button
+                    key={a}
+                    onClick={() => {
+                      setSelected(a);
+                      setCustom("");
+                      setCustomBase(null);
+                    }}
+                    className={`rounded-lg border p-3 text-sm ${
+                      selected === a ? "border-accent bg-accent/10" : "border-border bg-card"
+                    }`}
+                  >
+                    {formatDisplay(a, currency, rate)}
+                  </button>
+                ))}
+                <div className="col-span-3">
+                  <label className="text-sm">Custom amount ({currency})</label>
+                  <div className="mt-2 flex items-center gap-2">
+                    <span className="text-sm font-semibold">{currency === "KES" ? "KSh" : "$"}</span>
+                    <input
+                      value={custom}
+                      onChange={(e) => {
+                        handleCustomChange(e.target.value, currency, rate, setCustom, setCustomBase, setSelected);
+                      }}
+                      placeholder="0"
+                      inputMode="numeric"
+                      className="w-full rounded-lg border px-3 py-2"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label className="text-sm">M-Pesa Phone Number</label>
+                <input
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="07XXXXXXXX"
+                  inputMode="tel"
+                  className="mt-2 w-full rounded-lg border px-3 py-2"
+                />
+              </div>
+
+              {message && (
+                <div
+                  className={`rounded-md px-3 py-2 ${
+                    status === "error" ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"
+                  }`}
+                >
+                  {message}
+                </div>
+              )}
+
+              <div className="mt-2 flex items-center justify-between gap-3">
+                <button
+                  onClick={handleBackStep2}
+                  disabled={status === "loading" || status === "pending"}
+                  className="rounded-md px-4 py-2 border border-border hover:bg-muted disabled:opacity-50"
+                >
+                  Back
+                </button>
+                <button
+                  onClick={handleDonationSubmit}
+                  disabled={status === "loading" || status === "pending"}
+                  className="rounded-md bg-accent px-4 py-2 text-accent-foreground hover:opacity-90 disabled:opacity-50"
+                >
+                  {status === "loading" || status === "pending" ? "Processing…" : "Donate Now"}
+                </button>
               </div>
             </div>
           </div>
+        )}
 
-          <div>
-            <label className="text-sm">M-Pesa Phone Number</label>
-            <input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="07XXXXXXXX" inputMode="tel" className="mt-2 w-full rounded-lg border px-3 py-2" />
-          </div>
-
-          {message && <div className={`rounded-md px-3 py-2 ${status === "error" ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"}`}>{message}</div>}
-
-          <div className="mt-2 flex items-center justify-end gap-3">
-            <button onClick={() => setOpen(false)} className="rounded-md px-4 py-2">Cancel</button>
-            <button onClick={submit} disabled={status === "loading"} className="rounded-md bg-accent px-4 py-2 text-accent-foreground">
-              {status === "loading" ? "Processing…" : "Donate Now"}
-            </button>
-          </div>
-        </div>
+        {/* Step 3: Confirmation */}
+        {step === 3 && confirmationData && (
+          <DonationConfirmationStep
+            data={confirmationData}
+            status={confirmationStatus}
+            onClose={handleConfirmationClose}
+            onRetry={handleConfirmationRetry}
+          />
+        )}
       </div>
     </div>
   );
+}
+
+// Helper functions
+function formatDisplay(kes: number, currency: string, rate: number | null) {
+  if (currency === "KES") return `KSh ${kes.toLocaleString()}`;
+  const r = rate || 130;
+  const usd = kes / r;
+  return `$${usd.toFixed(2)}`;
+}
+
+function handleCustomChange(
+  val: string,
+  currency: string,
+  rate: number | null,
+  setCustom: (val: string) => void,
+  setCustomBase: (val: number | null) => void,
+  setSelected: (val: null) => void
+) {
+  const cleaned = val.replace(/[^0-9.]/g, "");
+  if (cleaned === "") {
+    setCustom("");
+    setCustomBase(null);
+    setSelected(null);
+    return;
+  }
+  const num = parseFloat(cleaned);
+  if (Number.isNaN(num)) return;
+  if (currency === "KES") {
+    setCustom(cleaned);
+    setCustomBase(Math.round(num));
+  } else {
+    const r = rate || 130;
+    setCustom(cleaned);
+    setCustomBase(num * r);
+  }
+  setSelected(null);
 }
 
 export function openDonationModal() {
