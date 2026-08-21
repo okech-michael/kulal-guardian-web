@@ -24,11 +24,34 @@
 
 import { getSupabaseAdmin, normalizePhone, updateDonation } from "./_shared.js";
 
+function parseRequestBody(req) {
+  if (typeof req?.body === "string") {
+    try {
+      return JSON.parse(req.body) || {};
+    } catch {
+      return {};
+    }
+  }
+
+  return req?.body || {};
+}
+
+function describeDarajaResponse(payload, fallback) {
+  if (!payload || typeof payload !== "object") return fallback;
+
+  return payload.errorMessage || payload.errorDescription || payload.ResponseDescription ||
+    payload.ResultDesc || payload.raw || fallback;
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).json({ message: "Method not allowed" });
 
-  const { phone, amount, type, donation_id } = req.body || {};
+  const { phone, amount, type, donation_id } = parseRequestBody(req);
   if (!phone || !amount) return res.status(400).json({ message: "Missing phone or amount" });
+
+  if (!Number.isFinite(Number(amount)) || Number(amount) <= 0) {
+    return res.status(400).json({ message: "Amount must be greater than zero", field: "amount" });
+  }
 
   const normalizedPhone = normalizePhone(phone);
   if (!normalizedPhone || !/^2547\d{8}$/.test(normalizedPhone)) {
@@ -78,6 +101,17 @@ export default async function handler(req, res) {
   }
 
   try {
+    new URL(darajaBaseUrl);
+    new URL(DARAJA_CALLBACK_URL);
+  } catch {
+    await markFailed("Invalid Daraja URL configuration");
+    return res.status(500).json({
+      message: "Invalid Daraja URL configuration",
+      fields: ["DARAJA_BASE_URL", "DARAJA_CALLBACK_URL"],
+    });
+  }
+
+  try {
     const supabase = getSupabaseAdmin();
     const { data: donation, error: donationError } = await supabase
       .from("donations")
@@ -100,11 +134,18 @@ export default async function handler(req, res) {
 
     if (!tokenRes.ok) {
       const text = await tokenRes.text();
+      let detail;
+      try {
+        detail = JSON.parse(text);
+      } catch {
+        detail = text;
+      }
       await markFailed("Failed to obtain Daraja token");
       return res.status(502).json({
         message: "Failed to obtain Daraja token",
         status: tokenRes.status,
-        detail: text,
+        detail,
+        reason: describeDarajaResponse(detail, "Daraja rejected the OAuth request"),
         hint: "Check that your Daraja consumer key/secret are correct, the sandbox account is active, and the app is using the same environment in Vercel.",
       });
     }
@@ -166,6 +207,7 @@ export default async function handler(req, res) {
         message: "Daraja STK Push failed",
         status: stkRes.status,
         detail: stkJson,
+        reason: describeDarajaResponse(stkJson, "Daraja rejected the STK Push request"),
         hint: "Check that your sandbox shortcode, passkey, callback URL, and phone number format are valid for Safaricom's test environment.",
       });
     }

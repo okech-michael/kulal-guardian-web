@@ -228,7 +228,10 @@ export function DonationModalRoot() {
         throw new Error(`Server response was not JSON: ${text}`);
       }
 
-      if (!mpesaRes.ok) throw new Error(mpesaData?.message || "Payment request failed");
+      if (!mpesaRes.ok) {
+        const detail = mpesaData?.reason || mpesaData?.detail?.errorMessage || mpesaData?.detail?.errorDescription;
+        throw new Error(detail ? `${mpesaData?.message || "Payment request failed"}: ${detail}` : mpesaData?.message || "Payment request failed");
+      }
 
       setStatus("pending");
       setStep(3);
