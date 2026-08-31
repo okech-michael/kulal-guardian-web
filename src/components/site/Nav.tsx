@@ -60,7 +60,7 @@ export function Nav() {
           </Link>
 
           {/* Desktop navigation - grows to fill available space */}
-          <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-[1rem] font-semibold flex-1">
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-[1rem] font-semibold flex-1 ml-8 xl:ml-12">
             <Link
               to="/"
               className={cn(
