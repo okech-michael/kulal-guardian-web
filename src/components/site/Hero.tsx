@@ -99,7 +99,7 @@ export function Hero() {
                 onClick={() => window.dispatchEvent(new Event("openDonationModal"))}
                 className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-[0.95rem] font-semibold text-accent-foreground shadow-elegant transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_24px_50px_-18px_rgba(0,0,0,0.6)] sm:w-auto"
               >
-                Protect the forest
+                Donate to Wazee
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
               </button>
               <Link
