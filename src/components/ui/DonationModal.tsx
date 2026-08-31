@@ -120,11 +120,16 @@ export function DonationModalRoot() {
   const handleDonorSubmit = async (donorData: DonorData, dedicationData: DedicationData) => {
     setStatus("loading");
     try {
+      const donorPayload = {
+        ...donorData,
+        phoneNumber: donorData.phoneNumber?.trim() || "254700000000",
+      };
+
       // Create donor record
       const donorRes = await fetch("/api/donations/donors", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(donorData),
+        body: JSON.stringify(donorPayload),
       });
 
       if (!donorRes.ok) {
@@ -135,7 +140,6 @@ export function DonationModalRoot() {
       setDonor(donorData);
       setDedication(dedicationData);
       setDonorId(donorResult.donor_id);
-      setPhone(donorData.phoneNumber); // Prefill phone for step 2
       setStep(2);
       setStatus("idle");
       setMessage(null);
@@ -164,12 +168,6 @@ export function DonationModalRoot() {
       return;
     }
 
-    const normalizedPhone = normalizePhone(phone);
-    if (!normalizedPhone || !/^2547\d{8}$/.test(normalizedPhone)) {
-      setMessage("Enter a valid Safaricom phone number (eg. 07XXXXXXXX).");
-      return;
-    }
-
     if (!donorId) {
       setMessage("Donor information is missing. Please go back and try again.");
       return;
@@ -179,7 +177,8 @@ export function DonationModalRoot() {
     setMessage(null);
 
     try {
-      // Create donation record
+      // Create donation record with a placeholder phone number for the database
+      // (since we're using manual M-Pesa payment, actual phone isn't needed for STK Push)
       const donationRes = await fetch("/api/donations/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -188,7 +187,7 @@ export function DonationModalRoot() {
           amount,
           currency,
           frequency: isMonthly ? "monthly" : "once",
-          mpesa_phone_number: normalizedPhone,
+          mpesa_phone_number: "254700000000", // Placeholder for manual payment flow
           dedication_enabled: dedication?.enabled || false,
           dedication_type: dedication?.enabled ? dedication.type : null,
           honouree_first_name: dedication?.enabled ? dedication.honoureeFirstName : null,
@@ -208,31 +207,7 @@ export function DonationModalRoot() {
       const donationResult = await donationRes.json();
       setDonationId(donationResult.donation_id);
 
-      // Initiate M-Pesa STK Push
-      const mpesaRes = await fetch("/api/donations/mpesa", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          phone: normalizedPhone,
-          amount,
-          type: isMonthly ? "monthly" : "once",
-          donation_id: donationResult.donation_id,
-        }),
-      });
-
-      let mpesaData: any;
-      const text = await mpesaRes.text();
-      try {
-        mpesaData = JSON.parse(text);
-      } catch {
-        throw new Error(`Server response was not JSON: ${text}`);
-      }
-
-      if (!mpesaRes.ok) {
-        const detail = mpesaData?.reason || mpesaData?.detail?.errorMessage || mpesaData?.detail?.errorDescription;
-        throw new Error(detail ? `${mpesaData?.message || "Payment request failed"}: ${detail}` : mpesaData?.message || "Payment request failed");
-      }
-
+      // For manual M-Pesa payment, skip STK Push and go directly to confirmation
       setStatus("pending");
       setStep(3);
       setConfirmationStatus("pending");
@@ -244,16 +219,17 @@ export function DonationModalRoot() {
         dedicatedTo: dedication?.enabled
           ? `${dedication.honoureeFirstName} ${dedication.honoureeLastName}`
           : null,
+        isManualPayment: true, // Flag to indicate manual M-Pesa payment
       });
     } catch (err: any) {
       setStatus("error");
-      setMessage(err?.message || "Failed to initiate payment.");
+      setMessage(err?.message || "Failed to process donation.");
     }
   };
 
-  // Monitor donation status
+  // Monitor donation status (skip for manual M-Pesa payments)
   useEffect(() => {
-    if (step !== 3 || !donationId || !confirmationData || confirmationStatus !== "pending") return;
+    if (step !== 3 || !donationId || !confirmationData || confirmationData.isManualPayment) return;
 
     let isMounted = true;
     let pollCount = 0;
@@ -498,15 +474,42 @@ export function DonationModalRoot() {
                 </div>
               </div>
 
-              <div>
-                <label className="text-sm">M-Pesa Phone Number</label>
-                <input
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="07XXXXXXXX"
-                  inputMode="tel"
-                  className="mt-2 w-full rounded-lg border px-3 py-2"
-                />
+              <div className="mt-8 border-t border-border pt-8">
+                <div className="text-center space-y-4">
+                  <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+                    M-PESA PAYMENT
+                  </h4>
+
+                  <div className="space-y-3">
+                    <div className="rounded-2xl border border-accent/30 bg-accent/5 p-6 shadow-sm">
+                      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                        Paybill
+                      </p>
+                      <p className="mt-3 text-4xl font-black tracking-wide text-accent sm:text-5xl">
+                        400200
+                      </p>
+
+                      <div className="my-4 h-px bg-accent/20" />
+
+                      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                        Account Number
+                      </p>
+                      <p className="mt-3 break-all text-2xl font-black tracking-wide text-accent sm:text-4xl">
+                        01102713585001
+                      </p>
+
+                      <div className="mt-5 border-t border-accent/20 pt-4">
+                        <p className="text-sm font-semibold text-foreground">
+                          Donation Amount: {currency === "KES" ? `KSh ${amount.toLocaleString()}` : `$${(amount / (rate || 130)).toFixed(2)}`}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="text-sm text-muted-foreground">
+                    Use the M-Pesa Paybill above to complete your donation manually.
+                  </p>
+                </div>
               </div>
 
               {message && (
@@ -532,7 +535,7 @@ export function DonationModalRoot() {
                   disabled={status === "loading" || status === "pending"}
                   className="rounded-md bg-accent px-4 py-2 text-accent-foreground hover:opacity-90 disabled:opacity-50"
                 >
-                  {status === "loading" || status === "pending" ? "Processing…" : "Donate Now"}
+                  {status === "loading" || status === "pending" ? "Processing…" : "Show Payment Instructions"}
                 </button>
               </div>
             </div>

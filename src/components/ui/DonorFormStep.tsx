@@ -36,7 +36,7 @@ export function DonorFormStep({ onContinue, onBack, initialData }: DonorFormStep
           firstName: initialData.firstName || "",
           lastName: initialData.lastName || "",
           email: initialData.email || "",
-          phoneNumber: initialData.phoneNumber || "",
+          phoneNumber: initialData.phoneNumber || "254700000000",
           country: initialData.country || "Kenya",
           regionOrCounty: initialData.regionOrCounty || "",
           cityOrTown: initialData.cityOrTown || "",
@@ -45,7 +45,7 @@ export function DonorFormStep({ onContinue, onBack, initialData }: DonorFormStep
           firstName: "",
           lastName: "",
           email: "",
-          phoneNumber: "",
+          phoneNumber: "254700000000",
           country: "Kenya",
           regionOrCounty: "",
           cityOrTown: "",
@@ -98,9 +98,6 @@ export function DonorFormStep({ onContinue, onBack, initialData }: DonorFormStep
     if (!donor.lastName.trim()) newErrors.lastName = "Last name is required";
     if (!donor.email.trim()) newErrors.email = "Email is required";
     else if (!validateEmail(donor.email)) newErrors.email = "Enter a valid email address";
-    if (!donor.phoneNumber.trim()) newErrors.phoneNumber = "Phone number is required";
-    else if (!validatePhone(donor.phoneNumber))
-      newErrors.phoneNumber = "Enter a valid Safaricom number (07XXXXXXXX)";
     if (!donor.country.trim()) newErrors.country = "Country is required";
     if (!donor.regionOrCounty.trim()) newErrors.regionOrCounty = "County/Region is required";
     if (!donor.cityOrTown.trim()) newErrors.cityOrTown = "Town/City is required";
@@ -216,22 +213,6 @@ export function DonorFormStep({ onContinue, onBack, initialData }: DonorFormStep
             placeholder="john@example.com"
           />
           {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email}</p>}
-        </div>
-
-        {/* Phone Number */}
-        <div>
-          <label className="text-sm font-medium">
-            Phone Number <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="tel"
-            value={donor.phoneNumber}
-            onChange={(e) => handleDonorChange("phoneNumber", e.target.value)}
-            className="mt-1 w-full rounded-lg border border-border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
-            placeholder="07XXXXXXXX"
-            inputMode="tel"
-          />
-          {errors.phoneNumber && <p className="mt-1 text-xs text-red-500">{errors.phoneNumber}</p>}
         </div>
 
         {/* Location Fields */}
