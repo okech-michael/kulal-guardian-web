@@ -38,7 +38,7 @@ export function DonationModalRoot() {
   const [donorId, setDonorId] = useState<string | null>(null);
 
   // Step 2: Donation Amount & Payment
-  const [selected, setSelected] = useState<number | null>(1000);
+  const [selected, setSelected] = useState<number | null>(null);
   const [isMonthly, setIsMonthly] = useState(false);
   const [custom, setCustom] = useState<string>("");
   const [customBase, setCustomBase] = useState<number | null>(null);
@@ -103,7 +103,7 @@ export function DonationModalRoot() {
     setDonor(null);
     setDedication(null);
     setDonorId(null);
-    setSelected(1000);
+    setSelected(null);
     setIsMonthly(false);
     setCustom("");
     setCustomBase(null);
@@ -458,7 +458,7 @@ export function DonationModalRoot() {
                   </button>
                 ))}
                 <div className="col-span-3">
-                  <label className="text-sm">Custom amount ({currency})</label>
+                  <label className="text-sm">Enter donation amount ({currency})</label>
                   <div className="mt-2 flex items-center gap-2">
                     <span className="text-sm font-semibold">{currency === "KES" ? "KSh" : "$"}</span>
                     <input
@@ -466,7 +466,7 @@ export function DonationModalRoot() {
                       onChange={(e) => {
                         handleCustomChange(e.target.value, currency, rate, setCustom, setCustomBase, setSelected);
                       }}
-                      placeholder="0"
+                      placeholder="Enter amount"
                       inputMode="numeric"
                       className="w-full rounded-lg border px-3 py-2"
                     />
