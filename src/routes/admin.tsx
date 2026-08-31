@@ -63,6 +63,15 @@ type OverviewStats = {
 };
 
 const pageSize = 8;
+const allowedAdminEmails = (import.meta.env.VITE_ADMIN_ALLOWED_EMAILS ?? "")
+  .split(",")
+  .map((value) => value.trim().toLowerCase())
+  .filter(Boolean);
+
+const isAllowedAdminEmail = (email?: string) => {
+  if (!email) return false;
+  return allowedAdminEmails.includes(email.trim().toLowerCase());
+};
 
 const navItems: { id: SectionKey; label: string; icon: typeof LayoutDashboard }[] = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
@@ -213,7 +222,7 @@ function AdminDashboard() {
         return;
       }
 
-      const admin = !!data?.some((row) => row.role === "admin");
+      const admin = !!data?.some((row) => row.role === "admin") || isAllowedAdminEmail(session.user.email);
       setIsAdmin(admin);
       if (admin) {
         void refreshOverview();
