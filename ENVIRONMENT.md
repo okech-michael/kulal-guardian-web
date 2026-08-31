@@ -13,6 +13,7 @@ This project is configured to run on Vercel with a static client bundle and Node
 - `SUPABASE_URL`
 - `SUPABASE_PUBLISHABLE_KEY` (alias for `SUPABASE_ANON_KEY`)
 - `SUPABASE_SERVICE_ROLE_KEY`
+- `VITE_ADMIN_ALLOWED_EMAILS` (comma-separated admin emails allowed to access `/admin`)
 
 ### SendGrid
 - `SENDGRID_API_KEY`
