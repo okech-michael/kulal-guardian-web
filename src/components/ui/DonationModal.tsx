@@ -535,7 +535,7 @@ export function DonationModalRoot() {
                   disabled={status === "loading" || status === "pending"}
                   className="rounded-md bg-accent px-4 py-2 text-accent-foreground hover:opacity-90 disabled:opacity-50"
                 >
-                  {status === "loading" || status === "pending" ? "Processing…" : "Show Payment Instructions"}
+                  {status === "loading" || status === "pending" ? "Processing…" : "Payment Instructions"}
                 </button>
               </div>
             </div>

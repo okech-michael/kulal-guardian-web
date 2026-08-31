@@ -9,6 +9,7 @@ interface ConfirmationData {
   transactionReference?: string;
   dedicatedTo?: string;
   failureReason?: string;
+  isManualPayment?: boolean; // Flag for manual M-Pesa payment flow
 }
 
 interface DonationConfirmationStepProps {
@@ -30,6 +31,104 @@ export function DonationConfirmationStep({
   };
 
   const frequencyLabel = data.frequency === "monthly" ? "every month" : "one-time";
+
+  // Manual M-Pesa payment instruction screen
+  if (data.isManualPayment && status === "pending") {
+    return (
+      <div className="space-y-6">
+        <div className="text-center">
+          <div className="flex justify-center mb-4">
+            <div className="rounded-full bg-accent/10 p-4">
+              <svg
+                className="w-8 h-8 text-accent"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+          </div>
+          <h3 className="text-2xl font-bold">How to Pay Using Safaricom M-Pesa</h3>
+        </div>
+
+        <div className="space-y-5">
+          <div className="rounded-2xl border border-accent/20 bg-accent/5 p-5">
+            <div className="text-center">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                Paybill
+              </p>
+              <p className="mt-3 text-4xl font-black tracking-wide text-accent">400200</p>
+
+              <div className="my-4 h-px bg-accent/20" />
+
+              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                Account Number
+              </p>
+              <p className="mt-3 break-all text-2xl font-black tracking-wide text-accent sm:text-3xl">
+                01102713585001
+              </p>
+            </div>
+
+            <div className="mt-5 rounded-xl border border-accent/20 bg-background/60 p-4 text-left">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                Donation Amount
+              </p>
+              <p className="mt-2 text-xl font-bold text-foreground">
+                {formatCurrency(data.amount, data.currency)}
+              </p>
+              <p className="mt-2 text-xs text-muted-foreground">
+                {data.frequency === "monthly" ? "Recurring monthly donation" : "One-time donation"}
+              </p>
+            </div>
+          </div>
+
+          <div className="grid gap-4 lg:grid-cols-2">
+            <div className="rounded-xl border border-accent/20 bg-accent/5 p-5">
+              <h4 className="text-base font-bold text-foreground">Using SIM Toolkit</h4>
+              <ol className="mt-4 space-y-3 text-sm text-foreground/90">
+                <li><span className="font-semibold">1.</span> Open <strong>SIM Toolkit</strong> on your phone.</li>
+                <li><span className="font-semibold">2.</span> Select <strong>Safaricom</strong>.</li>
+                <li><span className="font-semibold">3.</span> Select <strong>M-PESA</strong>.</li>
+                <li><span className="font-semibold">4.</span> Select <strong>Lipa na M-PESA</strong>.</li>
+                <li><span className="font-semibold">5.</span> Select <strong>Pay Bill</strong>.</li>
+                <li><span className="font-semibold">6.</span> Enter Paybill Number: <strong>400200</strong>.</li>
+                <li><span className="font-semibold">7.</span> Enter Account Number: <strong>01102713585001</strong>.</li>
+                <li><span className="font-semibold">8.</span> Enter the donation amount: <strong>{formatCurrency(data.amount, data.currency)}</strong>.</li>
+                <li><span className="font-semibold">9.</span> Enter your M-Pesa PIN and confirm the payment.</li>
+              </ol>
+            </div>
+
+            <div className="rounded-xl border border-accent/20 bg-accent/5 p-5">
+              <h4 className="text-base font-bold text-foreground">Or Pay Using <span className="text-accent">*334#</span></h4>
+              <ol className="mt-4 space-y-3 text-sm text-foreground/90">
+                <li><span className="font-semibold">1.</span> Dial <strong>*334#</strong> on your Safaricom phone.</li>
+                <li><span className="font-semibold">2.</span> Select <strong>Lipa na M-PESA</strong>.</li>
+                <li><span className="font-semibold">3.</span> Select <strong>Pay Bill</strong>.</li>
+                <li><span className="font-semibold">4.</span> Enter Paybill: <strong>400200</strong>.</li>
+                <li><span className="font-semibold">5.</span> Enter Account Number: <strong>01102713585001</strong>.</li>
+                <li><span className="font-semibold">6.</span> Enter the donation amount: <strong>{formatCurrency(data.amount, data.currency)}</strong>.</li>
+                <li><span className="font-semibold">7.</span> Enter your M-Pesa PIN and confirm the payment.</li>
+              </ol>
+            </div>
+          </div>
+
+          {data.dedicatedTo && (
+            <div className="rounded-lg bg-muted p-4">
+              <p className="text-xs text-muted-foreground">This donation is dedicated to:</p>
+              <p className="font-semibold mt-1">{data.dedicatedTo}</p>
+            </div>
+          )}
+        </div>
+
+        <div className="pt-4 border-t border-border">
+          <p className="text-xs text-center text-muted-foreground">
+            Please complete the payment using the steps above. Once the payment is sent, we will record your donation.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   if (status === "success") {
     return (
