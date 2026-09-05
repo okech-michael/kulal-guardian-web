@@ -91,6 +91,9 @@ function AdminDashboard() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [passwordRecovery, setPasswordRecovery] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<SectionKey>("overview");
@@ -140,6 +143,7 @@ function AdminDashboard() {
     });
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+      if (_event === "PASSWORD_RECOVERY") setPasswordRecovery(true);
       setSession((nextSession as SessionUser) ?? null);
     });
 
@@ -220,7 +224,7 @@ function AdminDashboard() {
       if (ignore) return;
 
       if (error) {
-        toast.error(error.message);
+ !!       toast.error(error.message);
         setIsAdmin(false);
         return;
       }
@@ -367,6 +371,46 @@ function AdminDashboard() {
     else toast.success("Account created. An existing admin must grant you the admin role.");
   };
 
+  const resetPassword = async () => {
+    if (!email) {
+      toast.error("Enter your email address first.");
+      return;
+    }
+
+    setBusy(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/admin`,
+    });
+    setBusy(false);
+
+    if (error) toast.error(error.message);
+    else toast.success("Check your email for a password reset link.");
+  };
+
+  const updatePassword = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (newPassword.length < 6) {
+      toast.error("Password must be at least 6 characters.");
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      toast.error("Passwords do not match.");
+      return;
+    }
+
+    setBusy(true);
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    setBusy(false);
+
+    if (error) toast.error(error.message);
+    else {
+      setPasswordRecovery(false);
+      setNewPassword("");
+      setConfirmPassword("");
+      toast.success("Password updated. Your account is ready to use.");
+    }
+  };
+
   const signOut = async () => {
     await supabase.auth.signOut();
     setSidebarOpen(false);
@@ -377,6 +421,39 @@ function AdminDashboard() {
 
   if (loading) {
     return <Centered><Loader2 className="h-6 w-6 animate-spin" /></Centered>;
+  }
+
+  if (passwordRecovery) {
+    return (
+      <Centered>
+        <form onSubmit={updatePassword} className="w-full max-w-sm rounded-3xl border border-border bg-card p-8 shadow-card">
+          <h1 className="font-display text-2xl">Reset your password</h1>
+          <p className="mt-1 text-sm text-muted-foreground">Choose a new password for your admin account.</p>
+          <div className="mt-6 space-y-4">
+            <Input
+              type="password"
+              required
+              minLength={6}
+              placeholder="New password"
+              value={newPassword}
+              onChange={(event) => setNewPassword(event.target.value)}
+            />
+            <Input
+              type="password"
+              required
+              minLength={6}
+              placeholder="Confirm new password"
+              value={confirmPassword}
+              onChange={(event) => setConfirmPassword(event.target.value)}
+            />
+          </div>
+          <Button type="submit" className="mt-6 w-full" disabled={busy}>
+            {busy ? "Updating password..." : "Update password"}
+          </Button>
+          <Toaster richColors position="top-center" />
+        </form>
+      </Centered>
+    );
   }
 
   if (!session) {
@@ -412,6 +489,9 @@ function AdminDashboard() {
           </Button>
           <Button type="button" variant="ghost" className="mt-3 w-full" onClick={signUp} disabled={busy}>
             Create new account
+          </Button>
+          <Button type="button" variant="link" className="mt-2 w-full" onClick={resetPassword} disabled={busy}>
+            Forgot password?
           </Button>
           <Toaster richColors position="top-center" />
         </form>
