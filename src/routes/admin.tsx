@@ -9,6 +9,8 @@ import {
   CreditCard,
   Database,
   DollarSign,
+  Eye,
+  EyeOff,
   FileText,
   LayoutDashboard,
   Loader2,
@@ -88,6 +90,7 @@ function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [busy, setBusy] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<SectionKey>("overview");
@@ -384,7 +387,25 @@ function AdminDashboard() {
           <p className="mt-1 text-sm text-muted-foreground">Use your project admin account to access the dashboard.</p>
           <div className="mt-6 space-y-4">
             <Input type="email" required placeholder="Email" value={email} onChange={(event) => setEmail(event.target.value)} />
-            <Input type="password" required placeholder="Password" value={password} onChange={(event) => setPassword(event.target.value)} />
+            <div className="relative">
+              <Input
+                type={showPassword ? "text" : "password"}
+                required
+                placeholder="Password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                className="pr-11"
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                onClick={() => setShowPassword((visible) => !visible)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                aria-pressed={showPassword}
+              >
+                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
+            </div>
           </div>
           <Button type="submit" className="mt-6 w-full" disabled={busy}>
             {busy ? "Signing in..." : "Sign in"}
